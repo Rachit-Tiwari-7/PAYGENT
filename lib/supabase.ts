@@ -1,3 +1,22 @@
+// Ensure WebSocket is defined in headless / Node.js environments (v20 and below)
+if (typeof globalThis !== "undefined" && typeof (globalThis as any).WebSocket === "undefined") {
+  (globalThis as any).WebSocket = class WebSocket {
+    static readonly CONNECTING = 0;
+    static readonly OPEN = 1;
+    static readonly CLOSING = 2;
+    static readonly CLOSED = 3;
+    readonly CONNECTING = 0;
+    readonly OPEN = 1;
+    readonly CLOSING = 2;
+    readonly CLOSED = 3;
+    readyState = 3;
+    send() {}
+    close() {}
+    addEventListener() {}
+    removeEventListener() {}
+  };
+}
+
 import { createClient } from "@supabase/supabase-js";
 
 // Supabase Cloud Client

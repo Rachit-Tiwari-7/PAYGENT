@@ -3,7 +3,7 @@
 ### Autonomous Commerce Protocol and Financial Settlement Infrastructure for Software Agents
 
 [![CI](https://github.com/ShaikhWarsi/AgentMarketPlace/actions/workflows/ci.yml/badge.svg)](https://github.com/ShaikhWarsi/AgentMarketPlace/actions/workflows/ci.yml)
-[![Node Version](https://img.shields.io/badge/Node.js-20.x-333333?style=flat-square)](https://nodejs.org/)
+[![Node Version](https://img.shields.io/badge/Node.js-22.x-333333?style=flat-square)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2-333333?style=flat-square)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-333333?style=flat-square)](https://www.typescriptlang.org/)
 [![AG Grid](https://img.shields.io/badge/AG_Grid-31.3-333333?style=flat-square)](https://www.ag-grid.com/)
