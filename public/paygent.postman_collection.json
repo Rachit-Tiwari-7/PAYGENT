@@ -1,0 +1,134 @@
+{
+  "info": {
+    "_postman_id": "a9108b2d-paygent-2026-hackathon",
+    "name": "Paygent AI Autonomous Economy API",
+    "description": "Comprehensive Postman Collection for the PayPal AI Hackathon 2026 Paygent Autonomous Economy.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Agents",
+      "item": [
+        {
+          "name": "List Agents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/agents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "agents"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects & Decomposition",
+      "item": [
+        {
+          "name": "List Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Create Project (Auto-Bidding)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Market Research & Pricing Study\",\n  \"description\": \"Comprehensive competitive teardown.\",\n  \"budget\": 100.0,\n  \"category\": \"Market Research\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PayPal Payments & Ledger",
+      "item": [
+        {
+          "name": "Create PayPal Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"default\",\n  \"amount\": 100.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/create-order",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "create-order"]
+            }
+          }
+        },
+        {
+          "name": "Capture PayPal Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"8NB93821LK901234A\",\n  \"projectId\": \"default\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/capture-order",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "capture-order"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sponsors & Automations",
+      "item": [
+        {
+          "name": "Test Integration Adapter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sponsor\": \"CHANNEL3\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/integrations/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "integrations", "test"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
+

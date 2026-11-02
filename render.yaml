@@ -1,0 +1,43 @@
+services:
+  # Next.js Web Service (Paygent Autonomous Economy Frontend & API Routes)
+  - type: web
+    name: paygent-web
+    env: node
+    plan: standard
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: paygent-db
+          property: connectionString
+      - key: NEXT_PUBLIC_APP_URL
+        value: https://paygent-web.onrender.com
+      - key: PAYPAL_ENVIRONMENT
+        value: sandbox
+      - key: NEXT_PUBLIC_DEMO_MODE
+        value: "true"
+
+  # Background Agent Swarm Worker
+  - type: worker
+    name: paygent-agent-worker
+    env: node
+    plan: standard
+    buildCommand: npm install
+    startCommand: node scripts/worker.mjs
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: paygent-db
+          property: connectionString
+
+databases:
+  # Managed PostgreSQL Database for Production
+  - name: paygent-db
+    plan: standard
+    databaseName: paygent
+    user: paygent_admin
+
