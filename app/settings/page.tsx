@@ -43,12 +43,11 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="p-6 rounded-xl bg-[#FFFEFA] border border-[#E7E3D7] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#EFECDF] text-[#30332B] text-[11px] font-semibold mb-2">
-            <Settings className="w-3.5 h-3.5 text-[#727B50]" />
-            <span>Platform Configuration</span>
-          </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#30332B]">
-            System Settings
+          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+            [CONFIGURATION 11] • SYSTEM ENVIRONMENT & GATEWAYS
+          </span>
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+            System & Gateway Configuration
           </h1>
           <p className="text-xs sm:text-sm text-[#73766C] mt-1 max-w-xl leading-relaxed">
             Configure PayPal Developer sandbox credentials, AI LLM keys, sponsor adapter flags, and reset test databases.

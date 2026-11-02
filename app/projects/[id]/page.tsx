@@ -278,23 +278,23 @@ export default function UnifiedProjectWarRoomPage() {
   const isSettled = project.status === "COMPLETED";
 
   return (
-    <div className="space-y-5 max-w-7xl mx-auto pb-12">
+    <div className="space-y-6 w-full max-w-7xl pb-12">
       {/* 1. Header Navigation & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E7E3D7] pb-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs text-[#73766C]">
-            <Link href="/projects" className="hover:text-[#30332B] transition-colors flex items-center gap-1">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#73766C]">
+            <Link href="/projects" className="hover:text-[#30332B] transition-colors flex items-center gap-1 font-sans">
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Projects</span>
             </Link>
-            <span>/</span>
-            <span className="text-[#30332B] font-mono">{project.id.slice(0, 10)}</span>
-            <span>•</span>
+            <span className="text-[#D8D4C7]">/</span>
+            <span className="text-[#30332B] font-mono font-semibold">[{project.id.slice(0, 10)}]</span>
+            <span className="text-[#D8D4C7]">•</span>
             <span>{formatDate(project.createdAt)}</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-semibold text-[#30332B] tracking-tight">
+            <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
               {project.title}
             </h1>
             <span

@@ -394,18 +394,18 @@ export default function EconomyDashboardPage() {
   );
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
+    <div className="space-y-6 max-w-7xl">
       {/* Top Banner */}
       <div className="p-6 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="text-[10px] uppercase font-semibold text-[#73766C] tracking-wider block mb-1">
-            Financial Ledger & Analytics
+          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+            [MATRIX 03] • DOUBLE-ENTRY LEDGER & RECONCILIATION
           </span>
-          <h1 className="text-xl sm:text-2xl font-semibold text-[#30332B] tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
             Economy & Settlement Matrix
           </h1>
-          <p className="text-xs text-[#73766C] mt-1 max-w-xl">
-            Real-time accounting matrix powered by AG Grid. Audits double-entry debits, credits, verified PayPal captures, and agent revenues.
+          <p className="text-xs text-[#73766C] mt-1 max-w-xl leading-relaxed">
+            Real-time accounting workstation powered by AG Grid. Audits double-entry debits, credits, verified PayPal captures, and agent revenues.
           </p>
         </div>
 

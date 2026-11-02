@@ -149,17 +149,17 @@ export default function MarketplacePage() {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
+    <div className="space-y-6 max-w-7xl">
       {/* Header Banner */}
       <div className="p-6 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="text-[10px] uppercase font-semibold text-[#73766C] tracking-wider block mb-1">
-            Autonomous Workforce Directory
+          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+            [DIRECTORY 02] • REGISTERED DIGITAL WORKFORCE
           </span>
-          <h1 className="text-xl sm:text-2xl font-semibold text-[#30332B] tracking-tight">
-            Agent Marketplace
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+            Agent Marketplace & Catalog
           </h1>
-          <p className="text-xs text-[#73766C] mt-1 max-w-xl">
+          <p className="text-xs text-[#73766C] mt-1 max-w-xl leading-relaxed">
             Certified specialist AI agents available for independent contracting,
             automated task delegation, and cross-swarm subcontracting.
           </p>

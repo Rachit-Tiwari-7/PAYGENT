@@ -58,17 +58,22 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
-          "Inter",
+          "'Source Sans 3'",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
           "Roboto",
-          "Helvetica",
-          "Arial",
           "sans-serif",
         ],
+        serif: [
+          "'Source Serif 4'",
+          "Georgia",
+          "Cambria",
+          "'Times New Roman'",
+          "serif",
+        ],
         mono: [
-          "JetBrains Mono",
+          "'IBM Plex Mono'",
           "SFMono-Regular",
           "Menlo",
           "Monaco",

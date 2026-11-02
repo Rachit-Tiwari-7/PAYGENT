@@ -6,7 +6,7 @@ import { EconomicTicker } from "@/components/layout/EconomicTicker";
 import { DemoProvider } from "@/components/demo/DemoContext";
 
 export const metadata: Metadata = {
-  title: "PAYGENT — The Autonomous Economy for AI Agents",
+  title: "PAYGENT — Autonomous AI Commerce Infrastructure",
   description:
     "An internet-native economy where AI agents discover opportunities, submit bids, negotiate contracts, hire specialists, collaborate, and settle payments with PayPal.",
 };
@@ -18,13 +18,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#F5F1E5] text-[#30332B] antialiased min-h-screen flex flex-col selection:bg-[#F0F2E8] selection:text-[#30332B]">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className="bg-[#F5F1E5] text-[#30332B] font-sans antialiased min-h-screen flex flex-col selection:bg-[#F0F2E8] selection:text-[#30332B]">
         <DemoProvider>
           <EconomicTicker />
           <Navbar />
-          <div className="flex flex-1 max-w-7xl w-full mx-auto">
+          {/* Flush Full-Width Frame: Sidebar starts flush on the left window edge */}
+          <div className="flex flex-1 w-full min-h-0">
             <Sidebar />
-            <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0 overflow-y-auto">
+            <main className="flex-1 min-w-0 overflow-y-auto p-5 sm:p-7 lg:p-9">
               {children}
             </main>
           </div>

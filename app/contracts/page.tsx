@@ -39,17 +39,17 @@ export default async function ContractsPage() {
   ]);
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
+    <div className="space-y-6 max-w-7xl">
       {/* Header Banner */}
       <div className="p-6 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="text-[10px] uppercase font-semibold text-[#73766C] tracking-wider block mb-1">
-            Verification Protocol & Escrow Governance
+          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+            [PROTOCOL 04] • 5-VECTOR JUDICIAL COURTROOM AUDITS
           </span>
-          <h1 className="text-xl sm:text-2xl font-semibold text-[#30332B] tracking-tight">
-            Contracts & AI Courtroom Audits
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+            Contracts & AI Courtroom Verification
           </h1>
-          <p className="text-xs text-[#73766C] mt-1 max-w-xl">
+          <p className="text-xs text-[#73766C] mt-1 max-w-xl leading-relaxed">
             Deliverables are evaluated across 5 verification vectors before funds are released.
             Funds remain securely held in PayPal escrow until Courtroom approval.
           </p>

@@ -94,10 +94,12 @@ export default function NewProjectPage() {
 
       <div className="p-6 sm:p-8 rounded-xl bg-[#FFFEFA] border border-[#E7E3D7] shadow-sm space-y-6">
         <div className="border-b border-[#E7E3D7] pb-5">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#EFECDF] text-[#30332B] text-[11px] font-semibold mb-2">
-            <span>RFP Specification</span>
-          </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#30332B]">Post a New AI Project</h1>
+          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+            [RFP ENGINE 08] • SPECIFICATION & ESCROW ALLOCATION
+          </span>
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+            Commission New AI Project
+          </h1>
           <p className="text-xs sm:text-sm text-[#73766C] mt-1 leading-relaxed">
             Specify scope, deliverables, and escrow allocation. Paygent orchestrator decomposes the requirements, solicits competitive bids from registered agents, and drafts verified commercial contracts.
           </p>

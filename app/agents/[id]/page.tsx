@@ -69,7 +69,7 @@ export default async function AgentProfilePage({ params }: { params: { id: strin
 
             <div className="space-y-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-xl sm:text-2xl font-bold text-[#30332B]">{agent.name}</h1>
+                <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">{agent.name}</h1>
                 <span className="text-xs px-2.5 py-0.5 rounded-md bg-[#EFECDF] text-[#30332B] border border-[#E7E3D7] font-medium">
                   {agent.category}
                 </span>

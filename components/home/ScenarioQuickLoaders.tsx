@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, RefreshCw, Zap } from "lucide-react";
+import { ArrowRight, RefreshCw } from "lucide-react";
 import { sounds } from "@/lib/audio";
 
 interface Scenario {
   id: string;
+  code: string;
   label: string;
   title: string;
   description: string;
@@ -15,41 +16,48 @@ interface Scenario {
   currencySymbol: string;
   category: string;
   leadAgent: string;
+  subAgent: string;
 }
 
 const PRESET_SCENARIOS: Scenario[] = [
   {
     id: "chairs-india",
-    label: "Global Commerce",
+    code: "SCN-01",
+    label: "Commerce & SKU Intelligence",
     title: "Indian Ergonomic Chair Benchmark",
-    description: "Multi-vendor SKU pricing from Channel3 with margin analysis.",
+    description: "Channel3 multi-vendor SKU extraction, variance modeling, and delivery matrix under ₹10,000 threshold.",
     budget: 2000,
     currency: "INR",
     currencySymbol: "₹",
     category: "Market Research",
-    leadAgent: "MarketMind + DataScout",
+    leadAgent: "MarketMind",
+    subAgent: "DataScout",
   },
   {
     id: "saas-pricing",
-    label: "Pricing Diligence",
+    code: "SCN-02",
+    label: "Pricing & Unit Economics",
     title: "AI Agent Startup Tier Economics",
-    description: "Competitor pricing teardown and CAC model across 15 platforms.",
+    description: "Cross-platform competitive SaaS pricing teardown, gross margin sensitivity, and CAC estimation.",
     budget: 35,
     currency: "USD",
     currencySymbol: "$",
     category: "Financial Modeling",
-    leadAgent: "FinAnalyst + PricePilot",
+    leadAgent: "FinAnalyst",
+    subAgent: "PricePilot",
   },
   {
     id: "fintech-audit",
-    label: "Ledger Audit",
+    code: "SCN-03",
+    label: "Judicial Ledger Reconciliation",
     title: "PayPal Escrow Settlement Model",
-    description: "Orders v2 authorization, capture verification, and double-entry ledger balance.",
+    description: "Two-step Orders v2 authorization, 5-vector courtroom quality audit, and double-entry ledger capture.",
     budget: 50,
     currency: "USD",
     currencySymbol: "$",
     category: "Finance",
-    leadAgent: "MarketMind + QualityGuard",
+    leadAgent: "MarketMind",
+    subAgent: "QualityGuard",
   },
 ];
 
@@ -88,15 +96,20 @@ export default function ScenarioQuickLoaders() {
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between text-xs text-[#73766C]">
-        <span className="font-semibold uppercase tracking-wider text-[11px] text-[#30332B]">
-          Quick-Start Benchmarks
-        </span>
-        <span>Pre-configured autonomous swarms</span>
+    <div className="space-y-3">
+      <div className="flex items-baseline justify-between border-b border-[#E7E3D7] pb-2">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[#73766C]">
+            [PRE-CALIBRATED BENCHMARKS]
+          </span>
+          <span className="text-[#D8D4C7]">•</span>
+          <span className="font-serif italic text-xs text-[#73766C]">1-Click Verification Scenarios</span>
+        </div>
+        <span className="font-mono text-[10px] text-[#A0A29A]">AUTONOMOUS SWARM TEMPLATES</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      {/* Unified 3-Column Architectural Ledger Surface */}
+      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#E7E3D7] bg-[#FFFEFA] border border-[#E7E3D7] rounded-lg shadow-subtle overflow-hidden">
         {PRESET_SCENARIOS.map((scenario) => {
           const isLoading = loadingId === scenario.id;
           return (
@@ -104,33 +117,42 @@ export default function ScenarioQuickLoaders() {
               key={scenario.id}
               onClick={() => handleLaunch(scenario)}
               disabled={Boolean(loadingId)}
-              className="text-left p-3.5 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] hover:border-[#727B50] hover:shadow-subtle transition-all flex flex-col justify-between group disabled:opacity-50"
+              className="group text-left p-4 sm:p-5 flex flex-col justify-between hover:bg-[#FAF8F1] transition-colors disabled:opacity-50"
             >
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#EFECDF] text-[#73766C]">
-                    {scenario.label}
-                  </span>
-                  <span className="text-xs font-semibold font-tabular text-[#30332B]">
-                    {scenario.currencySymbol}{scenario.budget.toLocaleString()}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between font-mono text-[10px]">
+                  <span className="text-[#727B50] font-semibold">{scenario.code}</span>
+                  <span className="text-[#30332B] font-medium px-1.5 py-0.5 rounded bg-[#EFECDF] border border-[#E7E3D7]">
+                    {scenario.currencySymbol}{scenario.budget.toLocaleString()} {scenario.currency}
                   </span>
                 </div>
-                <h4 className="text-xs font-semibold text-[#30332B] group-hover:text-[#727B50] transition-colors leading-snug">
+
+                <div className="text-[10px] font-mono uppercase tracking-wider text-[#73766C]">
+                  {scenario.label}
+                </div>
+
+                <h4 className="font-serif text-sm font-medium text-[#30332B] group-hover:text-[#727B50] transition-colors leading-snug">
                   {scenario.title}
                 </h4>
-                <p className="text-[11px] text-[#73766C] mt-1 line-clamp-2 leading-relaxed">
+
+                <p className="text-xs text-[#73766C] leading-relaxed line-clamp-2">
                   {scenario.description}
                 </p>
               </div>
 
-              <div className="flex items-center justify-between pt-3 mt-2 border-t border-[#EFECE1] text-[11px]">
-                <span className="text-[#73766C]">{scenario.leadAgent}</span>
-                <span className="text-[#727B50] font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              <div className="pt-4 mt-3 border-t border-[#EFECE1] flex items-center justify-between text-[11px] font-mono">
+                <div className="text-[#73766C]">
+                  <span className="text-[#30332B]">{scenario.leadAgent}</span>
+                  <span className="text-[#D8D4C7]"> → </span>
+                  <span className="text-[#315E83]">{scenario.subAgent}</span>
+                </div>
+
+                <span className="text-[#727B50] font-sans font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   {isLoading ? (
                     <RefreshCw className="w-3 h-3 animate-spin" />
                   ) : (
                     <>
-                      <span>Launch</span>
+                      <span>Dispatch</span>
                       <ArrowRight className="w-3 h-3" />
                     </>
                   )}
