@@ -41,15 +41,15 @@ export default function SettingsPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
-      <div className="p-6 rounded-xl bg-[#FFFEFA] border border-[#E7E3D7] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
             [CONFIGURATION 11] • SYSTEM ENVIRONMENT & GATEWAYS
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             System & Gateway Configuration
           </h1>
-          <p className="text-xs sm:text-sm text-[#73766C] mt-1 max-w-xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#77796F] mt-1 max-w-xl leading-relaxed">
             Configure PayPal Developer sandbox credentials, AI LLM keys, sponsor adapter flags, and reset test databases.
           </p>
         </div>
@@ -58,10 +58,10 @@ export default function SettingsPage() {
       {/* Main Settings Form */}
       <form onSubmit={handleSave} className="space-y-6">
         {/* PayPal Credentials Card */}
-        <div className="p-6 rounded-xl bg-[#FFFEFA] border border-[#E7E3D7] space-y-4 shadow-sm">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E7E3D7]">
-            <h2 className="text-base font-bold text-[#30332B] flex items-center gap-2">
-              <CreditCard className="w-4 h-4 text-[#727B50]" />
+        <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] space-y-4 shadow-sm">
+          <div className="flex items-center justify-between pb-3 border-b border-[#E4DFD2]">
+            <h2 className="text-base font-bold text-[#292F29] flex items-center gap-2">
+              <CreditCard className="w-4 h-4 text-[#344B3B]" />
               PayPal Developer Platform Credentials
             </h2>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EAF3EB] text-[#3B6E4C] border border-[#3B6E4C]/20">
@@ -71,52 +71,52 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-[11px] font-semibold text-[#73766C] uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-semibold text-[#77796F] uppercase tracking-wider block mb-1">
                 PayPal Client ID (Sandbox)
               </label>
               <input
                 type="text"
                 value={paypalClientId}
                 onChange={(e) => setPaypalClientId(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-xs text-[#30332B] font-mono focus:outline-none focus:border-[#727B50] focus:bg-[#FFFEFA] transition-colors"
+                className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
               />
             </div>
 
             <div>
-              <label className="text-[11px] font-semibold text-[#73766C] uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-semibold text-[#77796F] uppercase tracking-wider block mb-1">
                 PayPal Client Secret (Sandbox)
               </label>
               <input
                 type="password"
                 value={paypalSecret}
                 onChange={(e) => setPaypalSecret(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-xs text-[#30332B] font-mono focus:outline-none focus:border-[#727B50] focus:bg-[#FFFEFA] transition-colors"
+                className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-4 pt-1">
-            <label className="text-xs font-medium text-[#73766C]">Environment:</label>
+            <label className="text-xs font-medium text-[#77796F]">Environment:</label>
             <div className="flex items-center gap-4">
-              <label className="flex items-center gap-1.5 text-xs text-[#30332B] cursor-pointer">
+              <label className="flex items-center gap-1.5 text-xs text-[#292F29] cursor-pointer">
                 <input
                   type="radio"
                   name="env"
                   value="sandbox"
                   checked={environment === "sandbox"}
                   onChange={() => setEnvironment("sandbox")}
-                  className="accent-[#727B50]"
+                  className="accent-[#344B3B]"
                 />
                 <span>Sandbox Mode (Recommended)</span>
               </label>
-              <label className="flex items-center gap-1.5 text-xs text-[#73766C] cursor-pointer">
+              <label className="flex items-center gap-1.5 text-xs text-[#77796F] cursor-pointer">
                 <input
                   type="radio"
                   name="env"
                   value="live"
                   checked={environment === "live"}
                   onChange={() => setEnvironment("live")}
-                  className="accent-[#727B50]"
+                  className="accent-[#344B3B]"
                 />
                 <span>Live Production</span>
               </label>
@@ -125,19 +125,19 @@ export default function SettingsPage() {
         </div>
 
         {/* AI LLM Settings */}
-        <div className="p-6 rounded-xl bg-[#FFFEFA] border border-[#E7E3D7] space-y-4 shadow-sm">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E7E3D7]">
-            <h2 className="text-base font-bold text-[#30332B] flex items-center gap-2">
-              <Key className="w-4 h-4 text-[#727B50]" />
+        <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] space-y-4 shadow-sm">
+          <div className="flex items-center justify-between pb-3 border-b border-[#E4DFD2]">
+            <h2 className="text-base font-bold text-[#292F29] flex items-center gap-2">
+              <Key className="w-4 h-4 text-[#344B3B]" />
               AI Orchestration LLM Key (Google Gemini)
             </h2>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EFECDF] text-[#30332B] border border-[#E7E3D7]">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
               Autonomous Intelligence
             </span>
           </div>
 
           <div>
-            <label className="text-[11px] font-semibold text-[#73766C] uppercase tracking-wider block mb-1">
+            <label className="text-[11px] font-semibold text-[#77796F] uppercase tracking-wider block mb-1">
               GEMINI_API_KEY (Optional: built-in intelligent engine fallback enabled)
             </label>
             <input
@@ -145,7 +145,7 @@ export default function SettingsPage() {
               placeholder="AIzaSy..."
               value={geminiKey}
               onChange={(e) => setGeminiKey(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-xs text-[#30332B] font-mono focus:outline-none focus:border-[#727B50] focus:bg-[#FFFEFA] transition-colors"
+              className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
             />
           </div>
         </div>
@@ -164,11 +164,11 @@ export default function SettingsPage() {
 
           <button
             type="submit"
-            className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#727B50] hover:bg-[#616A42] transition-colors shadow-sm"
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm"
           >
             {saved ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-[#FFFEFA]" />
+                <CheckCircle2 className="w-4 h-4 text-[#FFFCF5]" />
                 <span>Configuration Saved!</span>
               </>
             ) : (

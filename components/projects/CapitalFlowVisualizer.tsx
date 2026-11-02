@@ -2,18 +2,20 @@
 
 import React, { useState } from "react";
 import {
-  ShieldCheck,
-  CreditCard,
   Layers,
   ArrowRight,
+  ShieldCheck,
+  CreditCard,
+  Building,
+  CheckCircle2,
+  ExternalLink,
 } from "lucide-react";
-import { formatDate } from "@/lib/utils";
 
 interface FlowNode {
   id: string;
   name: string;
   role: string;
-  type: "EXTERNAL_GATEWAY" | "ESCROW_POOL" | "LEAD_AGENT" | "SUBCONTRACTOR" | "ARBITER" | "SETTLEMENT";
+  type: "EXTERNAL_GATEWAY" | "LEAD_AGENT" | "SUBCONTRACTOR" | "ARBITER" | "SETTLEMENT";
   avatar: string;
   amount: number;
   currency: string;
@@ -31,7 +33,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
   const [activeNodeId, setActiveNodeId] = useState<string>("lead");
 
   const currencySymbol = project.currency === "INR" ? "₹" : "$";
-  const budget = Number(project.budget) || 2000;
+  const budget = Number(project.budget || 2000);
   const isCompleted = project.status === "COMPLETED";
   const isReview = project.status === "REVIEW";
   const transaction = project.transactions?.[0];
@@ -47,7 +49,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       name: project.user?.name || "Client Depositor",
       role: "Capital Depositor & Outcome Originator",
       type: "EXTERNAL_GATEWAY",
-      avatar: "👤",
+      avatar: "CD",
       amount: budget,
       currency: project.currency || "USD",
       status: "COMPLETED",
@@ -60,7 +62,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       name: "PayPal Sandbox v2",
       role: "External Settlement Authorization Gate",
       type: "EXTERNAL_GATEWAY",
-      avatar: "💳",
+      avatar: "PP",
       amount: budget,
       currency: project.currency || "USD",
       status: transaction?.status === "COMPLETED" ? "COMPLETED" : "ACTIVE",
@@ -75,7 +77,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       name: leadAgent?.name || "MarketMind",
       role: "Lead Prime Contractor & Orchestrator",
       type: "LEAD_AGENT",
-      avatar: leadAgent?.avatar || "🧠",
+      avatar: leadAgent?.avatar || "MM",
       amount: primaryContract ? primaryContract.agreedPrice : Math.round(budget * 0.45),
       currency: project.currency || "USD",
       status: isCompleted || isReview ? "COMPLETED" : "ACTIVE",
@@ -88,7 +90,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       name: subContracts[0]?.leadAgent?.name || "DataScout",
       role: "Subcontractor: Dataset & SKU Extractor",
       type: "SUBCONTRACTOR",
-      avatar: subContracts[0]?.leadAgent?.avatar || "📡",
+      avatar: subContracts[0]?.leadAgent?.avatar || "DS",
       amount: subContracts[0]?.agreedPrice || Math.round(budget * 0.225),
       currency: project.currency || "USD",
       status: isCompleted || isReview ? "COMPLETED" : "ACTIVE",
@@ -101,7 +103,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       name: "PricePilot",
       role: "Subcontractor: Pricing & Variance Normalizer",
       type: "SUBCONTRACTOR",
-      avatar: "⚡",
+      avatar: "PP",
       amount: Math.round(budget * 0.18),
       currency: project.currency || "USD",
       status: isCompleted || isReview ? "COMPLETED" : "ACTIVE",
@@ -114,7 +116,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       name: "AI Courtroom QualityGuard",
       role: "3-Layer Deterministic Judicial Gate",
       type: "ARBITER",
-      avatar: "⚖️",
+      avatar: "QC",
       amount: 0,
       currency: project.currency || "USD",
       status: isCompleted || isReview ? "COMPLETED" : "ACTIVE",
@@ -127,7 +129,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       name: "Double-Entry Ledger Settlement",
       role: "Internal Ledger Disbursement Engine",
       type: "SETTLEMENT",
-      avatar: "🏛️",
+      avatar: "DL",
       amount: budget,
       currency: project.currency || "USD",
       status: isCompleted ? "COMPLETED" : "PENDING",
@@ -140,42 +142,42 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
   const activeNode = nodes[activeNodeId] || nodes.lead;
 
   return (
-    <div className="rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] p-4 space-y-4 shadow-subtle">
+    <div className="rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] p-4 space-y-4 shadow-subtle">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EFECE1] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E4DFD2] pb-3">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-[#EFECDF] flex items-center justify-center text-[#727B50]">
+          <div className="w-6 h-6 rounded bg-[#EAE5D7] flex items-center justify-center text-[#344B3B]">
             <Layers className="w-3.5 h-3.5" />
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#30332B] uppercase tracking-wider flex items-center gap-2">
+            <h3 className="text-xs font-semibold text-[#292F29] uppercase tracking-wider flex items-center gap-2">
               Autonomous A2A Capital Flow
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EFECDF] text-[#73766C]">
+              <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F]">
                 P2P Delegation
               </span>
             </h3>
-            <p className="text-[11px] text-[#73766C]">
-              Financial topology tracking money movements from PayPal sandbox through agent subcontracting
+            <p className="text-[11px] text-[#77796F]">
+              Financial topology tracking capital disbursement from PayPal sandbox through agent subcontracting
             </p>
           </div>
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-3 text-[11px] text-[#73766C]">
+        <div className="flex items-center gap-3 text-[11px] text-[#77796F]">
           <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#315E83] inline-block" />
+            <span className="w-2 h-2 rounded-full bg-[#28568A] inline-block" />
             PayPal Orders v2
           </span>
-          <span className="text-[#D8D4C7]">•</span>
+          <span className="text-[#E4DFD2]">•</span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#727B50] inline-block" />
+            <span className="w-2 h-2 rounded-full bg-[#344B3B] inline-block" />
             A2A Sub-Ledger
           </span>
         </div>
       </div>
 
       {/* Visual Dynamic SVG Topology Canvas */}
-      <div className="relative py-4 px-2 overflow-x-auto bg-[#F5F1E5] rounded-md border border-[#E7E3D7]">
+      <div className="relative py-4 px-2 overflow-x-auto bg-[#F3EFE3] rounded-md border border-[#E4DFD2]">
         <div className="min-w-[840px] relative h-[145px] flex items-center justify-between px-3">
           {/* Dynamic SVG Bezier Paths */}
           <svg
@@ -184,19 +186,19 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             preserveAspectRatio="none"
           >
             {/* Base Tracks */}
-            <path d="M 95 72 C 120 72, 140 72, 170 72" fill="none" stroke="#E7E3D7" strokeWidth="2" />
-            <path d="M 270 72 C 295 72, 315 72, 345 72" fill="none" stroke="#E7E3D7" strokeWidth="2" />
-            <path d="M 445 62 C 475 62, 485 38, 515 38" fill="none" stroke="#E7E3D7" strokeWidth="2" />
-            <path d="M 445 82 C 475 82, 485 106, 515 106" fill="none" stroke="#E7E3D7" strokeWidth="2" />
-            <path d="M 625 38 C 655 38, 665 62, 690 62" fill="none" stroke="#E7E3D7" strokeWidth="2" />
-            <path d="M 625 106 C 655 106, 665 82, 690 82" fill="none" stroke="#E7E3D7" strokeWidth="2" />
-            <path d="M 760 72 C 780 72, 790 72, 810 72" fill="none" stroke="#E7E3D7" strokeWidth="2" />
+            <path d="M 95 72 C 120 72, 140 72, 170 72" fill="none" stroke="#E4DFD2" strokeWidth="2" />
+            <path d="M 270 72 C 295 72, 315 72, 345 72" fill="none" stroke="#E4DFD2" strokeWidth="2" />
+            <path d="M 445 62 C 475 62, 485 38, 515 38" fill="none" stroke="#E4DFD2" strokeWidth="2" />
+            <path d="M 445 82 C 475 82, 485 106, 515 106" fill="none" stroke="#E4DFD2" strokeWidth="2" />
+            <path d="M 625 38 C 655 38, 665 62, 690 62" fill="none" stroke="#E4DFD2" strokeWidth="2" />
+            <path d="M 625 106 C 655 106, 665 82, 690 82" fill="none" stroke="#E4DFD2" strokeWidth="2" />
+            <path d="M 760 72 C 780 72, 790 72, 810 72" fill="none" stroke="#E4DFD2" strokeWidth="2" />
 
-            {/* Active Olive & Slate Dashes */}
+            {/* Active Sapphire & Forest Dashes */}
             <path
               d="M 95 72 C 120 72, 140 72, 170 72"
               fill="none"
-              stroke="#315E83"
+              stroke="#28568A"
               strokeWidth="2"
               strokeDasharray="5 3"
             >
@@ -205,7 +207,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             <path
               d="M 270 72 C 295 72, 315 72, 345 72"
               fill="none"
-              stroke="#727B50"
+              stroke="#344B3B"
               strokeWidth="2"
               strokeDasharray="5 3"
             >
@@ -214,7 +216,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             <path
               d="M 445 62 C 475 62, 485 38, 515 38"
               fill="none"
-              stroke="#727B50"
+              stroke="#344B3B"
               strokeWidth="2"
               strokeDasharray="5 3"
             >
@@ -223,7 +225,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             <path
               d="M 445 82 C 475 82, 485 106, 515 106"
               fill="none"
-              stroke="#727B50"
+              stroke="#344B3B"
               strokeWidth="2"
               strokeDasharray="5 3"
             >
@@ -232,7 +234,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             <path
               d="M 625 38 C 655 38, 665 62, 690 62"
               fill="none"
-              stroke="#727B50"
+              stroke="#344B3B"
               strokeWidth="2"
               strokeDasharray="5 3"
             >
@@ -241,7 +243,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             <path
               d="M 625 106 C 655 106, 665 82, 690 82"
               fill="none"
-              stroke="#727B50"
+              stroke="#344B3B"
               strokeWidth="2"
               strokeDasharray="5 3"
             >
@@ -250,7 +252,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             <path
               d="M 760 72 C 780 72, 790 72, 810 72"
               fill="none"
-              stroke="#727B50"
+              stroke="#344B3B"
               strokeWidth="2"
               strokeDasharray="5 3"
             >
@@ -263,15 +265,17 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             onClick={() => setActiveNodeId("client")}
             className={`relative z-10 w-[92px] flex flex-col items-center p-2 rounded-md border text-center transition-all ${
               activeNodeId === "client"
-                ? "bg-[#FFFEFA] border-[#727B50] shadow-sm"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#C8D1A8]"
+                ? "bg-[#FFFCF5] border-[#344B3B] shadow-sm"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <span className="text-sm mb-0.5">{nodes.client.avatar}</span>
-            <span className="text-[11px] font-semibold text-[#30332B] truncate max-w-full">
+            <span className="w-5 h-5 rounded bg-[#EAE5D7] border border-[#E4DFD2] font-mono text-[9px] font-bold text-[#292F29] flex items-center justify-center mb-0.5">
+              {nodes.client.avatar}
+            </span>
+            <span className="text-[11px] font-semibold text-[#292F29] truncate max-w-full">
               {nodes.client.name}
             </span>
-            <span className="text-[10px] font-tabular font-medium text-[#73766C]">
+            <span className="text-[10px] font-mono font-medium text-[#77796F]">
               {currencySymbol}{nodes.client.amount.toLocaleString()}
             </span>
           </button>
@@ -281,17 +285,17 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             onClick={() => setActiveNodeId("paypal")}
             className={`relative z-10 w-[96px] flex flex-col items-center p-2 rounded-md border text-center transition-all ${
               activeNodeId === "paypal"
-                ? "bg-[#FFFEFA] border-[#315E83] shadow-sm"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#CCDCE9]"
+                ? "bg-[#FFFCF5] border-[#28568A] shadow-sm"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#BCD1E7]"
             }`}
           >
-            <div className="w-5 h-5 rounded bg-[#EBF1F6] flex items-center justify-center text-[#315E83] mb-0.5">
+            <div className="w-5 h-5 rounded bg-[#EBF2FA] flex items-center justify-center text-[#28568A] mb-0.5 border border-[#BCD1E7]">
               <CreditCard className="w-3 h-3" />
             </div>
-            <span className="text-[11px] font-semibold text-[#30332B] truncate max-w-full">
+            <span className="text-[11px] font-semibold text-[#292F29] truncate max-w-full">
               PayPal Escrow
             </span>
-            <span className="text-[10px] font-tabular font-medium text-[#315E83]">
+            <span className="text-[10px] font-mono font-medium text-[#28568A]">
               {currencySymbol}{nodes.paypal.amount.toLocaleString()}
             </span>
           </button>
@@ -301,15 +305,17 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             onClick={() => setActiveNodeId("lead")}
             className={`relative z-10 w-[96px] flex flex-col items-center p-2 rounded-md border text-center transition-all ${
               activeNodeId === "lead"
-                ? "bg-[#FFFEFA] border-[#727B50] shadow-sm"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#C8D1A8]"
+                ? "bg-[#FFFCF5] border-[#344B3B] shadow-sm"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <span className="text-sm mb-0.5">{nodes.lead.avatar}</span>
-            <span className="text-[11px] font-semibold text-[#30332B] truncate max-w-full">
+            <span className="w-5 h-5 rounded bg-[#EAE5D7] border border-[#E4DFD2] font-mono text-[9px] font-bold text-[#292F29] flex items-center justify-center mb-0.5">
+              {nodes.lead.avatar}
+            </span>
+            <span className="text-[11px] font-semibold text-[#292F29] truncate max-w-full">
               {nodes.lead.name}
             </span>
-            <span className="text-[10px] font-tabular font-medium text-[#727B50]">
+            <span className="text-[10px] font-mono font-medium text-[#344B3B]">
               {currencySymbol}{nodes.lead.amount.toLocaleString()}
             </span>
           </button>
@@ -325,16 +331,18 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
                   onClick={() => setActiveNodeId(sKey)}
                   className={`flex items-center gap-1.5 px-2 py-1 rounded-md border text-left transition-all ${
                     isSelected
-                      ? "bg-[#FFFEFA] border-[#727B50] shadow-sm"
-                      : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#C8D1A8]"
+                      ? "bg-[#FFFCF5] border-[#344B3B] shadow-sm"
+                      : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
                   }`}
                 >
-                  <span className="text-xs shrink-0">{sub.avatar}</span>
+                  <span className="w-4 h-4 rounded bg-[#EAE5D7] border border-[#E4DFD2] font-mono text-[8px] font-bold text-[#292F29] flex items-center justify-center shrink-0">
+                    {sub.avatar}
+                  </span>
                   <div className="truncate">
-                    <div className="text-[10.5px] font-semibold text-[#30332B] truncate">
+                    <div className="text-[10.5px] font-semibold text-[#292F29] truncate">
                       {sub.name}
                     </div>
-                    <span className="text-[9px] text-[#73766C] font-tabular block">
+                    <span className="text-[9px] text-[#77796F] font-mono block">
                       {currencySymbol}{sub.amount}
                     </span>
                   </div>
@@ -348,15 +356,17 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             onClick={() => setActiveNodeId("courtroom")}
             className={`relative z-10 w-[96px] flex flex-col items-center p-2 rounded-md border text-center transition-all ${
               activeNodeId === "courtroom"
-                ? "bg-[#FFFEFA] border-[#727B50] shadow-sm"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#C8D1A8]"
+                ? "bg-[#FFFCF5] border-[#344B3B] shadow-sm"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <span className="text-sm mb-0.5">{nodes.courtroom.avatar}</span>
-            <span className="text-[11px] font-semibold text-[#30332B] truncate max-w-full">
+            <span className="w-5 h-5 rounded bg-[#EAE5D7] border border-[#E4DFD2] font-mono text-[9px] font-bold text-[#292F29] flex items-center justify-center mb-0.5">
+              {nodes.courtroom.avatar}
+            </span>
+            <span className="text-[11px] font-semibold text-[#292F29] truncate max-w-full">
               AI Courtroom
             </span>
-            <span className="text-[10px] font-medium text-[#73766C]">
+            <span className="text-[10px] font-medium text-[#77796F]">
               3-Layer Audit
             </span>
           </button>
@@ -366,15 +376,17 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
             onClick={() => setActiveNodeId("settlement")}
             className={`relative z-10 w-[92px] flex flex-col items-center p-2 rounded-md border text-center transition-all ${
               activeNodeId === "settlement"
-                ? "bg-[#FFFEFA] border-[#727B50] shadow-sm"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#C8D1A8]"
+                ? "bg-[#FFFCF5] border-[#27532F] shadow-sm"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <span className="text-sm mb-0.5">{nodes.settlement.avatar}</span>
-            <span className="text-[11px] font-semibold text-[#30332B] truncate max-w-full">
+            <span className="w-5 h-5 rounded bg-[#EAF3EB] border border-[#CDE3D0] font-mono text-[9px] font-bold text-[#27532F] flex items-center justify-center mb-0.5">
+              {nodes.settlement.avatar}
+            </span>
+            <span className="text-[11px] font-semibold text-[#292F29] truncate max-w-full">
               Settled
             </span>
-            <span className="text-[10px] font-medium text-[#727B50]">
+            <span className="text-[10px] font-medium text-[#27532F]">
               Balanced
             </span>
           </button>
@@ -382,27 +394,29 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       </div>
 
       {/* Node Detail Drawer */}
-      <div className="p-3.5 rounded-md bg-[#FAF8F1] border border-[#E7E3D7] space-y-2.5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E7E3D7] pb-2">
+      <div className="p-3.5 rounded-md bg-[#EAE5D7]/40 border border-[#E4DFD2] space-y-2.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E4DFD2] pb-2">
           <div className="flex items-center gap-2">
-            <span className="text-lg">{activeNode.avatar}</span>
+            <span className="w-7 h-7 rounded bg-[#EAE5D7] border border-[#E4DFD2] font-mono text-xs font-bold text-[#292F29] flex items-center justify-center">
+              {activeNode.avatar}
+            </span>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-[#30332B]">{activeNode.name}</span>
-                <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#EFECDF] text-[#73766C]">
+                <span className="text-xs font-semibold text-[#292F29]">{activeNode.name}</span>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F]">
                   {activeNode.type}
                 </span>
-                <span className="text-[9px] text-[#73766C] font-mono">
+                <span className="text-[9px] text-[#77796F] font-mono">
                   REF: {activeNode.protocolRef}
                 </span>
               </div>
-              <p className="text-[11px] text-[#73766C]">{activeNode.description}</p>
+              <p className="text-[11px] text-[#77796F]">{activeNode.description}</p>
             </div>
           </div>
 
           <div className="text-right shrink-0">
-            <span className="text-[9px] text-[#73766C] block uppercase">Allocated / Settled</span>
-            <span className="text-xs font-semibold font-tabular text-[#30332B]">
+            <span className="text-[9px] text-[#77796F] block uppercase">Allocated / Settled</span>
+            <span className="text-xs font-semibold font-mono text-[#292F29]">
               {currencySymbol}{activeNode.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {activeNode.currency}
             </span>
           </div>
@@ -410,18 +424,18 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
 
         {activeNode.ledgerEntries && activeNode.ledgerEntries.length > 0 && (
           <div className="space-y-1.5">
-            <span className="text-[10px] uppercase tracking-wider text-[#73766C] font-semibold block">
+            <span className="text-[10px] uppercase tracking-wider text-[#77796F] font-semibold block">
               Node Audit Trail ({activeNode.ledgerEntries.length} entries)
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
               {activeNode.ledgerEntries.slice(0, 4).map((entry: any) => (
                 <div
                   key={entry.id}
-                  className="p-2 rounded bg-[#FFFEFA] border border-[#E7E3D7] flex items-center justify-between text-[11px]"
+                  className="p-2 rounded bg-[#FFFCF5] border border-[#E4DFD2] flex items-center justify-between text-[11px]"
                 >
                   <div className="truncate pr-2">
-                    <span className="text-[9px] text-[#73766C] font-mono block">{entry.accountType}</span>
-                    <span className="text-[#30332B] truncate block text-[10px]">{entry.description}</span>
+                    <span className="text-[9px] text-[#77796F] font-mono block">{entry.accountType}</span>
+                    <span className="text-[#292F29] truncate block text-[10px]">{entry.description}</span>
                   </div>
                   <div className="text-right shrink-0">
                     <span
@@ -433,7 +447,7 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
                     >
                       {entry.entryType}
                     </span>
-                    <span className="font-tabular font-medium text-[#30332B] text-[10px]">
+                    <span className="font-mono font-medium text-[#292F29] text-[10px]">
                       {currencySymbol}{Number(entry.amount).toFixed(2)}
                     </span>
                   </div>

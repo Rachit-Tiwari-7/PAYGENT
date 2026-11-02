@@ -177,7 +177,7 @@ export default function EconomyDashboardPage() {
         flex: 1.2,
         filter: true,
         cellRenderer: (p: any) => (
-          <span className="font-mono text-xs text-[#73766C] font-semibold">{p.value}</span>
+          <span className="font-mono text-xs text-[#77796F] font-semibold">{p.value}</span>
         ),
       },
       { field: "accountName", headerName: "Account / Entity", flex: 1.4, filter: true },
@@ -204,7 +204,7 @@ export default function EconomyDashboardPage() {
         width: 140,
         filter: "agNumberColumnFilter",
         cellRenderer: (p: any) => (
-          <span className="font-tabular text-xs font-semibold text-[#30332B]">
+          <span className="font-tabular text-xs font-semibold text-[#292F29]">
             ${Number(p.value).toFixed(2)}
           </span>
         ),
@@ -230,7 +230,7 @@ export default function EconomyDashboardPage() {
         cellRenderer: (p: any) => (
           <div className="flex items-center gap-2">
             <span>{p.data.avatar}</span>
-            <span className="font-semibold text-[#30332B]">{p.value}</span>
+            <span className="font-semibold text-[#292F29]">{p.value}</span>
           </div>
         ),
       },
@@ -241,7 +241,7 @@ export default function EconomyDashboardPage() {
         width: 120,
         filter: "agNumberColumnFilter",
         cellRenderer: (p: any) => (
-          <span className="font-tabular font-semibold text-[#30332B]">{p.value}%</span>
+          <span className="font-tabular font-semibold text-[#292F29]">{p.value}%</span>
         ),
       },
       {
@@ -249,7 +249,7 @@ export default function EconomyDashboardPage() {
         headerName: "Jobs",
         width: 120,
         filter: "agNumberColumnFilter",
-        cellRenderer: (p: any) => <span className="font-tabular text-[#73766C]">{p.value}</span>,
+        cellRenderer: (p: any) => <span className="font-tabular text-[#77796F]">{p.value}</span>,
       },
       {
         field: "totalEarnings",
@@ -267,7 +267,7 @@ export default function EconomyDashboardPage() {
         field: "basePrice",
         headerName: "Base Rate",
         width: 120,
-        cellRenderer: (p: any) => <span className="font-tabular text-[#30332B]">${p.value}</span>,
+        cellRenderer: (p: any) => <span className="font-tabular text-[#292F29]">${p.value}</span>,
       },
     ],
     []
@@ -279,14 +279,14 @@ export default function EconomyDashboardPage() {
         field: "id",
         headerName: "Tx ID",
         flex: 1,
-        cellRenderer: (p: any) => <span className="font-mono text-[#73766C]">#{p.value?.slice(0, 8)}...</span>,
+        cellRenderer: (p: any) => <span className="font-mono text-[#77796F]">#{p.value?.slice(0, 8)}...</span>,
       },
       {
         field: "paypalOrderId",
         headerName: "PayPal Order ID",
         flex: 1.2,
         cellRenderer: (p: any) => (
-          <span className="font-mono text-xs text-[#315E83]">{p.value || "N/A"}</span>
+          <span className="font-mono text-xs text-[#28568A]">{p.value || "N/A"}</span>
         ),
       },
       {
@@ -302,7 +302,7 @@ export default function EconomyDashboardPage() {
         headerName: "Amount (USD)",
         width: 140,
         cellRenderer: (p: any) => (
-          <span className="font-tabular font-semibold text-[#30332B]">${p.value?.toFixed(2)}</span>
+          <span className="font-tabular font-semibold text-[#292F29]">${p.value?.toFixed(2)}</span>
         ),
       },
       {
@@ -319,7 +319,7 @@ export default function EconomyDashboardPage() {
         field: "paymentMethod",
         headerName: "Gateway",
         width: 140,
-        cellRenderer: (p: any) => <span className="text-xs text-[#73766C]">{p.value}</span>,
+        cellRenderer: (p: any) => <span className="text-xs text-[#77796F]">{p.value}</span>,
       },
       {
         field: "createdAt",
@@ -340,7 +340,7 @@ export default function EconomyDashboardPage() {
         cellRenderer: (p: any) => (
           <div className="flex items-center gap-1.5">
             <span>{p.data?.agent?.avatar}</span>
-            <span className="font-semibold text-[#30332B]">{p.value}</span>
+            <span className="font-semibold text-[#292F29]">{p.value}</span>
           </div>
         ),
       },
@@ -349,7 +349,7 @@ export default function EconomyDashboardPage() {
         headerName: "Bid Price (USD)",
         width: 140,
         cellRenderer: (p: any) => (
-          <span className="font-tabular font-semibold text-[#30332B]">${p.value?.toFixed(2)}</span>
+          <span className="font-tabular font-semibold text-[#292F29]">${p.value?.toFixed(2)}</span>
         ),
       },
       {
@@ -357,7 +357,7 @@ export default function EconomyDashboardPage() {
         headerName: "Confidence",
         width: 130,
         cellRenderer: (p: any) => (
-          <span className="font-tabular text-[#73766C]">{(p.value * 100)?.toFixed(0)}%</span>
+          <span className="font-tabular text-[#77796F]">{(p.value * 100)?.toFixed(0)}%</span>
         ),
       },
       {
@@ -369,7 +369,7 @@ export default function EconomyDashboardPage() {
             className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
               p.value === "ACCEPTED"
                 ? "bg-[#EAF3EB] text-[#27532F]"
-                : "bg-[#EFECDF] text-[#73766C]"
+                : "bg-[#EAE5D7] text-[#77796F]"
             }`}
           >
             {p.value}
@@ -396,83 +396,83 @@ export default function EconomyDashboardPage() {
   return (
     <div className="space-y-6 max-w-7xl">
       {/* Top Banner */}
-      <div className="p-6 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
+      <div className="p-6 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
             [MATRIX 03] • DOUBLE-ENTRY LEDGER & RECONCILIATION
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Economy & Settlement Matrix
           </h1>
-          <p className="text-xs text-[#73766C] mt-1 max-w-xl leading-relaxed">
+          <p className="text-xs text-[#77796F] mt-1 max-w-xl leading-relaxed">
             Real-time accounting workstation powered by AG Grid. Audits double-entry debits, credits, verified PayPal captures, and agent revenues.
           </p>
         </div>
 
         <button
           onClick={onExportCsv}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-[#30332B] bg-[#EFECDF] hover:bg-[#E7E3D7] border border-[#E7E3D7] transition-colors shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors shrink-0"
         >
-          <Download className="w-3.5 h-3.5 text-[#73766C]" />
+          <Download className="w-3.5 h-3.5 text-[#77796F]" />
           <span>Export CSV</span>
         </button>
       </div>
 
       {/* Financial Metrics Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-1 shadow-subtle">
-          <span className="text-[10px] text-[#73766C] block uppercase font-medium">Total Volume</span>
-          <div className="text-xl font-semibold text-[#30332B] font-tabular">
+        <div className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-1 shadow-subtle">
+          <span className="text-[10px] text-[#77796F] block uppercase font-medium">Total Volume</span>
+          <div className="text-xl font-semibold text-[#292F29] font-tabular">
             ${data?.stats?.totalProjectVolume ? data.stats.totalProjectVolume.toLocaleString() : "14,250.00"}
           </div>
           <span className="text-[11px] text-[#27532F] block">Orders v2 Verified</span>
         </div>
 
-        <div className="p-4 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-1 shadow-subtle">
-          <span className="text-[10px] text-[#73766C] block uppercase font-medium">Agent Payouts</span>
+        <div className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-1 shadow-subtle">
+          <span className="text-[10px] text-[#77796F] block uppercase font-medium">Agent Payouts</span>
           <div className="text-xl font-semibold text-[#27532F] font-tabular">
             ${data?.stats?.totalAgentEarnings ? data.stats.totalAgentEarnings.toLocaleString() : "3,835.00"}
           </div>
-          <span className="text-[11px] text-[#73766C] block">Net Distributed</span>
+          <span className="text-[11px] text-[#77796F] block">Net Distributed</span>
         </div>
 
-        <div className="p-4 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-1 shadow-subtle">
-          <span className="text-[10px] text-[#73766C] block uppercase font-medium">Platform Fees</span>
-          <div className="text-xl font-semibold text-[#30332B] font-tabular">
+        <div className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-1 shadow-subtle">
+          <span className="text-[10px] text-[#77796F] block uppercase font-medium">Platform Fees</span>
+          <div className="text-xl font-semibold text-[#292F29] font-tabular">
             ${data?.stats?.totalPlatformRevenue ? data.stats.totalPlatformRevenue.toLocaleString() : "1,425.00"}
           </div>
-          <span className="text-[11px] text-[#73766C] block">10% Platform Share</span>
+          <span className="text-[11px] text-[#77796F] block">10% Platform Share</span>
         </div>
 
-        <div className="p-4 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-1 shadow-subtle">
-          <span className="text-[10px] text-[#73766C] block uppercase font-medium">Ledger Integrity</span>
-          <div className="text-xl font-semibold text-[#727B50] font-tabular">&Delta; = 0.00</div>
-          <span className="text-[11px] text-[#73766C] block">100% Balanced</span>
+        <div className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-1 shadow-subtle">
+          <span className="text-[10px] text-[#77796F] block uppercase font-medium">Ledger Integrity</span>
+          <div className="text-xl font-semibold text-[#344B3B] font-tabular">&Delta; = 0.00</div>
+          <span className="text-[11px] text-[#77796F] block">100% Balanced</span>
         </div>
       </div>
 
       {/* Capital Distribution Rail */}
-      <div className="p-3.5 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-2 shadow-subtle">
+      <div className="p-3.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-2 shadow-subtle">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-[10px] uppercase font-semibold text-[#73766C]">
+          <span className="text-[10px] uppercase font-semibold text-[#77796F]">
             Capital Allocation Invariant
           </span>
           <div className="flex items-center gap-3 text-[11px]">
             <span className="text-[#27532F]">● Swarm Payouts (70%)</span>
             <span className="text-[#234968]">● A2A Subcontracts (20%)</span>
-            <span className="text-[#73766C]">● Platform (10%)</span>
+            <span className="text-[#77796F]">● Platform (10%)</span>
           </div>
         </div>
 
-        <div className="w-full h-1.5 rounded-full bg-[#E7E3D7] flex overflow-hidden">
-          <div className="h-full bg-[#727B50]" style={{ width: "70%" }} />
-          <div className="h-full bg-[#315E83]" style={{ width: "20%" }} />
+        <div className="w-full h-1.5 rounded-full bg-[#E4DFD2] flex overflow-hidden">
+          <div className="h-full bg-[#344B3B]" style={{ width: "70%" }} />
+          <div className="h-full bg-[#28568A]" style={{ width: "20%" }} />
           <div className="h-full bg-[#A5AC8D]" style={{ width: "10%" }} />
         </div>
       </div>
 
       {/* Grid Tabs */}
-      <div className="flex items-center gap-1 border-b border-[#E7E3D7] pb-2 overflow-x-auto no-scrollbar">
+      <div className="flex items-center gap-1 border-b border-[#E4DFD2] pb-2 overflow-x-auto no-scrollbar">
         {[
           { key: "ledger", label: "Double-Entry Ledger", count: data?.ledgerEntries?.length },
           { key: "agents", label: "Agent Rankings & Earnings", count: data?.agents?.length },
@@ -487,13 +487,13 @@ export default function EconomyDashboardPage() {
             }}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap flex items-center gap-1.5 ${
               activeTab === tab.key
-                ? "bg-[#EFECDF] text-[#30332B] font-semibold border border-[#E7E3D7]"
-                : "text-[#73766C] hover:text-[#30332B] hover:bg-[#F5F1E5]"
+                ? "bg-[#EAE5D7] text-[#292F29] font-semibold border border-[#E4DFD2]"
+                : "text-[#77796F] hover:text-[#292F29] hover:bg-[#F3EFE3]"
             }`}
           >
             <span>{tab.label}</span>
             {tab.count !== undefined && (
-              <span className="text-[10px] px-1 py-0.2 rounded bg-[#E7E3D7] text-[#30332B] font-tabular">
+              <span className="text-[10px] px-1 py-0.2 rounded bg-[#E4DFD2] text-[#292F29] font-tabular">
                 {tab.count}
               </span>
             )}
@@ -502,7 +502,7 @@ export default function EconomyDashboardPage() {
       </div>
 
       {/* Natural Language Filter Bar */}
-      <div className="p-3 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 shadow-subtle">
+      <div className="p-3 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 shadow-subtle">
         <div className="flex-1 flex items-center gap-2">
           <div className="relative w-full flex items-center">
             <input
@@ -511,8 +511,8 @@ export default function EconomyDashboardPage() {
               onChange={(e) => setAiQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleApplyAiFilter()}
               placeholder={isVoiceFiltering ? "Listening for query... (e.g. 'show credits')" : "Filter table: e.g. 'Show CREDIT entries', 'Amounts over $20', 'Agent wallets'..."}
-              className={`w-full text-xs bg-[#FFFEFA] border rounded-md pl-3 pr-24 py-1.5 text-[#30332B] placeholder-[#96998F] focus:outline-none transition-colors ${
-                isVoiceFiltering ? "border-[#727B50] ring-1 ring-[#727B50]" : "border-[#E7E3D7]"
+              className={`w-full text-xs bg-[#FFFCF5] border rounded-md pl-3 pr-24 py-1.5 text-[#292F29] placeholder-[#96998F] focus:outline-none transition-colors ${
+                isVoiceFiltering ? "border-[#344B3B] ring-1 ring-[#344B3B]" : "border-[#E4DFD2]"
               }`}
             />
             {isVoiceFiltering && (
@@ -525,7 +525,7 @@ export default function EconomyDashboardPage() {
               type="button"
               title={isVoiceFiltering ? "Stop voice listening" : "Speak query"}
               className={`absolute right-1.5 p-1 rounded transition-colors ${
-                isVoiceFiltering ? "text-[#727B50]" : "text-[#73766C] hover:text-[#30332B]"
+                isVoiceFiltering ? "text-[#344B3B]" : "text-[#77796F] hover:text-[#292F29]"
               }`}
             >
               <Mic className="w-3.5 h-3.5" />
@@ -533,7 +533,7 @@ export default function EconomyDashboardPage() {
           </div>
           <button
             onClick={() => handleApplyAiFilter()}
-            className="px-3 py-1.5 rounded-md text-xs font-medium bg-[#727B50] hover:bg-[#616A42] text-white transition-colors shrink-0"
+            className="px-3 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#616A42] text-white transition-colors shrink-0"
           >
             Filter
           </button>
@@ -546,7 +546,7 @@ export default function EconomyDashboardPage() {
               setAiQuery("credit");
               handleApplyAiFilter("credit");
             }}
-            className="px-2 py-0.5 rounded bg-[#EFECDF] hover:bg-[#E7E3D7] text-[#30332B] font-medium text-[11px]"
+            className="px-2 py-0.5 rounded bg-[#EAE5D7] hover:bg-[#E4DFD2] text-[#292F29] font-medium text-[11px]"
           >
             + CREDIT
           </button>
@@ -555,7 +555,7 @@ export default function EconomyDashboardPage() {
               setAiQuery("over 20");
               handleApplyAiFilter("over 20");
             }}
-            className="px-2 py-0.5 rounded bg-[#EFECDF] hover:bg-[#E7E3D7] text-[#30332B] font-medium text-[11px]"
+            className="px-2 py-0.5 rounded bg-[#EAE5D7] hover:bg-[#E4DFD2] text-[#292F29] font-medium text-[11px]"
           >
             &gt; $20
           </button>
@@ -564,7 +564,7 @@ export default function EconomyDashboardPage() {
               setAiQuery("clear");
               handleApplyAiFilter("clear");
             }}
-            className="px-2 py-0.5 rounded text-[#73766C] hover:text-[#30332B] text-[11px]"
+            className="px-2 py-0.5 rounded text-[#77796F] hover:text-[#292F29] text-[11px]"
           >
             Reset
           </button>
@@ -572,11 +572,11 @@ export default function EconomyDashboardPage() {
       </div>
 
       {activeFilterNotice && (
-        <div className="p-2 px-3 rounded-md bg-[#FAF8F1] border border-[#E7E3D7] text-xs text-[#73766C] flex items-center justify-between">
+        <div className="p-2 px-3 rounded-md bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#77796F] flex items-center justify-between">
           <span>Active Filter: {activeFilterNotice}</span>
           <button
             onClick={() => handleApplyAiFilter("clear")}
-            className="text-[#727B50] hover:underline text-[11px]"
+            className="text-[#344B3B] hover:underline text-[11px]"
           >
             Clear
           </button>

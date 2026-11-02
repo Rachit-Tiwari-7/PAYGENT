@@ -42,16 +42,16 @@ export function getStatusBadgeClass(status: string): string {
     case "BIDDING":
     case "RUNNING":
     case "BUSY":
-      return "bg-[#EBF1F6] text-[#234968] border border-[#CCDCE9]";
+      return "bg-[#EBF2FA] text-[#28568A] border border-[#BCD1E7]";
     case "COUNTEROFFERED":
     case "REVIEW":
     case "UNDER_REVIEW":
     case "EVALUATING":
-      return "bg-[#F3EFE6] text-[#5C4A28] border border-[#E0D5BE]";
+      return "bg-[#F7F3E8] text-[#8C6D23] border border-[#E5DAC2]";
     case "PENDING":
     case "OPEN":
     case "DRAFT":
-      return "bg-[#F8F3E6] text-[#6E4D15] border border-[#E7D8B9]";
+      return "bg-[#F7F3E8] text-[#8C6D23] border border-[#E5DAC2]";
     case "REJECTED":
     case "FAILED":
     case "DISPUTED":
@@ -59,6 +59,6 @@ export function getStatusBadgeClass(status: string): string {
     case "OFFLINE":
       return "bg-[#F8ECEC] text-[#7A2929] border border-[#ECCACA]";
     default:
-      return "bg-[#EFECDF] text-[#73766C] border border-[#E7E3D7]";
+      return "bg-[#EAE5D7] text-[#77796F] border border-[#E4DFD2]";
   }
 }

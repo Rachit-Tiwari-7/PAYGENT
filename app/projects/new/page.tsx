@@ -85,22 +85,22 @@ export default function NewProjectPage() {
       <div>
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#73766C] hover:text-[#30332B] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#77796F] hover:text-[#292F29] transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Projects</span>
         </Link>
       </div>
 
-      <div className="p-6 sm:p-8 rounded-xl bg-[#FFFEFA] border border-[#E7E3D7] shadow-sm space-y-6">
-        <div className="border-b border-[#E7E3D7] pb-5">
-          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+      <div className="p-6 sm:p-8 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm space-y-6">
+        <div className="border-b border-[#E4DFD2] pb-5">
+          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
             [RFP ENGINE 08] • SPECIFICATION & ESCROW ALLOCATION
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Commission New AI Project
           </h1>
-          <p className="text-xs sm:text-sm text-[#73766C] mt-1 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#77796F] mt-1 leading-relaxed">
             Specify scope, deliverables, and escrow allocation. Paygent orchestrator decomposes the requirements, solicits competitive bids from registered agents, and drafts verified commercial contracts.
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function NewProjectPage() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Title */}
           <div>
-            <label className="block text-[11px] font-semibold text-[#73766C] uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
               Project Title
             </label>
             <input
@@ -117,20 +117,20 @@ export default function NewProjectPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Startup Market Diligence and Financial Modeling"
-              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-sm text-[#30332B] placeholder-[#73766C]/60 focus:outline-none focus:border-[#727B50] focus:bg-[#FFFEFA] transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] placeholder-[#77796F]/60 focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
             />
           </div>
 
           {/* Category & Budget Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-semibold text-[#73766C] uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
                 Primary Category
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-sm text-[#30332B] focus:outline-none focus:border-[#727B50] focus:bg-[#FFFEFA] transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
@@ -141,11 +141,11 @@ export default function NewProjectPage() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-[#73766C] uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
                 Escrow Budget (USD)
               </label>
               <div className="relative">
-                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#727B50]" />
+                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#344B3B]" />
                 <input
                   type="number"
                   required
@@ -153,10 +153,10 @@ export default function NewProjectPage() {
                   max="10000"
                   value={budget}
                   onChange={(e) => setBudget(Number(e.target.value))}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-sm text-[#30332B] focus:outline-none focus:border-[#727B50] focus:bg-[#FFFEFA] font-mono font-medium transition-colors"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] font-mono font-medium transition-colors"
                 />
               </div>
-              <span className="text-[11px] text-[#73766C] mt-1 block">
+              <span className="text-[11px] text-[#77796F] mt-1 block">
                 Held in double-entry escrow; captured via PayPal Orders v2 upon judicial clearance.
               </span>
             </div>
@@ -164,7 +164,7 @@ export default function NewProjectPage() {
 
           {/* Description */}
           <div>
-            <label className="block text-[11px] font-semibold text-[#73766C] uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
               Requirements & Scope of Work
             </label>
             <textarea
@@ -173,29 +173,29 @@ export default function NewProjectPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe research objectives, target data sources, required tools, and acceptable constraints..."
-              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-sm text-[#30332B] placeholder-[#73766C]/60 focus:outline-none focus:border-[#727B50] focus:bg-[#FFFEFA] transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] placeholder-[#77796F]/60 focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
             />
           </div>
 
           {/* Expected Deliverables */}
           <div className="space-y-2">
-            <label className="block text-[11px] font-semibold text-[#73766C] uppercase tracking-wider">
+            <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider">
               Expected Deliverables & Verification Criteria
             </label>
             <div className="space-y-2">
               {deliverables.map((del, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-xs text-[#30332B]"
+                  className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29]"
                 >
                   <span className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#727B50]" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#344B3B]" />
                     <span>{del}</span>
                   </span>
                   <button
                     type="button"
                     onClick={() => handleRemoveDeliverable(idx)}
-                    className="text-[#73766C] hover:text-[#9E4B4B] transition-colors"
+                    className="text-[#77796F] hover:text-[#9E4B4B] transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -215,12 +215,12 @@ export default function NewProjectPage() {
                     handleAddDeliverable();
                   }
                 }}
-                className="flex-1 px-3 py-2 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-xs text-[#30332B] focus:outline-none focus:border-[#727B50]"
+                className="flex-1 px-3 py-2 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] focus:outline-none focus:border-[#344B3B]"
               />
               <button
                 type="button"
                 onClick={handleAddDeliverable}
-                className="px-3.5 py-2 rounded-lg text-xs font-medium text-[#30332B] bg-[#EFECDF] hover:bg-[#E7E3D7] border border-[#E7E3D7] transition-colors"
+                className="px-3.5 py-2 rounded-lg text-xs font-medium text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors"
               >
                 Add
               </button>
@@ -228,9 +228,9 @@ export default function NewProjectPage() {
           </div>
 
           {/* AI Orchestrator Notice */}
-          <div className="p-4 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] text-xs text-[#73766C] space-y-1">
-            <div className="flex items-center gap-2 text-[#30332B] font-semibold">
-              <Bot className="w-4 h-4 text-[#727B50]" />
+          <div className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#77796F] space-y-1">
+            <div className="flex items-center gap-2 text-[#292F29] font-semibold">
+              <Bot className="w-4 h-4 text-[#344B3B]" />
               <span>Autonomous Lifecycle Automation</span>
             </div>
             <p className="text-[11px] leading-relaxed">
@@ -239,10 +239,10 @@ export default function NewProjectPage() {
           </div>
 
           {/* Submit CTA */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#E7E3D7]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#E4DFD2]">
             <Link
               href="/projects"
-              className="px-4 py-2 rounded-lg text-xs font-medium text-[#73766C] hover:text-[#30332B] transition-colors"
+              className="px-4 py-2 rounded-lg text-xs font-medium text-[#77796F] hover:text-[#292F29] transition-colors"
             >
               Cancel
             </Link>
@@ -250,7 +250,7 @@ export default function NewProjectPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-semibold text-white bg-[#727B50] hover:bg-[#616A42] transition-colors disabled:opacity-50 shadow-sm"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors disabled:opacity-50 shadow-sm"
             >
               {loading ? (
                 <>

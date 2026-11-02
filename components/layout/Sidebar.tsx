@@ -79,11 +79,11 @@ export function Sidebar() {
   );
 
   return (
-    <aside className="w-60 shrink-0 hidden md:flex flex-col border-r border-[#E7E3D7] bg-[#FFFEFA] min-h-[calc(100vh-4.5rem)] select-none">
+    <aside className="w-60 shrink-0 hidden md:flex flex-col border-r border-[#E4DFD2] bg-[#FFFCF5] min-h-[calc(100vh-4.5rem)] select-none">
       <div className="flex-1 p-3.5 space-y-6">
         {NAV_SECTIONS.map((section) => (
           <div key={section.title} className="space-y-1">
-            <div className="flex items-center justify-between px-2.5 py-1 text-[9.5px] font-mono uppercase tracking-widest text-[#73766C]">
+            <div className="flex items-center justify-between px-2.5 py-1 text-[9.5px] font-mono uppercase tracking-widest text-[#77796F]">
               <span>{section.title}</span>
               <span className="text-[#A0A29A]">[{section.code}]</span>
             </div>
@@ -103,22 +103,22 @@ export function Sidebar() {
                   className={cn(
                     "group flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-[#EFECDF] text-[#30332B] font-semibold border border-[#E7E3D7]"
-                      : "text-[#73766C] hover:text-[#30332B] hover:bg-[#F5F1E5]"
+                      ? "bg-[#EAE5D7] text-[#292F29] font-semibold border border-[#E4DFD2]"
+                      : "text-[#77796F] hover:text-[#292F29] hover:bg-[#F3EFE3]"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
                     <Icon
                       className={cn(
                         "w-3.5 h-3.5 transition-colors",
-                        isActive ? "text-[#727B50]" : "text-[#73766C] group-hover:text-[#30332B]"
+                        isActive ? "text-[#344B3B]" : "text-[#77796F] group-hover:text-[#292F29]"
                       )}
                     />
                     <span>{item.name}</span>
                   </div>
 
                   {item.badge && (
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EFECDF] text-[#73766C] font-mono">
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F] font-mono">
                       {item.badge}
                     </span>
                   )}
@@ -129,16 +129,16 @@ export function Sidebar() {
         ))}
 
         {/* Collapsible Extended Tools */}
-        <div className="pt-2 border-t border-[#E7E3D7] space-y-1">
+        <div className="pt-2 border-t border-[#E4DFD2] space-y-1">
           <button
             onClick={() => setShowExtended(!showExtended)}
-            className="w-full flex items-center justify-between px-2.5 py-1 text-[9.5px] font-mono uppercase tracking-widest text-[#73766C] hover:text-[#30332B] transition-colors"
+            className="w-full flex items-center justify-between px-2.5 py-1 text-[9.5px] font-mono uppercase tracking-widest text-[#77796F] hover:text-[#292F29] transition-colors"
           >
             <span>Additional Tools</span>
             {showExtended || isExtendedActive ? (
-              <ChevronDown className="w-3.5 h-3.5 text-[#73766C]" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#77796F]" />
             ) : (
-              <ChevronRight className="w-3.5 h-3.5 text-[#73766C]" />
+              <ChevronRight className="w-3.5 h-3.5 text-[#77796F]" />
             )}
           </button>
 
@@ -154,15 +154,15 @@ export function Sidebar() {
                     className={cn(
                       "group flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors",
                       isActive
-                        ? "bg-[#EFECDF] text-[#30332B] font-semibold border border-[#E7E3D7]"
-                        : "text-[#73766C] hover:text-[#30332B] hover:bg-[#F5F1E5]"
+                        ? "bg-[#EAE5D7] text-[#292F29] font-semibold border border-[#E4DFD2]"
+                        : "text-[#77796F] hover:text-[#292F29] hover:bg-[#F3EFE3]"
                     )}
                   >
                     <div className="flex items-center gap-2.5">
                       <Icon
                         className={cn(
                           "w-3.5 h-3.5",
-                          isActive ? "text-[#727B50]" : "text-[#73766C] group-hover:text-[#30332B]"
+                          isActive ? "text-[#344B3B]" : "text-[#77796F] group-hover:text-[#292F29]"
                         )}
                       />
                       <span>{item.name}</span>
@@ -176,9 +176,9 @@ export function Sidebar() {
       </div>
 
       {/* Industrial Machine Telemetry Footer */}
-      <div className="p-3 border-t border-[#E7E3D7] bg-[#FAF8F1] text-[10px] font-mono text-[#73766C] flex items-center justify-between">
+      <div className="p-3 border-t border-[#E4DFD2] bg-[#FFFCF5] text-[10px] font-mono text-[#77796F] flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#727B50]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#344B3B]" />
           <span>PAYPAL_V2: OK</span>
         </div>
         <span className="text-[#A0A29A]">REV. 2026.4</span>

@@ -50,19 +50,19 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-[#E7E3D7] bg-[#FFFEFA]/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-40 w-full border-b border-[#E4DFD2] bg-[#FFFCF5]/95 backdrop-blur-sm">
         <div className="flex h-14 items-center justify-between px-4 sm:px-6 w-full">
           {/* Brand */}
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-md bg-[#30332B] flex items-center justify-center text-white font-semibold text-sm">
+              <div className="w-7 h-7 rounded-md bg-[#292F29] flex items-center justify-center text-white font-semibold text-sm">
                 Ψ
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="font-semibold tracking-tight text-[#30332B] text-base">
+                <span className="font-semibold tracking-tight text-[#292F29] text-base">
                   PAYGENT
                 </span>
-                <span className="text-[11px] text-[#73766C] hidden sm:inline">
+                <span className="text-[11px] text-[#77796F] hidden sm:inline">
                   Autonomous Commerce
                 </span>
               </div>
@@ -75,11 +75,11 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
             <button
               onClick={onOpenDemo}
               title="Run Hackathon Reference Demo (⌘K)"
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#315E83] bg-[#EBF1F6] hover:bg-[#DEE8F0] border border-[#CCDCE9] transition-colors"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#28568A] bg-[#EBF1F6] hover:bg-[#DEE8F0] border border-[#BCD1E7] transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Reference Demo</span>
-              <kbd className="text-[9px] px-1 py-0.2 rounded bg-white text-[#315E83] font-mono border border-[#CCDCE9]">
+              <kbd className="text-[9px] px-1 py-0.2 rounded bg-white text-[#28568A] font-mono border border-[#BCD1E7]">
                 ⌘K
               </kbd>
             </button>
@@ -88,11 +88,11 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
             <button
               onClick={handleOpenVoice}
               title="Voice-to-Task Broker (V)"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#30332B] bg-[#EFECDF] hover:bg-[#E7E3D7] border border-[#E7E3D7] transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors"
             >
-              <Mic className="w-3.5 h-3.5 text-[#727B50]" />
+              <Mic className="w-3.5 h-3.5 text-[#344B3B]" />
               <span className="hidden md:inline">Voice Broker</span>
-              <kbd className="hidden md:inline text-[9px] px-1 py-0.2 rounded bg-[#FFFEFA] text-[#73766C] font-mono border border-[#E7E3D7]">
+              <kbd className="hidden md:inline text-[9px] px-1 py-0.2 rounded bg-[#FFFCF5] text-[#77796F] font-mono border border-[#E4DFD2]">
                 V
               </kbd>
             </button>
@@ -101,7 +101,7 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
             <button
               onClick={() => setIsTourOpen(true)}
               title="Platform Tour"
-              className="p-1.5 rounded-md text-[#73766C] hover:text-[#30332B] hover:bg-[#EFECDF] transition-colors"
+              className="p-1.5 rounded-md text-[#77796F] hover:text-[#292F29] hover:bg-[#EAE5D7] transition-colors"
             >
               <HelpCircle className="w-4 h-4" />
             </button>
@@ -109,18 +109,18 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
             {/* Primary Action: Create Project */}
             <Link
               href="/projects/new"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#727B50] hover:bg-[#616A42] transition-colors shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>New Project</span>
             </Link>
 
             {/* User Profile */}
-            <div className="flex items-center gap-2 pl-2 border-l border-[#E7E3D7] ml-1">
-              <div className="w-7 h-7 rounded-full bg-[#EFECDF] border border-[#E7E3D7] flex items-center justify-center text-[11px] font-semibold text-[#30332B]">
+            <div className="flex items-center gap-2 pl-2 border-l border-[#E4DFD2] ml-1">
+              <div className="w-7 h-7 rounded-full bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center text-[11px] font-semibold text-[#292F29]">
                 AM
               </div>
-              <span className="text-xs font-medium text-[#30332B] hidden lg:inline">
+              <span className="text-xs font-medium text-[#292F29] hidden lg:inline">
                 Alex Mercer
               </span>
             </div>

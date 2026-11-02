@@ -7,13 +7,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #F5F1E5;
-  --foreground: #30332B;
+  --background: #F3EFE3;
+  --foreground: #292F29;
 }
 
 body {
-  color: #30332B;
-  background-color: #F5F1E5;
+  color: #292F29;
+  background-color: #F3EFE3;
   font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -27,18 +27,18 @@ body {
 
 /* Institutional FinTech Minimalist Cards */
 .fintech-card {
-  background-color: #FFFEFA;
-  border: 1px solid #E7E3D7;
-  border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(48, 51, 43, 0.04);
+  background-color: #FFFCF5;
+  border: 1px solid #E4DFD2;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(41, 47, 41, 0.04);
 }
 
 .fintech-card-hover {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .fintech-card-hover:hover {
-  border-color: #C8D1A8;
-  box-shadow: 0 2px 6px rgba(48, 51, 43, 0.06);
+  border-color: #C1CEBF;
+  box-shadow: 0 2px 6px rgba(41, 47, 41, 0.06);
 }
 
 /* Custom Refined Warm Scrollbars */
@@ -47,45 +47,45 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F5F1E5;
+  background: #F3EFE3;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D8D4C7;
+  background: #D5CEBE;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C3BFB2;
+  background: #C0B7A3;
 }
 
 /* AG Grid Warm Minimalist Theme Overrides */
 .ag-theme-quartz,
 .ag-theme-quartz-dark {
-  --ag-background-color: #FFFEFA;
-  --ag-header-background-color: #EFECDF;
-  --ag-odd-row-background-color: #FFFEFA;
-  --ag-foreground-color: #30332B;
-  --ag-secondary-foreground-color: #73766C;
-  --ag-border-color: #E7E3D7;
-  --ag-row-border-color: #EFECE1;
-  --ag-row-hover-color: #F7F5EE;
-  --ag-selected-row-background-color: #F0F2E8;
-  --ag-header-cell-hover-background-color: #E7E3D7;
+  --ag-background-color: #FFFCF5;
+  --ag-header-background-color: #EAE5D7;
+  --ag-odd-row-background-color: #FFFCF5;
+  --ag-foreground-color: #292F29;
+  --ag-secondary-foreground-color: #77796F;
+  --ag-border-color: #E4DFD2;
+  --ag-row-border-color: #EEEAE0;
+  --ag-row-hover-color: #F7F4EB;
+  --ag-selected-row-background-color: #EBF1EC;
+  --ag-header-cell-hover-background-color: #E4DFD2;
   --ag-font-family: inherit;
   --ag-font-size: 12px;
   --ag-cell-horizontal-padding: 14px;
-  border-radius: 10px;
-  border: 1px solid #E7E3D7;
-  box-shadow: 0 1px 2px rgba(48, 51, 43, 0.03);
+  border-radius: 8px;
+  border: 1px solid #E4DFD2;
+  box-shadow: 0 1px 2px rgba(41, 47, 41, 0.03);
 }
 
 .ag-header-cell-text {
   font-weight: 600;
-  color: #30332B;
+  color: #292F29;
 }
 
 /* Clean Form Focus Utilities */
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: #727B50 !important;
-  box-shadow: 0 0 0 1px #727B50;
+  border-color: #344B3B !important;
+  box-shadow: 0 0 0 1px #344B3B;
 }

@@ -47,8 +47,8 @@ export default function ProjectFinancialContext({ project }: ProjectFinancialCon
       pillColor: isCaptured
         ? "bg-[#EAF3EB] text-[#27532F] border-[#CDE3D0]"
         : isAuthorized
-        ? "bg-[#EBF1F6] text-[#234968] border-[#CCDCE9]"
-        : "bg-[#EFECDF] text-[#73766C] border-[#E7E3D7]",
+        ? "bg-[#EBF1F6] text-[#234968] border-[#BCD1E7]"
+        : "bg-[#EAE5D7] text-[#77796F] border-[#E4DFD2]",
     },
     {
       label: "Allocated to Swarm",
@@ -73,15 +73,15 @@ export default function ProjectFinancialContext({ project }: ProjectFinancialCon
   ];
 
   return (
-    <div className="rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] p-3.5 shadow-subtle">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 divide-y lg:divide-y-0 lg:divide-x divide-[#EFECE1]">
+    <div className="rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] p-3.5 shadow-subtle">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 divide-y lg:divide-y-0 lg:divide-x divide-[#EEEAE0]">
         {metrics.map((m, idx) => (
           <div
             key={m.label}
             className={`${idx > 0 ? "pt-2 lg:pt-0 lg:pl-3" : ""} flex flex-col justify-between`}
           >
             <div className="flex items-center justify-between gap-1">
-              <span className="text-[10px] uppercase tracking-wider text-[#73766C] font-semibold truncate">
+              <span className="text-[10px] uppercase tracking-wider text-[#77796F] font-semibold truncate">
                 {m.label}
               </span>
               {m.pill && (
@@ -93,11 +93,11 @@ export default function ProjectFinancialContext({ project }: ProjectFinancialCon
               )}
             </div>
 
-            <div className="text-base font-semibold font-tabular text-[#30332B] mt-1">
+            <div className="text-base font-semibold font-tabular text-[#292F29] mt-1">
               {currencySymbol}{m.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
 
-            <span className="text-[10px] text-[#73766C] mt-0.5 truncate">
+            <span className="text-[10px] text-[#77796F] mt-0.5 truncate">
               {m.sublabel}
             </span>
           </div>

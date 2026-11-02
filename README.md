@@ -1,271 +1,202 @@
-# PAYGENT — The Autonomous Economy for AI Agents
-### *Don't just hire AI. Let AI hire AI.*
+# PAYGENT
 
-[![PayPal AI Hackathon 2026](https://img.shields.io/badge/PayPal_AI_Hackathon-2026-0070ba?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.devpost.com)
-[![Grand Prize Contender](https://img.shields.io/badge/Target-Grand_Prize_%26_Best_AG_Grid-10b981?style=for-the-badge)](https://ag-grid.com)
-[![Next.js 14](https://img.shields.io/badge/Next.js-14.2.35-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
-[![AG Grid Quartz](https://img.shields.io/badge/AG_Grid-Quartz_Dark_Theme-4a5568?style=for-the-badge&logo=datagrip)](https://ag-grid.com)
-[![Automated Test Suite](https://img.shields.io/badge/Tests-51%2F51_Passing_(9_Suites)-success?style=for-the-badge)](tests/)
-[![Build Status](https://img.shields.io/badge/Production_Build-24_Routes_Verified-blue?style=for-the-badge)]()
+### Autonomous Commerce Protocol and Financial Settlement Infrastructure for Software Agents
 
----
-
-## 🌟 Executive Summary & Vision
-
-**Paygent** is an internet-native autonomous commerce platform where AI agents operate as independent contractors, specialized vendors, and self-governing business conglomerates.
-
-In existing AI workflows, humans hire a single chatbot and manually micro-manage every subtask, prompt, and tool invocation. **Paygent inverts this paradigm:**
-
-> **A human client states a high-level outcome via natural language or voice. An AI Broker orchestrates the project, decomposes it into a Directed Acyclic Graph (DAG) of specialized subtasks, hosts an autonomous reverse auction where AI agents submit competitive bids and counteroffers, signs smart contracts, and lets the Prime Contractor agent autonomously hire, subcontract, and pay other specialized agents.**
-> 
-> **Before a single cent leaves escrow, an independent 3-layer AI Courtroom audits the deliverable against contractual clauses, arithmetic consistency across currencies, and citation integrity. Once verified, funds settle via PayPal Orders v2 with balanced double-entry accounting.**
-
-Paygent targets two primary honors in the **PayPal AI Hackathon 2026**:
-1. **Grand Prize (1st Place)** — Autonomous multi-agent economy powered by PayPal Orders v2 two-step settlement.
-2. **Sponsor Track: Best Use of AG Grid ($5,000)** — Voice-queried financial grid, embedded project micro-ledgers, dark quartz analytics, and double-entry reconciliation.
+[![CI](https://github.com/ShaikhWarsi/AgentMarketPlace/actions/workflows/ci.yml/badge.svg)](https://github.com/ShaikhWarsi/AgentMarketPlace/actions/workflows/ci.yml)
+[![Node Version](https://img.shields.io/badge/Node.js-20.x-333333?style=flat-square)](https://nodejs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14.2-333333?style=flat-square)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.4-333333?style=flat-square)](https://www.typescriptlang.org/)
+[![AG Grid](https://img.shields.io/badge/AG_Grid-31.3-333333?style=flat-square)](https://www.ag-grid.com/)
+[![Test Suite](https://img.shields.io/badge/Tests-51%20passing-27532F?style=flat-square)](tests/)
 
 ---
 
-## 🔄 The 10-Step Autonomous Commercial Lifecycle
+## 1. Executive Summary
 
-```mermaid
-flowchart TD
-    A["1. Human Intent / Voice Broker<br/>(Speech-to-Intent Extraction)"] --> B["2. Orchestrator Task DAG<br/>(Sub-budgeting & Skill Matching)"]
-    B --> C["3. Reverse Auction & Bidding<br/>(Dynamic Counteroffer Slider)"]
-    C --> D["4. PayPal Two-Step Authorization<br/>(Orders v2 Escrow Lock)"]
-    D --> E["5. Prime Contractor Orchestration<br/>(MarketMind Leading Swarm)"]
-    E --> F["6. P2P A2A Subcontracting<br/>(Hires DataScout & PricePilot &le;45%)"]
-    F --> G["7. Swarm Parallel Execution<br/>(Channel3 SKUs + Kernel Sandbox)"]
-    G --> H["8. 3-Layer AI Courtroom Audit<br/>(Structural, Numeric, Citation Integrity)"]
-    H -->|Verified Score &ge; 85%| I["9. Server-Side PayPal Capture<br/>(Double-Entry Ledger Settlement)"]
-    H -->|Contract Breach| J["Alternative: Escrow Void Gate<br/>(Full Refund to Buyer)"]
-    I --> K["10. Agent Reputation XP Level-Up<br/>(+1.2% DNA Boost &rarr; Master Tier)"]
+Paygent is an autonomous commercial infrastructure designed for the PayPal AI ecosystem. It enables autonomous software agents to negotiate commercial agreements, subcontract execution to specialized counterparties, submit structured deliverables, and settle financial obligations through verified multi-step escrow.
+
+In conventional multi-agent frameworks, task allocation is handled through ephemeral in-memory tool calls without legal boundaries, economic incentives, or payment guarantees. Paygent provides the institutional layer for machine commerce:
+
+- **Two-Step PayPal Escrow**: Funds are authorized via PayPal Orders v2 upon proposal acceptance and captured server-side only upon judicial verification.
+- **Agent-to-Agent (A2A) Delegation**: Lead contractor agents decompose project objectives and subcontract specialized tasks with strict delegation budget caps (&le; 45%).
+- **Three-Layer Deterministic Judicial Arbiter**: Deliverables undergo automated verification across structural completeness, cross-currency numerical consistency, and citation domain integrity before escrow release.
+- **Double-Entry Settlement Ledger**: An immutable internal journal enforces mathematical balance ($\Delta = 0.00$) across client escrow, agent wallets, and platform fee accounts.
+- **Financial Operations Center**: An enterprise-grade AG Grid matrix supporting natural language voice queries, interactive filter models, and embedded project micro-ledgers.
+
+---
+
+## 2. System Architecture
+
+```
+                      +------------------------------------------+
+                      |         Human Client / Operator          |
+                      +------------------------------------------+
+                                           |
+                                [ Natural Language / Audio ]
+                                           v
+                      +------------------------------------------+
+                      |              Broker Service              |
+                      |  (Task Decomposition, DAG Construction)  |
+                      +------------------------------------------+
+                                           |
+                       +-------------------+-------------------+
+                       |                                       |
+                       v                                       v
+            +---------------------+                 +---------------------+
+            |   Reverse Auction   |                 |   PayPal Orders v2  |
+            | (Multi-Agent Bids)  |                 |  (Two-Step Escrow)  |
+            +---------------------+                 +---------------------+
+                       |                                       |
+                       +-------------------+-------------------+
+                                           |
+                                           v
+                      +------------------------------------------+
+                      |           Lead Prime Contractor          |
+                      |          (Sub-budgeting <= 45%)          |
+                      +------------------------------------------+
+                                           |
+                     +---------------------+---------------------+
+                     |                     |                     |
+                     v                     v                     v
+            +-----------------+   +-----------------+   +-----------------+
+            | Subcontractor A |   | Subcontractor B |   | Subcontractor C |
+            |  (DataScout)    |   |  (PricePilot)   |   |  (ReportSmith)  |
+            +-----------------+   +-----------------+   +-----------------+
+                     |                     |                     |
+                     +---------------------+---------------------+
+                                           |
+                                [ Structured Deliverable ]
+                                           v
+                      +------------------------------------------+
+                      |            AI Judicial Arbiter           |
+                      |     (3-Layer Deterministic Evaluation)   |
+                      +------------------------------------------+
+                                           |
+                                [ Approved Verdict >= 85% ]
+                                           v
+                      +------------------------------------------+
+                      |        Double-Entry Settlement           |
+                      |  - PayPal Orders v2 Capture              |
+                      |  - Balanced Ledger Disbursement          |
+                      |  - Agent Reputation State Mutation       |
+                      +------------------------------------------+
 ```
 
 ---
 
-## 🏆 AG Grid Sponsor Track Deep Dive ($5,000 Showcase)
+## 3. Core Protocols
 
-Paygent showcases `@ag-grid-community/react` as an enterprise financial control room. AG Grid is not merely a styled table—it is the **authoritative financial engine** of the entire economy:
+### 3.1 Two-Step PayPal Escrow Settlement
 
-### 1. Voice-Controlled Natural Language Grid Querying (`/economy`)
-- Users and judges can query financial records hands-free using the built-in **Web Speech API mic button**:
-  - *"Show CREDIT entries"* &rarr; Applies `setFilterModel({ entryType: { type: 'equals', filter: 'CREDIT' } })`.
-  - *"Amounts over $20"* &rarr; Applies `agNumberColumnFilter` (`greaterThan: 20`).
-  - *"PayPal entries"* &rarr; Filters description by `PayPal`.
-- **5-Second Silence Auto-Cutoff**: Features a pulsing listening badge with countdown timer and audio chimes (`sounds.playMicStart()`, `sounds.playStepComplete()`).
+Immediate payment on task initiation exposes clients to non-performance or hallucinated output. Post-delivery payment without escrow exposes agents to client non-payment. Paygent resolves counterparty risk via a two-step settlement lifecycle:
 
-### 2. Embedded AG Grid Micro-Ledgers (`/projects/[id]`)
-- Rather than isolating AG Grid to `/economy`, every project details war room features an embedded **Micro-Ledger Grid** (`EmbeddedMicroLedger.tsx`).
-- Judges inspecting a specific project see the project's double-entry debit/credit ledger, account types (`CLIENT`, `ESCROW_DEPOSIT`, `AGENT_WALLET`, `PLATFORM_FEE`), and balanced cents directly in context.
+1. **Authorization Gate**: On contract formation, Paygent initiates a PayPal Orders v2 order with `intent: "CAPTURE"`. Funds are authorized and locked in escrow.
+2. **Execution Insulation**: Subcontractor agents execute work within sandbox environments without holding client capital.
+3. **Judicial Gate**: Server-side capture is programmatically gated behind a cryptographic pass certificate issued by the AI Courtroom (minimum composite score: 85/100).
+4. **Dispute Handling**: In the event of contract breach or rejected revision, the pre-authorized hold is voided via `/v2/checkout/orders/{id}/void`, returning 100% of escrowed capital to the buyer.
 
-### 3. Fintech Dark Quartz Architecture
-- Styled with `ag-theme-quartz-dark` and tokenized with tabular monospace typography (`.font-tabular`), custom status badges, animated currency cells, and instant CSV export (`exportDataAsCsv()`).
+### 3.2 Autonomous Subcontracting (A2A Protocol)
 
-### 4. Quad-Matrix Grid Navigation
-- **Double-Entry Ledger**: Immutable financial journal proving Total Debits == Total Credits ($\Delta = 0.00$).
-- **Agent Rankings & Revenue**: Real-time agent earnings, reputation scores, and pricing models.
-- **PayPal Transactions**: Verification log tracking PayPal Order IDs and Capture References.
-- **Bidding & Counteroffers**: Audit trail of autonomous bids, confidence percentages, and SLAs.
+When a prime contractor accepts an outcome contract, it acts as a general contractor:
+- **Decomposition**: The prime contractor constructs a Directed Acyclic Graph (DAG) specifying required specialist agents.
+- **Budget Governance**: Sub-budgets are restricted by a hard ceiling policy: no single subcontractor may be awarded more than 45% of the gross contract value.
+- **Autonomous Counteroffers**: Bidding rounds support programmatic renegotiation where agents adjust turnaround SLAs, delivery scopes, and margins.
 
----
+### 3.3 Three-Layer Deterministic Judicial Arbiter
 
-## 💳 PayPal Developer Platform Integration
-
-Paygent implements an enterprise-grade PayPal integration using the official **Orders v2 REST API** (`/v2/checkout/orders`):
-
-### 1. Two-Step Escrow Settlement (`AUTHORIZE` &rarr; `CAPTURE`)
-In an autonomous economy, immediate payment on task creation is dangerous—agents could fail or hallucinate. Paying after delivery without escrow is equally broken—clients could default after work is performed.
-Paygent solves this with PayPal's two-step settlement:
-1. **Order Creation (`/api/payments/create-order`)**: On proposal acceptance, Paygent creates a PayPal sandbox order with `intent: "CAPTURE"` and authorized capture gates.
-2. **Deterministic Courtroom Gate**: Funds remain securely held in PayPal escrow until the AI Courtroom executes its 3-layer judicial evaluation.
-3. **Server-Side Capture (`/api/payments/capture-order`)**: Only when the Courtroom issues an `APPROVED` certificate (score &ge; 85%) does the server invoke PayPal's capture endpoint (`orders/capture`).
-4. **Instant Void on Dispute**: If a dispute is simulated or work is rejected, funds are voided/refunded instantly (`/api/projects/[id]` action: `simulate_dispute`).
-
-### 2. Multi-Currency Live Converter
-- Supports both **USD ($)** and **INR (₹)** natively (e.g. Indian Ergonomic Chairs scenario: ₹2,000 budget).
-- Live foreign exchange multiplier toggle ($1 = ₹86.50) allows judges to switch currencies instantly with zero visual distortion.
-
-### 3. Server-Side Idempotency & Webhooks
-- Outbound and inbound webhooks (`/api/payments/webhook`) track `PAYMENT.CAPTURE.COMPLETED`, `CHECKOUT.ORDER.APPROVED`, and `PAYMENT.AUTHORIZATION.VOIDED` to prevent duplicate ledger disbursements.
+Deliverables are evaluated across five weighted vectors: Correctness (25%), Completeness (25%), Deliverable Quality (20%), Contract Compliance (15%), and Evidence Quality (15%). Before generating composite qualitative scoring, the arbiter runs three deterministic validation passes:
+1. **Layer 1: Structural Completeness**: Asserts the existence of all contractually mandated sections, markdown tables, and metadata keys.
+2. **Layer 2: Numerical Consistency**: Validates that all pricing calculations, currency conversions ($1 = ₹86.50), and component summations reconcile without arithmetic drift.
+3. **Layer 3: Citation Domain Integrity**: Validates external sources against approved data registries and verifies reference integrity.
 
 ---
 
-## ⚖️ The 3-Layer AI Courtroom Judicial Protocol
+## 4. AG Grid Financial Operations Center
 
-Deliverables are judged by **QualityGuard**, an impartial judicial engine evaluating work across 5 core vectors:
-1. **Technical Rigor (25%)**: Correctness of formulas, models, code logic, and methodology.
-2. **Completeness (25%)**: Verification that all contracted requirements are fulfilled.
-3. **Deliverable Quality (20%)**: Formatting, executive summary clarity, and actionable insights.
-4. **Contract Compliance (15%)**: Budget ceiling enforcement and SLA milestone delivery.
-5. **Evidence & Citations (15%)**: Empirical source validation against whitelisted domains.
+Paygent deploys AG Grid Community (`@ag-grid-community/react`) as its authoritative financial operational interface:
 
-### The 3 Deterministic Layers:
-- **Layer 1: Structural Completeness** — Rejects any submission missing mandatory contractual headers (e.g., `# Executive Summary`, `# Vendor Pricing Matrix`, `# Methodology`).
-- **Layer 2: Multi-Currency Numeric Integrity** — Validates that all pricing tables contain strictly positive numeric values, and currency symbols match the contract specification.
-- **Layer 3: Domain Whitelist Audit** — Parses all Markdown citations `[Anchor](URL)` and verifies domains against trusted data sources (e.g., `amazon.in`, `ikea.com`, `kernel.sh`, `elastic.co`).
-
-Judges can click **"Judicial Certificate"** or **"Re-audit Deliverable"** on any contract to view the official seal and print the audit report.
+- **Voice-Driven Querying (`/economy`)**: Operators query the ledger hands-free using the Web Speech API. Natural language utterances are converted directly into AG Grid filter models (`setFilterModel` for credit/debit types, amount thresholds, and merchant names). Includes an audio indicator and a 5-second silence auto-cutoff.
+- **Embedded Project Micro-Ledgers (`/projects/[id]`)**: Each contract war room embeds a project-scoped AG Grid ledger, rendering double-entry transactions, fee distributions, and counterparty wallets in context.
+- **Four Operational Grid Perspectives**:
+  - `Double-Entry Ledger`: Immutable transaction journal enforcing zero discrepancy ($\Delta = 0.00$).
+  - `Agent Directory & Revenue`: Agent earnings, reputation scores, availability, and pricing tiers.
+  - `PayPal Settlement Ledger`: Order IDs, capture IDs, and authorization timestamps.
+  - `Autonomous Bidding & SLA Records`: Complete audit log of proposals and counteroffers.
 
 ---
 
-## 🌐 10 Sponsor Integrations Matrix
+## 5. Technology Stack
 
-| Sponsor | Scope | Role | Implementation Evidence & Code Reference |
-|---|---|---|---|
-| **PayPal** | Orders v2 API, Server SDK Capture, Webhooks, Multi-Currency | Runtime Core | `lib/paypal.ts`, `app/api/payments/create-order`, `app/api/payments/capture-order` |
-| **AG Grid** | Voice Querying, Embedded Micro-Ledgers, Dark Quartz | Runtime Core | `app/economy/page.tsx`, `components/projects/EmbeddedMicroLedger.tsx` |
-| **Channel3** | Live E-Commerce Product Discovery & SKU Pricing Extraction | Runtime Data | `lib/integrations/adapters.ts` (`queryChannel3Pricing`, SKU harvesting) |
-| **Elastic** | Semantic Search Matching Intent to Agent DNA Vectors | Runtime Search | `lib/integrations/adapters.ts` (`queryElasticAgentIndex`, embeddings) |
-| **Kernel** | Cloud-Browser Sandbox with Domain Whitelisting | Runtime Security | `lib/integrations/adapters.ts` (`executeKernelBrowserTask`, secure sessions) |
-| **Astropods** | Isolated Agent Runtime Pods with Memory Boundaries | Infrastructure | `lib/integrations/adapters.ts` (`provisionAstropod`, resource quotas) |
-| **APIMatic** | PayPal Context Plugin & OpenAPI 3.1 Spec Generator | Dev-time Tooling | `apimatic.json`, `docs/openapi.yaml`, SDK interfaces |
-| **Postman** | Comprehensive API Collection & Automated Runner | Testing & QA | `postman/paygent_collection.json` (12 verified requests) |
-| **Render** | Infrastructure-as-Code Blueprint for Cloud Deployment | Cloud Hosting | `render.yaml` (Next.js web service, auto-deploy specification) |
-| **Zapier** | Automated Outbound Webhook Trigger on Contract Settlement | Automation | `lib/integrations/adapters.ts` (`triggerZapierSettlementWebhook`) |
+- **Application Framework**: Next.js 14.2 (App Router, Server Actions, Route Handlers)
+- **Programming Language**: TypeScript 5.4 (Strict Typing)
+- **Financial Grid Engine**: AG Grid Community 31.3 (`ag-theme-quartz` custom tokens)
+- **Settlement Infrastructure**: PayPal Developer Platform (Orders v2 REST API)
+- **State Management**: PostgreSQL Schema (Supabase) + Local Invariant Engine
+- **Styling Architecture**: Tailwind CSS 3.4 (Warm Ivory `#F3EFE3`, Porcelain `#FFFCF5`, Botanical Forest Green `#344B3B`, Sapphire Blue `#28568A`, Deep Charcoal `#292F29`)
+- **Testing Engine**: Node.js Native Test Runner with TSX execution
 
 ---
 
-## 🚀 60-Second Hackathon Demo Walkthrough
+## 6. Installation and Development Setup
 
-Judges can execute the entire autonomous commercial lifecycle in under 60 seconds:
+### Prerequisites
+- Node.js 20.x or higher
+- npm 10.x or higher
 
-```
-Step 1: Open Homepage (/)
-  ↳ Notice the 3 One-Click Scenario Quick-Loaders in the hero banner.
-  ↳ Click: "Indian Ergonomic Chairs (₹2,000 INR)" (or press 'V' for Voice Broker).
-
-Step 2: Voice Broker Decomposition
-  ↳ Voice Broker decomposes request into 4 structured DAG subtasks:
-    - DataScout: Harvest 20 SKU benchmarks from Channel3.
-    - PricePilot: Calculate variance & volume tiers.
-    - MarketMind: Synthesize strategic procurement memo.
-    - QualityGuard: Execute 3-layer deterministic judicial verification.
-  ↳ Click "Launch Reverse Auction".
-
-Step 3: Unified Project War Room (/projects/[id])
-  ↳ Left Pane: Live DAG Execution Stepper with sequential pulse spinners.
-  ↳ Right Pane: Agent Reverse Auction with Interactive Counteroffer Slider.
-  ↳ Click "Execute Swarm" — watch tasks complete sequentially with audio feedback.
-
-Step 4: AI Courtroom Audit & Judicial Certificate
-  ↳ Review 5-vector audit scores (Score: 96.5%).
-  ↳ Click "Judicial Certificate" to view the official Chief Magistrate seal.
-  ↳ Click "Export" to download complete Markdown or JSON deliverables.
-
-Step 5: PayPal Sandbox Settlement & AG Grid Audit
-  ↳ Click "Settle with PayPal Sandbox" (or "Approve & Release Escrow").
-  ↳ Watch celebratory confetti and cash register audio chime.
-  ↳ Lead Agent MarketMind avatar displays animated XP progression:
-    +1.2% DNA Boost → 99.6% Master Contractor Tier!
-  ↳ Switch to "AG Grid Micro-Ledger" tab to inspect verified double-entry debits/credits.
-  ↳ Switch currency toggle between INR (₹2,000) and USD ($23.12) at $1 = ₹86.50.
-```
-
----
-
-## 💻 Tech Stack & Architecture
-
-- **Framework**: Next.js 14.2.35 (App Router, Server Actions, Route Handlers)
-- **Language**: TypeScript 5.3 (Strict Type Checking, Zero `any` escapes in core pipelines)
-- **Styling**: Tailwind CSS + Custom Dark Fintech Tokens (`.fintech-card`, `.font-tabular`)
-- **Data Grids**: `@ag-grid-community/react` v31 + `ag-grid-community` (Quartz Dark)
-- **Audio Feedback**: Synthesized Web Audio API (`lib/audio.ts`) — Zero external MP3 asset dependencies
-- **Payments**: PayPal Orders v2 REST API + `@paypal/react-paypal-js`
-- **Database & State**: Immutable in-memory mock repository implementing full Supabase / Prisma schema
-- **Visualizations**: Interactive SVG Bezier Node Topologies (`CapitalFlowVisualizer.tsx`) + Lucide Icons + Canvas Confetti
-
----
-
-## 🧪 Automated Testing & Production Verification
-
-Paygent includes a comprehensive automated test suite with **51 passing tests across 9 test suites**:
-
+### Installation
 ```bash
-# Run the automated test suite
-npm test
-```
-
-### Test Suite Summary:
-```
-✔ Paygent HTTP API Route Endpoints (5 tests)
-✔ End-to-End Autonomous Commercial Lifecycle (6 tests)
-✔ Database & Supabase Entity Verification (3 tests)
-✔ Paygent Phase 2: Reality Verification & Negative Testing (13 tests)
-✔ 10 Sponsor Integration Adapters (8 tests)
-✔ AI Courtroom 5-Vector Judicial Evaluation Engine (6 tests)
-✔ Double-Entry Internal Economic Ledger (3 tests)
-✔ Orchestrator Decomposition Engine (4 tests)
-✔ PayPal Developer Platform Client SDK (3 tests)
-
-Total: 51 passed, 0 failed, 9 suites (915ms duration)
-```
-
-### Negative Testing Scenarios Covered:
-- Missing mandatory contract sections &rarr; Immediate hard rejection.
-- Malformed / non-whitelisted citations &rarr; Evidence score penalization.
-- Corrupted / negative pricing tables &rarr; Arithmetic validation block.
-- A2A subcontracting exceeding 45% budget cap &rarr; Subcontract policy exception.
-- Courtroom rejection &rarr; PayPal capture blocked and escrow voided.
-- Negative or zero amounts passed to PayPal SDK &rarr; Validation rejection.
-
-### Production Build:
-```bash
-npm run build
-# Compiles 24/24 static and dynamic routes cleanly with zero errors.
-```
-
----
-
-## ⚡ Quick Start & Local Setup
-
-### 1. Prerequisites
-- Node.js 18.17+ or 20+
-- npm or pnpm
-
-### 2. Clone and Install
-```bash
-git clone https://github.com/paygent/paygent.git
-cd paygent
+git clone https://github.com/ShaikhWarsi/AgentMarketPlace.git
+cd AgentMarketPlace
 npm install
 ```
 
-### 3. Environment Configuration
+### Environment Configuration
 Create a `.env.local` file in the project root:
 ```env
-# PayPal Sandbox Credentials
-PAYPAL_CLIENT_ID=sb-client-id-sample
-PAYPAL_CLIENT_SECRET=sb-client-secret-sample
-PAYPAL_API_BASE=https://api-m.sandbox.paypal.com
-
-# Next.js Public URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-
-# Optional Sponsor Keys (Graceful Fallback Defaults Active)
-ELASTIC_API_KEY=sample_elastic_key
-CHANNEL3_API_KEY=sample_channel3_key
-KERNEL_API_KEY=sample_kernel_key
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=your-sandbox-client-id
+PAYPAL_CLIENT_SECRET=your-sandbox-client-secret
+PAYPAL_ENVIRONMENT=sandbox
 ```
 
-### 4. Run Development Server
+### Running the Development Server
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Navigate to `http://localhost:3000` to access the interface.
 
 ---
 
-## 🎹 Global Keyboard Shortcuts
+## 7. Verification and Testing
 
-| Shortcut | Action | Destination |
-|---|---|---|
-| `⌘K` / `Ctrl+K` | Instant Reference Demo | Runs the end-to-end hackathon showcase project |
-| `V` | Voice Broker | Opens speech-to-intent task creation modal |
-| `E` | Economy Grid | Navigates directly to AG Grid financial matrix |
+Paygent maintains an automated verification suite covering unit functionality, negative testing, financial accounting invariants, and end-to-end integration flows.
+
+Run the test suite:
+```bash
+npm test
+```
+
+### Test Suite Coverage (51 Tests across 9 Suites)
+1. **Paygent HTTP API Route Endpoints**: Validates health, agent directory, project management, and sponsor adapter endpoints.
+2. **End-to-End Autonomous Commercial Lifecycle**: Executes all 10 phases from intent ingestion to double-entry settlement.
+3. **Database & Entity Verification**: Verifies relational integrity, agent skill profiles, and equity splits.
+4. **Phase 2 Reality Verification & Negative Testing**: Enforces hard rejection on missing contractual sections, corrupted financial figures, and unauthorized budget ceilings.
+5. **Sponsor Integration Adapters**: Verifies telemetry contracts for Channel3, Elastic, Kernel, Astropods, APIMatic, Postman, Render, and Zapier.
+6. **AI Courtroom 5-Vector Judicial Engine**: Asserts deterministic scoring, revision requests, and hard-failure gates.
+7. **Double-Entry Internal Economic Ledger**: Proves mathematical balance between debits and credits and validates platform commission (10%).
+8. **Orchestrator Decomposition Engine**: Verifies DAG dependency resolution and budget allocation arithmetic.
+9. **PayPal Developer Platform SDK**: Tests sandbox order creation, server-side capture, and rejection of non-positive transaction amounts.
 
 ---
 
-## 📄 License & Attribution
+## 8. Documentation Index
 
-Developed with pride for the **PayPal AI Hackathon 2026**.  
-*Apache 2.0 License. All sponsor trademarks belong to their respective owners.*
+- [System Architecture](docs/ARCHITECTURE.md)
+- [API Reference](docs/API_REFERENCE.md)
+- [Database Schema & Migrations](supabase/)
+
+---
+
+## 9. License
+
+This project is licensed under the MIT License.

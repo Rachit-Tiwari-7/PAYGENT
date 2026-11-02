@@ -41,7 +41,7 @@ const SEED_COMPANIES = [
     id: "cmp_apex_intelligence",
     slug: "apex-intelligence",
     name: "Apex Intelligence Corp",
-    avatar: "🏛️",
+    avatar: "AI",
     tagline: "Autonomous Strategic Research & Financial Synthesis",
     description: "Apex Intelligence is a premier autonomous agent enterprise specializing in market diligence, unit economics modeling, and competitive intelligence with verifiable audit records.",
     totalRevenue: 2450.0,
@@ -55,7 +55,7 @@ const SEED_COMPANIES = [
     id: "cmp_swarmworks",
     slug: "swarmworks-ltd",
     name: "SwarmWorks Autonomous Ltd",
-    avatar: "⚡",
+    avatar: "SW",
     tagline: "Distributed Engineering & Systems Verification Swarm",
     description: "An orchestrated conglomerate of code synthesis, security auditing, and cloud infrastructure agents executing parallel engineering deliverables.",
     totalRevenue: 3890.0,
@@ -72,7 +72,7 @@ const SEED_AGENTS = [
     id: "agt_marketmind",
     slug: "marketmind",
     name: "MarketMind",
-    avatar: "🧠",
+    avatar: "MM",
     headline: "Autonomous Market Research Lead & Competitive Strategist",
     description: "Specializes in multi-vector market sizing, competitor teardowns, target persona mapping, and commercial synthesis. Directs research teams and negotiates subcontracts autonomously.",
     category: "Research",
@@ -98,7 +98,7 @@ const SEED_AGENTS = [
     id: "agt_researchbot",
     slug: "researchbot",
     name: "ResearchBot",
-    avatar: "🔍",
+    avatar: "RB",
     headline: "Deep Web Investigator & Citation Specialist",
     description: "Rapid academic, industry, and web synthesis agent. Performs controlled cloud-browser investigations, source verification, and structured summary creation.",
     category: "Research",
@@ -124,7 +124,7 @@ const SEED_AGENTS = [
     id: "agt_datascout",
     slug: "datascout",
     name: "DataScout",
-    avatar: "📊",
+    avatar: "DS",
     headline: "Dataset Scraper & Product Feature Extractor",
     description: "High-speed extraction agent connected to Channel3 for live e-commerce product discovery, competitor pricing grids, and structured schema compilation.",
     category: "Research",
@@ -150,7 +150,7 @@ const SEED_AGENTS = [
     id: "agt_finanalyst",
     slug: "finanalyst",
     name: "FinAnalyst",
-    avatar: "📈",
+    avatar: "FA",
     headline: "Autonomous Financial Modeler & Unit Economics Auditor",
     description: "Produces audit-grade financial forecasts, pro forma P&L projections, break-even models, and PayPal transaction reconciliations with double-entry precision.",
     category: "Finance",
@@ -176,7 +176,7 @@ const SEED_AGENTS = [
     id: "agt_presentationai",
     slug: "presentationai",
     name: "PresentationAI",
-    avatar: "🎨",
+    avatar: "PA",
     headline: "Autonomous Executive Slide Deck & Narrative Architect",
     description: "Transforms dense analytical findings and financial tables into presentation outlines, slide decks, and visual executive briefs.",
     category: "Design",
@@ -202,7 +202,7 @@ const SEED_AGENTS = [
     id: "agt_codeforge",
     slug: "codeforge",
     name: "CodeForge",
-    avatar: "⚙️",
+    avatar: "CF",
     headline: "Principal Systems Architect & API Integration Agent",
     description: "Generates robust TypeScript adapters, OpenAPI specs via APIMatic, verifies Postman automated test suites, and provisions Render workflow configurations.",
     category: "Engineering",
@@ -228,7 +228,7 @@ const SEED_AGENTS = [
     id: "agt_qualityguard",
     slug: "qualityguard",
     name: "QualityGuard",
-    avatar: "⚖️",
+    avatar: "QG",
     headline: "AI Courtroom Chief Magistrate & Quality Auditor",
     description: "Independent multi-perspective deliverable evaluator. Scores deliverables across 5 dimensions: Correctness, Completeness, Quality, Contract Compliance, and Evidence Quality.",
     category: "QA",
@@ -675,17 +675,17 @@ class MemoryCollection<T extends { id?: string }> {
     if (include.bids) {
       cloned.bids = SEED_BIDS.filter((b) => b.projectId === item.id).map((b) => ({
         ...b,
-        agent: SEED_AGENTS.find((a) => a.id === b.agentId) || { name: "Agent", avatar: "🤖" },
+        agent: SEED_AGENTS.find((a) => a.id === b.agentId) || { name: "Agent", avatar: "AG" },
         negotiations: SEED_NEGOTIATIONS.filter((n) => n.bidId === b.id),
       }));
     }
     if (include.contracts) {
       cloned.contracts = SEED_CONTRACTS.filter((c) => c.projectId === item.id).map((c) => ({
         ...c,
-        leadAgent: SEED_AGENTS.find((a) => a.id === c.leadAgentId) || { name: "Lead", avatar: "🤖" },
+        leadAgent: SEED_AGENTS.find((a) => a.id === c.leadAgentId) || { name: "Lead", avatar: "LD" },
         subContracts: SEED_CONTRACTS.filter((sc) => sc.parentContractId === c.id).map((sc) => ({
           ...sc,
-          leadAgent: SEED_AGENTS.find((a) => a.id === sc.leadAgentId) || { name: "Sub", avatar: "🤖" },
+          leadAgent: SEED_AGENTS.find((a) => a.id === sc.leadAgentId) || { name: "Sub", avatar: "SB" },
         })),
         events: SEED_CONTRACT_EVENTS.filter((ce) => ce.contractId === c.id),
       }));
@@ -695,7 +695,7 @@ class MemoryCollection<T extends { id?: string }> {
       if (del) {
         cloned.deliverable = {
           ...del,
-          agent: SEED_AGENTS.find((a) => a.id === del.agentId) || { name: "Agent", avatar: "🤖" },
+          agent: SEED_AGENTS.find((a) => a.id === del.agentId) || { name: "Agent", avatar: "AG" },
           project: SEED_PROJECTS.find((p) => p.id === del.projectId) || null,
         };
       } else {
@@ -705,7 +705,7 @@ class MemoryCollection<T extends { id?: string }> {
     if (include.deliverables) {
       cloned.deliverables = SEED_DELIVERABLES.filter((d) => d.projectId === item.id || d.agentId === item.id).map((d) => ({
         ...d,
-        agent: SEED_AGENTS.find((a) => a.id === d.agentId) || { name: "Agent", avatar: "🤖" },
+        agent: SEED_AGENTS.find((a) => a.id === d.agentId) || { name: "Agent", avatar: "AG" },
         evaluations: SEED_EVALUATIONS.filter((e) => e.deliverableId === d.id),
         project: SEED_PROJECTS.find((p) => p.id === d.projectId) || null,
       }));

@@ -2,10 +2,16 @@
 
 import React, { useState } from "react";
 import {
-  ArrowRight,
-  CheckCircle2,
   Layers,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Clock,
   Lock,
+  Landmark,
+  Scale,
+  CreditCard,
+  Cpu,
 } from "lucide-react";
 
 interface NodeData {
@@ -16,13 +22,17 @@ interface NodeData {
   budget: number;
   currency: string;
   status: "completed" | "active" | "pending";
-  contractId?: string;
+  contractId: string;
   notes: string;
   type: "buyer" | "lead" | "sub" | "arbiter" | "paypal";
 }
 
 interface A2AFlowDiagramProps {
-  project: any;
+  project: {
+    budget?: number;
+    currency?: string;
+    status?: string;
+  };
 }
 
 export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
@@ -37,7 +47,7 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       id: "buyer",
       label: "Buyer Escrow",
       role: "Capital Depositor",
-      avatar: "👤",
+      avatar: "BE",
       budget: budget,
       currency: project.currency || "USD",
       status: "completed",
@@ -49,7 +59,7 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       id: "lead",
       label: "MarketMind",
       role: "Lead Prime Contractor",
-      avatar: "🧠",
+      avatar: "MM",
       budget: Math.round(budget * 0.45),
       currency: project.currency || "USD",
       status: isCompleted ? "completed" : "active",
@@ -61,7 +71,7 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       id: "sub1",
       label: "DataScout",
       role: "Data Extraction Specialist",
-      avatar: "📡",
+      avatar: "DS",
       budget: Math.round(budget * 0.25),
       currency: project.currency || "USD",
       status: isCompleted ? "completed" : "active",
@@ -73,7 +83,7 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       id: "sub2",
       label: "PricePilot",
       role: "Pricing & Variance Analyst",
-      avatar: "⚡",
+      avatar: "PP",
       budget: Math.round(budget * 0.2),
       currency: project.currency || "USD",
       status: isCompleted ? "completed" : "active",
@@ -85,7 +95,7 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       id: "sub3",
       label: "ReportSmith",
       role: "Executive Synthesizer",
-      avatar: "📊",
+      avatar: "RS",
       budget: Math.round(budget * 0.1),
       currency: project.currency || "USD",
       status: isCompleted ? "completed" : "active",
@@ -97,7 +107,7 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       id: "courtroom",
       label: "AI Courtroom",
       role: "Autonomous Judicial Arbiter",
-      avatar: "⚖️",
+      avatar: "QC",
       budget: 0,
       currency: project.currency || "USD",
       status: isCompleted ? "completed" : "active",
@@ -109,7 +119,7 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       id: "settlement",
       label: "PayPal Sandbox Settlement",
       role: "Final Double-Entry Release",
-      avatar: "💳",
+      avatar: "PS",
       budget: budget,
       currency: project.currency || "USD",
       status: isCompleted ? "completed" : "pending",
@@ -122,34 +132,34 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
   const activeNode = nodes[selectedNode] || nodes.lead;
 
   return (
-    <div className="rounded-xl bg-[#FFFEFA] border border-[#E7E3D7] p-5 space-y-4 shadow-sm">
+    <div className="rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] p-5 space-y-4 shadow-subtle">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E7E3D7] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E4DFD2] pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-lg bg-[#EFECDF] text-[#727B50] border border-[#E7E3D7]">
+          <div className="p-1.5 rounded bg-[#EAE5D7] text-[#344B3B] border border-[#E4DFD2]">
             <Layers className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-[#30332B] uppercase tracking-wider font-mono flex items-center gap-2">
+            <h3 className="text-xs font-bold text-[#292F29] uppercase tracking-wider font-mono flex items-center gap-2">
               Autonomous A2A Subcontracting & Capital Flow
-              <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-[#EFECDF] text-[#30332B] border border-[#E7E3D7]">
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
                 P2P DELEGATION
               </span>
             </h3>
-            <p className="text-[11px] text-[#73766C]">
-              Interactive node topology of decentralized agent micro-contracts and budget allocations
+            <p className="text-[11px] text-[#77796F]">
+              Deterministic topology of agent micro-contracts and budget allocations
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-[10px] font-mono text-[#73766C]">
-          <span className="flex items-center gap-1 text-[#3B6E4C]">
-            <span className="w-2 h-2 rounded-full bg-[#3B6E4C] inline-block"></span>
+        <div className="flex items-center gap-2 text-[10px] font-mono text-[#77796F]">
+          <span className="flex items-center gap-1 text-[#27532F]">
+            <span className="w-2 h-2 rounded-full bg-[#27532F] inline-block"></span>
             Settled / Active
           </span>
-          <span className="text-[#E7E3D7]">•</span>
+          <span className="text-[#E4DFD2]">•</span>
           <span className="flex items-center gap-1">
-            <Lock className="w-2.5 h-2.5 text-[#727B50] inline-block" />
+            <Lock className="w-2.5 h-2.5 text-[#344B3B] inline-block" />
             Max 45% Delegation Limit
           </span>
         </div>
@@ -159,30 +169,30 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       <div className="relative py-4 px-2 overflow-x-auto">
         <div className="min-w-[620px] flex items-center justify-between gap-3 relative">
           {/* Connector Line Backdrop */}
-          <div className="absolute top-1/2 left-8 right-8 h-0.5 bg-[#E7E3D7] -translate-y-1/2 -z-0 pointer-events-none"></div>
+          <div className="absolute top-1/2 left-8 right-8 h-0.5 bg-[#E4DFD2] -translate-y-1/2 -z-0 pointer-events-none"></div>
 
           {/* Node 1: Buyer Escrow */}
           <button
             onClick={() => setSelectedNode("buyer")}
             className={`relative z-10 flex flex-col items-center p-3 rounded-lg border transition-all text-center group ${
               selectedNode === "buyer"
-                ? "bg-[#FAF8F1] border-[#727B50] shadow-xs"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#727B50]/40"
+                ? "bg-[#EBF1EC] border-[#344B3B] shadow-subtle"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <div className="w-10 h-10 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] flex items-center justify-center text-lg mb-1">
+            <div className="w-9 h-9 rounded bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center font-mono text-xs font-bold text-[#292F29] mb-1">
               {nodes.buyer.avatar}
             </div>
-            <span className="text-xs font-bold text-[#30332B] whitespace-nowrap">{nodes.buyer.label}</span>
-            <span className="text-[10px] text-[#727B50] font-mono font-semibold">
+            <span className="text-xs font-bold text-[#292F29] whitespace-nowrap">{nodes.buyer.label}</span>
+            <span className="text-[10px] text-[#344B3B] font-mono font-semibold">
               {currencySymbol}{nodes.buyer.budget}
             </span>
-            <span className="text-[9px] text-[#73766C] uppercase mt-0.5">Authorization</span>
+            <span className="text-[9px] text-[#77796F] uppercase mt-0.5">Authorization</span>
           </button>
 
           {/* Arrow */}
-          <div className="text-[#73766C] font-mono text-xs z-10 flex items-center gap-0.5">
-            <ArrowRight className="w-3.5 h-3.5 text-[#727B50]" />
+          <div className="text-[#77796F] font-mono text-xs z-10 flex items-center gap-0.5">
+            <ArrowRight className="w-3.5 h-3.5 text-[#344B3B]" />
           </div>
 
           {/* Node 2: Lead Prime Contractor */}
@@ -190,23 +200,23 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
             onClick={() => setSelectedNode("lead")}
             className={`relative z-10 flex flex-col items-center p-3 rounded-lg border transition-all text-center group ${
               selectedNode === "lead"
-                ? "bg-[#FAF8F1] border-[#727B50] shadow-xs"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#727B50]/40"
+                ? "bg-[#EBF1EC] border-[#344B3B] shadow-subtle"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <div className="w-10 h-10 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] flex items-center justify-center text-lg mb-1">
+            <div className="w-9 h-9 rounded bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center font-mono text-xs font-bold text-[#292F29] mb-1">
               {nodes.lead.avatar}
             </div>
-            <span className="text-xs font-bold text-[#30332B] whitespace-nowrap">{nodes.lead.label}</span>
-            <span className="text-[10px] text-[#727B50] font-mono font-semibold">
+            <span className="text-xs font-bold text-[#292F29] whitespace-nowrap">{nodes.lead.label}</span>
+            <span className="text-[10px] text-[#344B3B] font-mono font-semibold">
               {currencySymbol}{nodes.lead.budget} (Lead)
             </span>
-            <span className="text-[9px] text-[#73766C] uppercase mt-0.5">Orchestrator</span>
+            <span className="text-[9px] text-[#77796F] uppercase mt-0.5">Orchestrator</span>
           </button>
 
           {/* Arrow */}
-          <div className="text-[#73766C] font-mono text-xs z-10 flex items-center gap-0.5">
-            <ArrowRight className="w-3.5 h-3.5 text-[#727B50]" />
+          <div className="text-[#77796F] font-mono text-xs z-10 flex items-center gap-0.5">
+            <ArrowRight className="w-3.5 h-3.5 text-[#344B3B]" />
           </div>
 
           {/* Subcontractor Cluster */}
@@ -220,19 +230,21 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
                   onClick={() => setSelectedNode(subKey)}
                   className={`flex items-center gap-2.5 px-3 py-1.5 rounded-lg border text-left transition-all ${
                     isSelected
-                      ? "bg-[#FAF8F1] border-[#727B50] shadow-xs"
-                      : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#727B50]/40"
+                      ? "bg-[#EBF1EC] border-[#344B3B] shadow-subtle"
+                      : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
                   }`}
                 >
-                  <span className="text-sm">{sub.avatar}</span>
+                  <span className="w-6 h-6 rounded bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center font-mono text-[10px] font-bold text-[#292F29]">
+                    {sub.avatar}
+                  </span>
                   <div>
-                    <div className="text-[11px] font-bold text-[#30332B] flex items-center gap-1.5">
+                    <div className="text-[11px] font-bold text-[#292F29] flex items-center gap-1.5">
                       <span>{sub.label}</span>
-                      <span className="text-[9px] text-[#727B50] font-mono">
+                      <span className="text-[9px] text-[#344B3B] font-mono">
                         {currencySymbol}{sub.budget}
                       </span>
                     </div>
-                    <span className="text-[9px] text-[#73766C] block leading-tight">{sub.role}</span>
+                    <span className="text-[9px] text-[#77796F] block leading-tight">{sub.role}</span>
                   </div>
                 </button>
               );
@@ -240,8 +252,8 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
           </div>
 
           {/* Arrow */}
-          <div className="text-[#73766C] font-mono text-xs z-10 flex items-center gap-0.5">
-            <ArrowRight className="w-3.5 h-3.5 text-[#727B50]" />
+          <div className="text-[#77796F] font-mono text-xs z-10 flex items-center gap-0.5">
+            <ArrowRight className="w-3.5 h-3.5 text-[#344B3B]" />
           </div>
 
           {/* Node 4: AI Courtroom */}
@@ -249,23 +261,23 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
             onClick={() => setSelectedNode("courtroom")}
             className={`relative z-10 flex flex-col items-center p-3 rounded-lg border transition-all text-center group ${
               selectedNode === "courtroom"
-                ? "bg-[#FAF8F1] border-[#727B50] shadow-xs"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#727B50]/40"
+                ? "bg-[#EBF1EC] border-[#344B3B] shadow-subtle"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <div className="w-10 h-10 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] flex items-center justify-center text-lg mb-1">
+            <div className="w-9 h-9 rounded bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center font-mono text-xs font-bold text-[#292F29] mb-1">
               {nodes.courtroom.avatar}
             </div>
-            <span className="text-xs font-bold text-[#30332B] whitespace-nowrap">{nodes.courtroom.label}</span>
+            <span className="text-xs font-bold text-[#292F29] whitespace-nowrap">{nodes.courtroom.label}</span>
             <span className="text-[10px] text-[#8C6D23] font-mono font-semibold">
               3-Layer Gate
             </span>
-            <span className="text-[9px] text-[#73766C] uppercase mt-0.5">Arbiter</span>
+            <span className="text-[9px] text-[#77796F] uppercase mt-0.5">Arbiter</span>
           </button>
 
           {/* Arrow */}
-          <div className="text-[#73766C] font-mono text-xs z-10 flex items-center gap-0.5">
-            <ArrowRight className="w-3.5 h-3.5 text-[#3B6E4C]" />
+          <div className="text-[#77796F] font-mono text-xs z-10 flex items-center gap-0.5">
+            <ArrowRight className="w-3.5 h-3.5 text-[#27532F]" />
           </div>
 
           {/* Node 5: PayPal Sandbox Settlement */}
@@ -273,49 +285,49 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
             onClick={() => setSelectedNode("settlement")}
             className={`relative z-10 flex flex-col items-center p-3 rounded-lg border transition-all text-center group ${
               selectedNode === "settlement"
-                ? "bg-[#FAF8F1] border-[#3B6E4C] shadow-xs"
-                : "bg-[#FFFEFA] border-[#E7E3D7] hover:border-[#727B50]/40"
+                ? "bg-[#EBF1EC] border-[#27532F] shadow-subtle"
+                : "bg-[#FFFCF5] border-[#E4DFD2] hover:border-[#344B3B]/40"
             }`}
           >
-            <div className="w-10 h-10 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] flex items-center justify-center text-lg mb-1">
+            <div className="w-9 h-9 rounded bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center font-mono text-xs font-bold text-[#292F29] mb-1">
               {nodes.settlement.avatar}
             </div>
-            <span className="text-xs font-bold text-[#30332B] whitespace-nowrap">PayPal Settlement</span>
-            <span className="text-[10px] text-[#3B6E4C] font-mono font-semibold">
+            <span className="text-xs font-bold text-[#292F29] whitespace-nowrap">PayPal Settlement</span>
+            <span className="text-[10px] text-[#27532F] font-mono font-semibold">
               Capture Verified
             </span>
-            <span className="text-[9px] text-[#73766C] uppercase mt-0.5">Double-Entry</span>
+            <span className="text-[9px] text-[#77796F] uppercase mt-0.5">Double-Entry</span>
           </button>
         </div>
       </div>
 
       {/* Selected Node Details Card */}
-      <div className="p-3.5 rounded-lg bg-[#FAF8F1] border border-[#E7E3D7] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+      <div className="p-3.5 rounded-lg bg-[#EAE5D7]/50 border border-[#E4DFD2] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#EFECDF] border border-[#E7E3D7] flex items-center justify-center text-base">
+          <div className="w-8 h-8 rounded bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center font-mono text-xs font-bold text-[#292F29]">
             {activeNode.avatar}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-[#30332B]">{activeNode.label}</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-[#EFECDF] text-[#30332B] border border-[#E7E3D7]">
+              <span className="font-bold text-[#292F29]">{activeNode.label}</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
                 {activeNode.contractId}
               </span>
             </div>
-            <p className="text-[11px] text-[#73766C] mt-0.5">{activeNode.notes}</p>
+            <p className="text-[11px] text-[#77796F] mt-0.5">{activeNode.notes}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto font-mono text-[11px]">
           {activeNode.budget > 0 && (
             <div className="text-right">
-              <span className="text-[9px] text-[#73766C] block uppercase">Allocated</span>
-              <span className="font-bold text-[#30332B]">
+              <span className="text-[9px] text-[#77796F] block uppercase">Allocated</span>
+              <span className="font-bold text-[#292F29]">
                 {currencySymbol}{activeNode.budget.toLocaleString()} {activeNode.currency}
               </span>
             </div>
           )}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#EAF3EB] border border-[#3B6E4C]/20 text-[#3B6E4C] font-medium">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#EAF3EB] border border-[#CDE3D0] text-[#27532F] font-medium">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span className="capitalize">{activeNode.status}</span>
           </div>

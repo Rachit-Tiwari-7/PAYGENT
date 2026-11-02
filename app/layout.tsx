@@ -26,7 +26,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-[#F5F1E5] text-[#30332B] font-sans antialiased min-h-screen flex flex-col selection:bg-[#F0F2E8] selection:text-[#30332B]">
+      <body className="bg-[#F3EFE3] text-[#292F29] font-sans antialiased min-h-screen flex flex-col selection:bg-[#F0F2E8] selection:text-[#292F29]">
         <DemoProvider>
           <EconomicTicker />
           <Navbar />

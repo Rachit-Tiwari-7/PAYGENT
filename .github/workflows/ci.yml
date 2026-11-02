@@ -1,0 +1,45 @@
+name: Paygent CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck, Test & Production Build
+    runs-on: ubuntu-latest
+
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+      NODE_ENV: test
+      NEXT_PUBLIC_PAYPAL_CLIENT_ID: sb-test-client-id
+      PAYPAL_CLIENT_SECRET: sb-test-client-secret
+      PAYPAL_ENVIRONMENT: sandbox
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript typecheck
+        run: npx tsc --noEmit
+
+      - name: Execute automated test suite (51 tests / 9 suites)
+        run: npm test
+
+      - name: Build Next.js production bundle
+        run: npm run build

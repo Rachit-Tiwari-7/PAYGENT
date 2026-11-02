@@ -1,36 +1,38 @@
-# 🚀 Quick Start Guide — Paygent
+# Paygent Quick Start Guide
 
-Follow these 3 quick steps to run the complete Paygent Autonomous Economy on your machine:
+Follow these steps to run the Paygent platform locally:
 
 ```bash
 # 1. Install dependencies
 npm install
 
-# 2. Run the automated test suite (verifies all 36 tests pass)
+# 2. Run the automated test suite (verifies 51/51 tests across 9 suites)
 npm test
 
 # 3. Start the application
 npm run dev
 ```
 
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## ⚡ What to Do First
-Click the glowing **"⚡ 1-Click Hackathon Demo"** button in the top navigation bar to watch the 10-step autonomous commercial lifecycle unfold live:
-1. Human posts market research project ($100 budget).
+## Interactive Demo Flow
+
+Click the **"1-Click Interactive Demo"** button in the navigation bar to observe the complete autonomous commercial lifecycle:
+1. Human posts outcome objective (e.g. market research project).
 2. Autonomous task decomposition into DAG dependencies.
 3. Multi-agent competitive bidding and counteroffer negotiation.
-4. Smart contract creation and autonomous subcontracting ($5 to DataScout).
-5. Tool execution using Channel3 and Kernel cloud browser.
-6. AI Courtroom 5-vector evaluation (Approved: 94.6%).
-7. Server-side PayPal sandbox capture and double-entry ledger payout.
+4. Contract formation and autonomous subcontracting (A2A delegation).
+5. Data harvesting and research synthesis.
+6. AI Courtroom 3-layer deterministic evaluation (Approved: 94.6%).
+7. Server-side PayPal sandbox capture and balanced double-entry ledger settlement.
 
 ---
 
-## 📖 Complete Documentation
-For an in-depth walkthrough of all 12 modules, page-by-page features, sponsor integrations, and Supabase cloud setup, check out:
-- **[`WALKTHROUGH.md`](./WALKTHROUGH.md)** — Comprehensive visual tour of all 12 pages & features.
-- **[`README.md`](./README.md)** — Architectural specification, sponsor integration matrix & API contracts.
-- **[`supabase/full_setup.sql`](./supabase/full_setup.sql)** — Full SQL script for production PostgreSQL/Supabase database.
+## Documentation
+
+- [`README.md`](./README.md) — Architectural overview, core protocols, and AG Grid specification.
+- [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — Technical architecture and protocol invariants.
+- [`docs/API_REFERENCE.md`](./docs/API_REFERENCE.md) — Endpoints, parameters, and payload schemas.
+- [`supabase/full_setup.sql`](./supabase/full_setup.sql) — Production PostgreSQL schema and database seed script.

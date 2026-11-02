@@ -4,7 +4,7 @@ Paygent uses **Supabase (PostgreSQL)** natively for database storage, real-time 
 
 ---
 
-## 🚀 How to Set Up Supabase in 2 Minutes
+##  How to Set Up Supabase in 2 Minutes
 
 ### Step 1: Run the Complete SQL Script in Supabase
 1. Log into your [Supabase Dashboard](https://supabase.com/dashboard).

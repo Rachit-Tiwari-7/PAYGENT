@@ -41,23 +41,23 @@ export default async function ContractsPage() {
   return (
     <div className="space-y-6 max-w-7xl">
       {/* Header Banner */}
-      <div className="p-6 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
+      <div className="p-6 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#73766C] tracking-widest block mb-1">
+          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
             [PROTOCOL 04] • 5-VECTOR JUDICIAL COURTROOM AUDITS
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#30332B] tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Contracts & AI Courtroom Verification
           </h1>
-          <p className="text-xs text-[#73766C] mt-1 max-w-xl leading-relaxed">
+          <p className="text-xs text-[#77796F] mt-1 max-w-xl leading-relaxed">
             Deliverables are evaluated across 5 verification vectors before funds are released.
             Funds remain securely held in PayPal escrow until Courtroom approval.
           </p>
         </div>
 
-        <div className="p-3 rounded-md bg-[#FAF8F1] border border-[#E7E3D7] text-right min-w-[160px] shrink-0">
-          <span className="text-[10px] text-[#73766C] block uppercase font-medium">Chief Magistrate</span>
-          <span className="text-xs font-semibold text-[#30332B] block mt-0.5">QualityGuard</span>
+        <div className="p-3 rounded-md bg-[#FFFCF5] border border-[#E4DFD2] text-right min-w-[160px] shrink-0">
+          <span className="text-[10px] text-[#77796F] block uppercase font-medium">Chief Magistrate</span>
+          <span className="text-xs font-semibold text-[#292F29] block mt-0.5">QualityGuard</span>
           <span className="text-[10px] text-[#27532F] font-medium">Deterministic SLA</span>
         </div>
       </div>
@@ -73,11 +73,11 @@ export default async function ContractsPage() {
         ].map((vec) => (
           <div
             key={vec.name}
-            className="p-3.5 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-1 shadow-subtle"
+            className="p-3.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-1 shadow-subtle"
           >
-            <span className="text-xs font-semibold text-[#30332B] block">{vec.name}</span>
-            <p className="text-[11px] text-[#73766C] leading-snug">{vec.desc}</p>
-            <span className="text-xs font-semibold font-tabular text-[#727B50] block pt-1">
+            <span className="text-xs font-semibold text-[#292F29] block">{vec.name}</span>
+            <p className="text-[11px] text-[#77796F] leading-snug">{vec.desc}</p>
+            <span className="text-xs font-semibold font-tabular text-[#344B3B] block pt-1">
               Avg: {vec.score}
             </span>
           </div>
@@ -88,9 +88,9 @@ export default async function ContractsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: AI Courtroom Verdicts */}
         <div className="lg:col-span-2 space-y-3.5">
-          <div className="flex items-center justify-between border-b border-[#EFECE1] pb-2">
-            <h2 className="text-xs font-semibold text-[#30332B] uppercase tracking-wider flex items-center gap-1.5">
-              <FileCheck className="w-4 h-4 text-[#727B50]" />
+          <div className="flex items-center justify-between border-b border-[#EEEAE0] pb-2">
+            <h2 className="text-xs font-semibold text-[#292F29] uppercase tracking-wider flex items-center gap-1.5">
+              <FileCheck className="w-4 h-4 text-[#344B3B]" />
               AI Courtroom Verdicts ({evaluations.length})
             </h2>
           </div>
@@ -105,17 +105,17 @@ export default async function ContractsPage() {
               return (
                 <div
                   key={ev.id}
-                  className="p-4 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-3 shadow-subtle hover:border-[#727B50] transition-colors"
+                  className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-3 shadow-subtle hover:border-[#344B3B] transition-colors"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-[#30332B]">{del.title}</span>
-                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EFECDF] text-[#73766C]">
+                        <span className="text-xs font-semibold text-[#292F29]">{del.title}</span>
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F]">
                           {del.agent.name}
                         </span>
                       </div>
-                      <span className="text-[11px] text-[#73766C] block mt-0.5">
+                      <span className="text-[11px] text-[#77796F] block mt-0.5">
                         Project: {del.project?.title || "Autonomous RFP"}
                       </span>
                     </div>
@@ -128,35 +128,35 @@ export default async function ContractsPage() {
                   </div>
 
                   {/* 5 Vectors Mini Strip */}
-                  <div className="grid grid-cols-5 gap-1.5 p-2 rounded bg-[#FAF8F1] border border-[#E7E3D7] text-center font-tabular text-[10px]">
+                  <div className="grid grid-cols-5 gap-1.5 p-2 rounded bg-[#FFFCF5] border border-[#E4DFD2] text-center font-tabular text-[10px]">
                     <div>
-                      <span className="text-[#73766C] block">Technical</span>
-                      <span className="text-[#30332B] font-semibold">{ev.technicalScore}%</span>
+                      <span className="text-[#77796F] block">Technical</span>
+                      <span className="text-[#292F29] font-semibold">{ev.technicalScore}%</span>
                     </div>
                     <div>
-                      <span className="text-[#73766C] block">Complete</span>
-                      <span className="text-[#30332B] font-semibold">{ev.completenessScore}%</span>
+                      <span className="text-[#77796F] block">Complete</span>
+                      <span className="text-[#292F29] font-semibold">{ev.completenessScore}%</span>
                     </div>
                     <div>
-                      <span className="text-[#73766C] block">Quality</span>
-                      <span className="text-[#30332B] font-semibold">{ev.qualityScore}%</span>
+                      <span className="text-[#77796F] block">Quality</span>
+                      <span className="text-[#292F29] font-semibold">{ev.qualityScore}%</span>
                     </div>
                     <div>
-                      <span className="text-[#73766C] block">Compliance</span>
-                      <span className="text-[#30332B] font-semibold">{ev.complianceScore}%</span>
+                      <span className="text-[#77796F] block">Compliance</span>
+                      <span className="text-[#292F29] font-semibold">{ev.complianceScore}%</span>
                     </div>
                     <div>
-                      <span className="text-[#73766C] block">Evidence</span>
-                      <span className="text-[#30332B] font-semibold">{ev.evidenceScore}%</span>
+                      <span className="text-[#77796F] block">Evidence</span>
+                      <span className="text-[#292F29] font-semibold">{ev.evidenceScore}%</span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-[#73766C] italic p-2.5 rounded bg-[#FAF8F1] border border-[#E7E3D7]">
+                  <p className="text-xs text-[#77796F] italic p-2.5 rounded bg-[#FFFCF5] border border-[#E4DFD2]">
                     &ldquo;{ev.critiqueSummary}&rdquo;
                   </p>
 
-                  <div className="flex items-center justify-between pt-1 border-t border-[#EFECE1]">
-                    <span className="text-[11px] text-[#73766C]">
+                  <div className="flex items-center justify-between pt-1 border-t border-[#EEEAE0]">
+                    <span className="text-[11px] text-[#77796F]">
                       QualityGuard Verified
                     </span>
                     <ReAuditDeliverableButton
@@ -175,9 +175,9 @@ export default async function ContractsPage() {
 
         {/* Right 1 Col: Smart Contracts */}
         <div className="space-y-3.5">
-          <div className="flex items-center justify-between border-b border-[#EFECE1] pb-2">
-            <h2 className="text-xs font-semibold text-[#30332B] uppercase tracking-wider flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#727B50]" />
+          <div className="flex items-center justify-between border-b border-[#EEEAE0] pb-2">
+            <h2 className="text-xs font-semibold text-[#292F29] uppercase tracking-wider flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-[#344B3B]" />
               Active Contracts ({contracts.length})
             </h2>
           </div>
@@ -186,23 +186,23 @@ export default async function ContractsPage() {
             {contracts.map((contract) => (
               <div
                 key={contract.id}
-                className="p-3.5 rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] space-y-2 shadow-subtle hover:border-[#727B50] transition-colors"
+                className="p-3.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-2 shadow-subtle hover:border-[#344B3B] transition-colors"
               >
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EFECDF] text-[#73766C] uppercase font-mono">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F] uppercase font-mono">
                     {contract.contractType}
                   </span>
-                  <span className="font-tabular font-semibold text-[#30332B]">
+                  <span className="font-tabular font-semibold text-[#292F29]">
                     ${contract.agreedPrice.toFixed(2)} USD
                   </span>
                 </div>
 
-                <h3 className="text-xs font-semibold text-[#30332B] leading-snug">{contract.title}</h3>
+                <h3 className="text-xs font-semibold text-[#292F29] leading-snug">{contract.title}</h3>
 
-                <div className="flex items-center justify-between text-[11px] text-[#73766C] pt-2 border-t border-[#EFECE1]">
+                <div className="flex items-center justify-between text-[11px] text-[#77796F] pt-2 border-t border-[#EEEAE0]">
                   <span className="flex items-center gap-1.5">
                     <span>{contract.leadAgent.avatar}</span>
-                    <span className="text-[#30332B] font-medium">{contract.leadAgent.name}</span>
+                    <span className="text-[#292F29] font-medium">{contract.leadAgent.name}</span>
                   </span>
                   <div className="flex items-center gap-1.5">
                     <ReAuditDeliverableButton
@@ -212,7 +212,7 @@ export default async function ContractsPage() {
                     />
                     <Link
                       href={`/projects/${contract.projectId}`}
-                      className="text-[#315E83] hover:underline flex items-center gap-0.5 text-xs font-medium"
+                      className="text-[#28568A] hover:underline flex items-center gap-0.5 text-xs font-medium"
                     >
                       <span>War Room</span>
                       <ArrowRight className="w-3 h-3" />

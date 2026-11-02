@@ -12,7 +12,7 @@ Following direct static analysis and runtime probe of the Paygent workspace, her
 
 ```mermaid
 flowchart TD
-    subgraph Working["✅ Working / Solid Foundation"]
+    subgraph Working[" Working / Solid Foundation"]
         W1["In-Memory Database Engine (lib/supabase.ts)"]
         W2["AG Grid Dashboard (app/economy/page.tsx)"]
         W3["Next.js 14 App Shell, Navigation & CSS"]
@@ -20,7 +20,7 @@ flowchart TD
         W5["Database Schema & Migration (supabase/full_setup.sql)"]
     end
 
-    subgraph Partial["⚠️ Partial / Needs Real-World Upgrade"]
+    subgraph Partial["️ Partial / Needs Real-World Upgrade"]
         P1["PayPal Integration (lib/paypal/client.ts) - Hardcoded CAPTURE, Claims Escrow"]
         P2["Orchestrator Decomposition (lib/orchestrator/engine.ts) - Regex heuristic"]
         P3["Reverse Auction (lib/orchestrator/engine.ts) - Hardcoded agent bid values"]
@@ -28,7 +28,7 @@ flowchart TD
         P5["1-Click Demo (components/demo/QuickDemoModal.tsx) - Simulated timer script"]
     end
 
-    subgraph Broken["🔴 Broken / Blocked"]
+    subgraph Broken[" Broken / Blocked"]
         B1["Test Runner ('npm test' fails due to missing tsx / uninstalled node_modules)"]
         B2["Native Node test imports (tests/unit/*.test.mjs imports .ts without loader)"]
     end
@@ -45,16 +45,16 @@ flowchart TD
 
 | Area | Verified Code Status | Real-World Finding | Verdict |
 |---|---|---|---|
-| **Package & Dependencies** | `package.json` contains Next 14, Tailwind, `@paypal/react-paypal-js`, `ag-grid-react`, `@google/generative-ai`, `zod`. | `node_modules` is not yet installed in the workspace; `tsx` is missing from system PATH. | 🔴 **Broken** (Run `npm install`) |
-| **Data Layer** | [supabase.ts](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/supabase.ts) (782 lines) has a complete in-memory mock engine with 25 entity collections, relational filters, and seed data. | Can run 100% offline or point to a live PostgreSQL/Supabase instance seamlessly. | ✅ **Working** |
-| **PayPal API** | [client.ts](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/paypal/client.ts) has OAuth2, `createPayPalOrder`, `capturePayPalOrder` with sandbox fallback. | Misrepresents Orders v2 as an escrow service. Lacks `intent: "AUTHORIZE"` / `captureAuthorization` separation and webhook signature verification. | ⚠️ **Partial** |
-| **AG Grid Integration** | [economy/page.tsx](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/app/economy/page.tsx) imports `AgGridReact`, defines 4 tabbed datasets (Ledger, Agents, Transactions, Bids), and implements CSV export. | Solid foundation, but lacks AG Studio-style conversational querying or analytical grouping. | ✅ **Working (Upgrade to P0)** |
-| **Bryntum Workforce** | [workforce/page.tsx](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/app/workforce/page.tsx) is a custom React flexbox timeline. | Bryntum npm package is not installed; this is a custom visual mockup. | ⚠️ **Partial** |
-| **Agent Decomposition** | [engine.ts](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/orchestrator/engine.ts) uses keyword matching (`includes("research")`). | Hardcoded subtasks. Must be wired to Gemini 1.5 Flash / Pro for dynamic task DAG generation. | ⚠️ **Partial** |
-| **Agent Bidding** | [engine.ts#L101-L172](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/orchestrator/engine.ts#L101-L172) generates static hardcoded bids for 4 agents. | Not dynamic based on agent capability schemas or real pricing parameters. | ⚠️ **Partial** |
-| **AI Courtroom** | Evaluator returns hardcoded scores or formulaic math without empirical validation. | Does not verify real JSON schemas, does not ping live citations, does not check file outputs. | ⚠️ **Partial** |
+| **Package & Dependencies** | `package.json` contains Next 14, Tailwind, `@paypal/react-paypal-js`, `ag-grid-react`, `@google/generative-ai`, `zod`. | `node_modules` is not yet installed in the workspace; `tsx` is missing from system PATH. |  **Broken** (Run `npm install`) |
+| **Data Layer** | [supabase.ts](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/supabase.ts) (782 lines) has a complete in-memory mock engine with 25 entity collections, relational filters, and seed data. | Can run 100% offline or point to a live PostgreSQL/Supabase instance seamlessly. |  **Working** |
+| **PayPal API** | [client.ts](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/paypal/client.ts) has OAuth2, `createPayPalOrder`, `capturePayPalOrder` with sandbox fallback. | Misrepresents Orders v2 as an escrow service. Lacks `intent: "AUTHORIZE"` / `captureAuthorization` separation and webhook signature verification. | ️ **Partial** |
+| **AG Grid Integration** | [economy/page.tsx](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/app/economy/page.tsx) imports `AgGridReact`, defines 4 tabbed datasets (Ledger, Agents, Transactions, Bids), and implements CSV export. | Solid foundation, but lacks AG Studio-style conversational querying or analytical grouping. |  **Working (Upgrade to P0)** |
+| **Bryntum Workforce** | [workforce/page.tsx](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/app/workforce/page.tsx) is a custom React flexbox timeline. | Bryntum npm package is not installed; this is a custom visual mockup. | ️ **Partial** |
+| **Agent Decomposition** | [engine.ts](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/orchestrator/engine.ts) uses keyword matching (`includes("research")`). | Hardcoded subtasks. Must be wired to Gemini 1.5 Flash / Pro for dynamic task DAG generation. | ️ **Partial** |
+| **Agent Bidding** | [engine.ts#L101-L172](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/lib/orchestrator/engine.ts#L101-L172) generates static hardcoded bids for 4 agents. | Not dynamic based on agent capability schemas or real pricing parameters. | ️ **Partial** |
+| **AI Courtroom** | Evaluator returns hardcoded scores or formulaic math without empirical validation. | Does not verify real JSON schemas, does not ping live citations, does not check file outputs. | ️ **Partial** |
 | **Voice Interface** | None present in `components/` or `app/`. | Must be built using browser Web Speech API (`webkitSpeechRecognition`) + LLM task parser. | ⭕ **Missing** |
-| **Deployment** | [render.yaml](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/render.yaml) defines a web service and worker queue. | Ready for Render deployment once build scripts pass clean. | ✅ **Working** |
+| **Deployment** | [render.yaml](file:///c:/Users/Mohammad/OneDrive/Desktop/Ac-dc/paygent/render.yaml) defines a web service and worker queue. | Ready for Render deployment once build scripts pass clean. |  **Working** |
 
 ---
 

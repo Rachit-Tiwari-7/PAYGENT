@@ -86,18 +86,18 @@ export default function LiveExecutionStepper({
   };
 
   return (
-    <div className="rounded-lg bg-[#FFFEFA] border border-[#E7E3D7] p-4 space-y-3.5 shadow-subtle">
+    <div className="rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] p-4 space-y-3.5 shadow-subtle">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#EFECE1] pb-3">
+      <div className="flex items-center justify-between border-b border-[#EEEAE0] pb-3">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-[#EFECDF] flex items-center justify-center text-[#727B50]">
+          <div className="w-6 h-6 rounded bg-[#EAE5D7] flex items-center justify-center text-[#344B3B]">
             <Layers className="w-3.5 h-3.5" />
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#30332B] uppercase tracking-wider">
+            <h3 className="text-xs font-semibold text-[#292F29] uppercase tracking-wider">
               Autonomous Execution Pipeline
             </h3>
-            <p className="text-[11px] text-[#73766C]">
+            <p className="text-[11px] text-[#77796F]">
               {completedTasks} of {totalTasks} subtasks completed ({progressPct}%)
             </p>
           </div>
@@ -107,7 +107,7 @@ export default function LiveExecutionStepper({
           <button
             onClick={onExecute}
             disabled={isExecuting}
-            className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#727B50] hover:bg-[#616A42] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             {isExecuting ? (
               <>
@@ -125,9 +125,9 @@ export default function LiveExecutionStepper({
       </div>
 
       {/* Progress Line */}
-      <div className="w-full bg-[#EFECDF] h-1.5 rounded-full overflow-hidden">
+      <div className="w-full bg-[#EAE5D7] h-1.5 rounded-full overflow-hidden">
         <div
-          className="bg-[#727B50] h-full transition-all duration-500 rounded-full"
+          className="bg-[#344B3B] h-full transition-all duration-500 rounded-full"
           style={{ width: `${progressPct}%` }}
         />
       </div>
@@ -148,10 +148,10 @@ export default function LiveExecutionStepper({
               key={task.id}
               className={`rounded-md border transition-all text-xs ${
                 isCurrent
-                  ? "bg-[#F5F1E5] border-[#727B50]"
+                  ? "bg-[#F3EFE3] border-[#344B3B]"
                   : isDone
-                  ? "bg-[#FFFEFA] border-[#E7E3D7]"
-                  : "bg-[#FFFEFA] border-[#E7E3D7]"
+                  ? "bg-[#FFFCF5] border-[#E4DFD2]"
+                  : "bg-[#FFFCF5] border-[#E4DFD2]"
               }`}
             >
               <div
@@ -162,22 +162,22 @@ export default function LiveExecutionStepper({
                   {/* Step status indicator */}
                   <div className="shrink-0">
                     {isDone ? (
-                      <CheckCircle2 className="w-4 h-4 text-[#727B50]" />
+                      <CheckCircle2 className="w-4 h-4 text-[#344B3B]" />
                     ) : isCurrent ? (
-                      <RefreshCw className="w-4 h-4 text-[#315E83] animate-spin" />
+                      <RefreshCw className="w-4 h-4 text-[#28568A] animate-spin" />
                     ) : (
-                      <Clock className="w-4 h-4 text-[#73766C]" />
+                      <Clock className="w-4 h-4 text-[#77796F]" />
                     )}
                   </div>
 
                   <div className="truncate">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-[#30332B] truncate">
+                      <span className="font-semibold text-[#292F29] truncate">
                         {idx + 1}. {task.title}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-[11px] text-[#73766C] mt-0.5">
+                    <div className="flex items-center gap-2 text-[11px] text-[#77796F] mt-0.5">
                       {task.assignedAgent && (
                         <span>
                           {task.assignedAgent.avatar} {task.assignedAgent.name}
@@ -193,22 +193,22 @@ export default function LiveExecutionStepper({
                 </div>
 
                 <div className="flex items-center gap-2.5 shrink-0">
-                  <span className="font-tabular font-semibold text-[#30332B] text-xs">
+                  <span className="font-tabular font-semibold text-[#292F29] text-xs">
                     {currencySymbol}{Number(task.allocatedAmount || task.budget).toFixed(2)}
                   </span>
                   {isExpanded ? (
-                    <ChevronDown className="w-3.5 h-3.5 text-[#73766C]" />
+                    <ChevronDown className="w-3.5 h-3.5 text-[#77796F]" />
                   ) : (
-                    <ChevronRight className="w-3.5 h-3.5 text-[#73766C]" />
+                    <ChevronRight className="w-3.5 h-3.5 text-[#77796F]" />
                   )}
                 </div>
               </div>
 
               {/* Collapsible Details */}
               {isExpanded && (
-                <div className="px-3 pb-3 pt-1 border-t border-[#EFECE1] text-[11px] text-[#73766C] space-y-2 bg-[#FAF8F1]">
+                <div className="px-3 pb-3 pt-1 border-t border-[#EEEAE0] text-[11px] text-[#77796F] space-y-2 bg-[#FFFCF5]">
                   <p className="leading-relaxed">{task.description}</p>
-                  <div className="flex items-center justify-between text-[10px] text-[#73766C] pt-1 border-t border-[#E7E3D7]/60">
+                  <div className="flex items-center justify-between text-[10px] text-[#77796F] pt-1 border-t border-[#E4DFD2]/60">
                     <span>Task ID: {task.id.slice(0, 10)}...</span>
                     <span>Status: {isDone ? "COMPLETED" : isCurrent ? "RUNNING" : "PENDING"}</span>
                   </div>

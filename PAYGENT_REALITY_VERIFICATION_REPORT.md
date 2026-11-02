@@ -73,12 +73,12 @@ To verify that Paygent fails safely and protects user funds, 6 intentional failu
 
 ```
 [TEST RUNNER] Running Negative Tests...
-✔ Negative Test 1: Missing Mandatory Sections -> Hard Failure REJECTED (0.58ms)
-✔ Negative Test 2: Broken / Malformed Citations -> Evidence Score Degraded (0.32ms)
-✔ Negative Test 3: Corrupted / Non-Positive Pricing Calculations -> Blocked (0.31ms)
-✔ Negative Test 4: Insufficient Agent Budget / A2A Policy Exceeded -> Throw Exception (0.89ms)
-✔ Negative Test 5: AI Courtroom Rejection Blocks PayPal Capture & Triggers Void (0.15ms)
-✔ Negative Test 6: PayPal Client Rejects Negative or Zero Amounts (0.29ms)
+ Negative Test 1: Missing Mandatory Sections -> Hard Failure REJECTED (0.58ms)
+ Negative Test 2: Broken / Malformed Citations -> Evidence Score Degraded (0.32ms)
+ Negative Test 3: Corrupted / Non-Positive Pricing Calculations -> Blocked (0.31ms)
+ Negative Test 4: Insufficient Agent Budget / A2A Policy Exceeded -> Throw Exception (0.89ms)
+ Negative Test 5: AI Courtroom Rejection Blocks PayPal Capture & Triggers Void (0.15ms)
+ Negative Test 6: PayPal Client Rejects Negative or Zero Amounts (0.29ms)
 ```
 
 1. **Broken / Malformed Citations**: Deliverables citing non-existent domains or malformed strings (`not-a-valid-url`, `http://malicious-fraud-site-12345.xyz`) were flagged by Layer 1 deterministic audit; Evidence vector score was penalized to $\le 60\%$.

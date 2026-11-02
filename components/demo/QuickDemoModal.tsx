@@ -136,7 +136,7 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
       particleCount: 120,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ["#727B50", "#315E83", "#8C6D23", "#3B6E4C"],
+      colors: ["#344B3B", "#28568A", "#8C6D23", "#3B6E4C"],
     });
   };
 
@@ -145,29 +145,29 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#30332B]/40 backdrop-blur-xs animate-fade-in">
-      <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#FFFEFA] border border-[#E7E3D7] rounded-xl shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#292F29]/40 backdrop-blur-xs animate-fade-in">
+      <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#FFFCF5] border border-[#E4DFD2] rounded-xl shadow-2xl flex flex-col overflow-hidden">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E7E3D7] bg-[#FAF8F1]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E4DFD2] bg-[#FFFCF5]">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-[#EFECDF] text-[#727B50] border border-[#E7E3D7]">
+            <div className="p-2 rounded-lg bg-[#EAE5D7] text-[#344B3B] border border-[#E4DFD2]">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-[#30332B] flex items-center gap-2">
+              <h2 className="text-base font-bold text-[#292F29] flex items-center gap-2">
                 1-Click Autonomous Economy Demo
-                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-md bg-[#EFECDF] text-[#30332B] border border-[#E7E3D7]">
+                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-md bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
                   PayPal AI Hackathon 2026
                 </span>
               </h2>
-              <p className="text-xs text-[#73766C]">
+              <p className="text-xs text-[#77796F]">
                 End-to-End Simulation: Project → Bids → Negotiation → Subcontracting → AI Courtroom → PayPal Sandbox → Ledger
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#73766C] hover:text-[#30332B] hover:bg-[#EFECDF] transition-colors"
+            className="p-1.5 rounded-lg text-[#77796F] hover:text-[#292F29] hover:bg-[#EAE5D7] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -176,25 +176,25 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto flex-1 space-y-4">
           {/* Demo Scenario Summary Card */}
-          <div className="p-4 rounded-xl bg-[#FAF8F1] border border-[#E7E3D7] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="p-4 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#727B50] font-mono">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#344B3B] font-mono">
                 Autonomous Commercial Scenario
               </span>
-              <h3 className="text-sm font-bold text-[#30332B] mt-0.5">
+              <h3 className="text-sm font-bold text-[#292F29] mt-0.5">
                 Startup Market Research, Competitor Pricing & Financial Projections
               </h3>
-              <p className="text-xs text-[#73766C] mt-1 font-mono">
-                Budget: <span className="text-[#30332B] font-bold">$100.00 USD</span> | Lead Agent:{" "}
-                <span className="text-[#315E83] font-medium">MarketMind</span> | Subcontractor:{" "}
-                <span className="text-[#727B50] font-medium">DataScout</span>
+              <p className="text-xs text-[#77796F] mt-1 font-mono">
+                Budget: <span className="text-[#292F29] font-bold">$100.00 USD</span> | Lead Agent:{" "}
+                <span className="text-[#28568A] font-medium">MarketMind</span> | Subcontractor:{" "}
+                <span className="text-[#344B3B] font-medium">DataScout</span>
               </p>
             </div>
 
             {!isRunning && !isAllComplete && (
               <button
                 onClick={startDemo}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#727B50] hover:bg-[#616A42] transition-colors shadow-xs"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-xs"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Launch Autonomous Cycle</span>
@@ -202,8 +202,8 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             )}
 
             {isRunning && (
-              <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#EFECDF] border border-[#E7E3D7] text-[#30332B] text-xs font-medium">
-                <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#727B50]" />
+              <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#EAE5D7] border border-[#E4DFD2] text-[#292F29] text-xs font-medium">
+                <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#344B3B]" />
                 <span>Simulating Autonomous Swarm...</span>
               </div>
             )}
@@ -211,9 +211,9 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             {isAllComplete && (
               <button
                 onClick={startDemo}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-[#30332B] bg-[#EFECDF] hover:bg-[#E7E3D7] border border-[#E7E3D7] transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors"
               >
-                <RefreshCw className="w-3.5 h-3.5 text-[#727B50]" />
+                <RefreshCw className="w-3.5 h-3.5 text-[#344B3B]" />
                 <span>Re-run Cycle</span>
               </button>
             )}
@@ -230,10 +230,10 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
                   key={step.step}
                   className={`p-3 rounded-lg border transition-colors ${
                     isCurrent
-                      ? "bg-[#EFECDF] border-[#727B50] text-[#30332B]"
+                      ? "bg-[#EAE5D7] border-[#344B3B] text-[#292F29]"
                       : isCompleted
-                      ? "bg-[#EAF3EB] border-[#3B6E4C]/30 text-[#30332B]"
-                      : "bg-[#FAF8F1] border-[#E7E3D7] opacity-60 text-[#73766C]"
+                      ? "bg-[#EAF3EB] border-[#3B6E4C]/30 text-[#292F29]"
+                      : "bg-[#FFFCF5] border-[#E4DFD2] opacity-60 text-[#77796F]"
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -241,9 +241,9 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
                       {isCompleted ? (
                         <CheckCircle2 className="w-4 h-4 text-[#3B6E4C]" />
                       ) : isCurrent ? (
-                        <RefreshCw className="w-4 h-4 text-[#727B50] animate-spin" />
+                        <RefreshCw className="w-4 h-4 text-[#344B3B] animate-spin" />
                       ) : (
-                        <div className="w-4 h-4 rounded-full border border-[#E7E3D7] flex items-center justify-center text-[10px] font-mono text-[#73766C]">
+                        <div className="w-4 h-4 rounded-full border border-[#E4DFD2] flex items-center justify-center text-[10px] font-mono text-[#77796F]">
                           {step.step}
                         </div>
                       )}
@@ -251,14 +251,14 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
 
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-[#30332B] flex items-center gap-2">
+                        <span className="text-xs font-semibold text-[#292F29] flex items-center gap-2">
                           Step {step.step}: {step.title}
                         </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EFECDF] text-[#73766C] border border-[#E7E3D7]">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EAE5D7] text-[#77796F] border border-[#E4DFD2]">
                           {step.actor}
                         </span>
                       </div>
-                      <p className="text-xs text-[#73766C] mt-1 leading-relaxed">{step.details}</p>
+                      <p className="text-xs text-[#77796F] mt-1 leading-relaxed">{step.details}</p>
                     </div>
                   </div>
                 </div>
@@ -268,8 +268,8 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
         </div>
 
         {/* Modal Footer with Direct Jump Links */}
-        <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-t border-[#E7E3D7] bg-[#FAF8F1] gap-3">
-          <div className="text-xs text-[#73766C] flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-t border-[#E4DFD2] bg-[#FFFCF5] gap-3">
+          <div className="text-xs text-[#77796F] flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-[#3B6E4C]" />
             <span>Audited by QualityGuard & Reconciled via Double-Entry Ledger</span>
           </div>
@@ -278,25 +278,25 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             <Link
               href="/command-center"
               onClick={onClose}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#30332B] bg-[#EFECDF] border border-[#E7E3D7] hover:bg-[#E7E3D7] transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#292F29] bg-[#EAE5D7] border border-[#E4DFD2] hover:bg-[#E4DFD2] transition-colors"
             >
-              <Terminal className="w-3.5 h-3.5 text-[#727B50]" />
+              <Terminal className="w-3.5 h-3.5 text-[#344B3B]" />
               <span>Command Center</span>
             </Link>
 
             <Link
               href="/economy"
               onClick={onClose}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#30332B] bg-[#EFECDF] border border-[#E7E3D7] hover:bg-[#E7E3D7] transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#292F29] bg-[#EAE5D7] border border-[#E4DFD2] hover:bg-[#E4DFD2] transition-colors"
             >
-              <Table2 className="w-3.5 h-3.5 text-[#315E83]" />
+              <Table2 className="w-3.5 h-3.5 text-[#28568A]" />
               <span>AG Grid Ledger</span>
             </Link>
 
             <Link
               href="/workforce"
               onClick={onClose}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#30332B] bg-[#EFECDF] border border-[#E7E3D7] hover:bg-[#E7E3D7] transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#292F29] bg-[#EAE5D7] border border-[#E4DFD2] hover:bg-[#E4DFD2] transition-colors"
             >
               <CalendarDays className="w-3.5 h-3.5 text-[#8C6D23]" />
               <span>Workforce Gantt</span>
