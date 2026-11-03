@@ -247,7 +247,7 @@ export default function DeliverableToolbar({
                 <span className="text-[11px] text-[#77796F]">Audit Ref: QG-DET-2026-V3</span>
                 <button
                   onClick={() => window.print()}
-                  className="px-3.5 py-1.5 rounded-md bg-[#344B3B] hover:bg-[#616A42] text-white text-xs font-medium transition-colors inline-flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-md bg-[#344B3B] hover:bg-[#273A2D] text-white text-xs font-medium transition-colors inline-flex items-center gap-1.5"
                 >
                   <Printer className="w-3.5 h-3.5" />
                   <span>Print Certificate</span>

@@ -7,7 +7,6 @@ import { sounds } from "@/lib/audio";
 
 interface Scenario {
   id: string;
-  code: string;
   label: string;
   title: string;
   description: string;
@@ -22,7 +21,6 @@ interface Scenario {
 const PRESET_SCENARIOS: Scenario[] = [
   {
     id: "chairs-india",
-    code: "SCN-01",
     label: "Commerce & SKU Intelligence",
     title: "Indian Ergonomic Chair Benchmark",
     description: "Channel3 multi-vendor SKU extraction, variance modeling, and delivery matrix under ₹10,000 threshold.",
@@ -35,7 +33,6 @@ const PRESET_SCENARIOS: Scenario[] = [
   },
   {
     id: "saas-pricing",
-    code: "SCN-02",
     label: "Pricing & Unit Economics",
     title: "AI Agent Startup Tier Economics",
     description: "Cross-platform competitive SaaS pricing teardown, gross margin sensitivity, and CAC estimation.",
@@ -48,7 +45,6 @@ const PRESET_SCENARIOS: Scenario[] = [
   },
   {
     id: "fintech-audit",
-    code: "SCN-03",
     label: "Judicial Ledger Reconciliation",
     title: "PayPal Escrow Settlement Model",
     description: "Two-step Orders v2 authorization, 5-vector courtroom quality audit, and double-entry ledger capture.",
@@ -98,17 +94,14 @@ export default function ScenarioQuickLoaders() {
   return (
     <div className="space-y-3">
       <div className="flex items-baseline justify-between border-b border-[#E4DFD2] pb-2">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-[#77796F]">
-            [PRE-CALIBRATED BENCHMARKS]
-          </span>
-          <span className="text-[#D8D4C7]">•</span>
-          <span className="font-serif italic text-xs text-[#77796F]">1-Click Verification Scenarios</span>
+        <div>
+          <h3 className="font-serif text-sm font-medium text-[#292F29]">Pre-Configured Scenarios</h3>
+          <p className="text-xs text-[#77796F]">One-click autonomous commerce and verification workflows</p>
         </div>
-        <span className="font-mono text-[10px] text-[#A0A29A]">AUTONOMOUS SWARM TEMPLATES</span>
+        <span className="text-xs text-[#77796F] font-sans">Ready to dispatch</span>
       </div>
 
-      {/* Unified 3-Column Architectural Ledger Surface */}
+      {/* 3-Column Ledger Surface */}
       <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#E4DFD2] bg-[#FFFCF5] border border-[#E4DFD2] rounded-lg shadow-subtle overflow-hidden">
         {PRESET_SCENARIOS.map((scenario) => {
           const isLoading = loadingId === scenario.id;
@@ -117,17 +110,19 @@ export default function ScenarioQuickLoaders() {
               key={scenario.id}
               onClick={() => handleLaunch(scenario)}
               disabled={Boolean(loadingId)}
-              className="group text-left p-4 sm:p-5 flex flex-col justify-between hover:bg-[#FFFCF5] transition-colors disabled:opacity-50"
+              className="group text-left p-4 sm:p-5 flex flex-col justify-between hover:bg-[#F9F6ED] transition-colors disabled:opacity-50"
             >
               <div className="space-y-2">
-                <div className="flex items-center justify-between font-mono text-[10px]">
-                  <span className="text-[#344B3B] font-semibold">{scenario.code}</span>
-                  <span className="text-[#292F29] font-medium px-1.5 py-0.5 rounded bg-[#EAE5D7] border border-[#E4DFD2]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-medium text-[#344B3B] bg-[#EBF1EC] px-2 py-0.5 rounded">
+                    {scenario.category}
+                  </span>
+                  <span className="text-xs font-mono font-medium text-[#292F29] px-2 py-0.5 rounded bg-[#F3EFE3] border border-[#E4DFD2]">
                     {scenario.currencySymbol}{scenario.budget.toLocaleString()} {scenario.currency}
                   </span>
                 </div>
 
-                <div className="text-[10px] font-mono uppercase tracking-wider text-[#77796F]">
+                <div className="text-[11px] text-[#77796F]">
                   {scenario.label}
                 </div>
 
@@ -140,14 +135,14 @@ export default function ScenarioQuickLoaders() {
                 </p>
               </div>
 
-              <div className="pt-4 mt-3 border-t border-[#EEEAE0] flex items-center justify-between text-[11px] font-mono">
-                <div className="text-[#77796F]">
-                  <span className="text-[#292F29]">{scenario.leadAgent}</span>
+              <div className="pt-4 mt-3 border-t border-[#EEEAE0] flex items-center justify-between text-[11px]">
+                <div className="text-[#77796F] font-sans">
+                  <span className="text-[#292F29] font-medium">{scenario.leadAgent}</span>
                   <span className="text-[#D8D4C7]"> → </span>
-                  <span className="text-[#28568A]">{scenario.subAgent}</span>
+                  <span className="text-[#28568A] font-medium">{scenario.subAgent}</span>
                 </div>
 
-                <span className="text-[#344B3B] font-sans font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span className="text-[#344B3B] font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   {isLoading ? (
                     <RefreshCw className="w-3 h-3 animate-spin" />
                   ) : (

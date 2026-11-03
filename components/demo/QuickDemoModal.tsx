@@ -194,7 +194,7 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             {!isRunning && !isAllComplete && (
               <button
                 onClick={startDemo}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-xs"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-xs"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Launch Autonomous Cycle</span>

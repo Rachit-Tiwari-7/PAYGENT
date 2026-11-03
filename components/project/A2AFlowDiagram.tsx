@@ -136,15 +136,12 @@ export default function A2AFlowDiagram({ project }: A2AFlowDiagramProps) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E4DFD2] pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded bg-[#EAE5D7] text-[#344B3B] border border-[#E4DFD2]">
+          <div className="p-1.5 rounded bg-[#EBF1EC] text-[#344B3B] border border-[#D5E2D8]">
             <Layers className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-[#292F29] uppercase tracking-wider font-mono flex items-center gap-2">
-              Autonomous A2A Subcontracting & Capital Flow
-              <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
-                P2P DELEGATION
-              </span>
+            <h3 className="text-xs font-semibold text-[#292F29] tracking-tight flex items-center gap-2 font-sans">
+              Autonomous Subcontracting & Capital Flow
             </h3>
             <p className="text-[11px] text-[#77796F]">
               Deterministic topology of agent micro-contracts and budget allocations

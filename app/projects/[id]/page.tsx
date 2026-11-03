@@ -360,7 +360,7 @@ export default function UnifiedProjectWarRoomPage() {
             <button
               onClick={handleExecute}
               disabled={actionLoading}
-              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
             >
               {actionLoading ? (
                 <>
@@ -380,7 +380,7 @@ export default function UnifiedProjectWarRoomPage() {
             <button
               onClick={handlePayPalCheckout}
               disabled={payingLoading}
-              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#28568A] hover:bg-[#264B6A] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#28568A] hover:bg-[#1F436D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
             >
               {payingLoading ? (
                 <>
@@ -400,7 +400,7 @@ export default function UnifiedProjectWarRoomPage() {
             <button
               onClick={handleApprove}
               disabled={actionLoading}
-              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
             >
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>Approve & Release</span>
@@ -467,11 +467,10 @@ export default function UnifiedProjectWarRoomPage() {
                 key: "capital_flow",
                 label: "Capital Flow",
                 icon: Layers,
-                badge: "P2P",
               },
               {
                 key: "ledger",
-                label: "AG Grid Micro-Ledger",
+                label: "Micro-Ledger",
                 icon: Table2,
                 count: project.ledgerEntries?.length,
               },
@@ -496,19 +495,19 @@ export default function UnifiedProjectWarRoomPage() {
                   onClick={() => setActiveWorkspaceTab(tab.key as any)}
                   className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap flex items-center gap-1.5 ${
                     isActive
-                      ? "bg-[#EAE5D7] text-[#292F29] font-semibold border border-[#E4DFD2]"
+                      ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border border-[#D5E2D8]"
                       : "text-[#77796F] hover:text-[#292F29] hover:bg-[#F3EFE3]"
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? "text-[#344B3B]" : "text-[#77796F]"}`} />
                   <span>{tab.label}</span>
                   {tab.count !== undefined && (
-                    <span className="text-[10px] px-1 py-0.2 rounded bg-[#E4DFD2] text-[#292F29] font-tabular">
+                    <span className={`text-[10px] px-1 py-0.2 rounded font-tabular ${isActive ? "bg-[#D5E2D8] text-[#344B3B]" : "bg-[#E4DFD2] text-[#292F29]"}`}>
                       {tab.count}
                     </span>
                   )}
                   {tab.badge && (
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#EAF3EB] text-[#27532F]">
+                    <span className={`text-[9.5px] px-1.5 py-0.2 rounded font-medium ${isActive ? "bg-[#344B3B] text-white" : "bg-[#28568A] text-white"}`}>
                       {tab.badge}
                     </span>
                   )}
@@ -805,7 +804,7 @@ export default function UnifiedProjectWarRoomPage() {
                           <button
                             onClick={() => handleAcceptBid(bid.id)}
                             disabled={actionLoading}
-                            className="mt-1.5 px-2.5 py-1 rounded bg-[#344B3B] hover:bg-[#616A42] text-white text-[11px] font-medium transition-colors disabled:opacity-50"
+                            className="mt-1.5 px-2.5 py-1 rounded bg-[#344B3B] hover:bg-[#273A2D] text-white text-[11px] font-medium transition-colors disabled:opacity-50"
                           >
                             Accept Proposal
                           </button>

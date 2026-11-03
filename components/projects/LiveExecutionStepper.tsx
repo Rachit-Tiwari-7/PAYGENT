@@ -107,7 +107,7 @@ export default function LiveExecutionStepper({
           <button
             onClick={onExecute}
             disabled={isExecuting}
-            className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             {isExecuting ? (
               <>

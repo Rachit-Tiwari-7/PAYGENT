@@ -43,8 +43,8 @@ export default async function ContractsPage() {
       {/* Header Banner */}
       <div className="p-6 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [PROTOCOL 04] • 5-VECTOR JUDICIAL COURTROOM AUDITS
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            Autonomous Verification Gateway • 5-Vector QualityGuard
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Contracts & AI Courtroom Verification

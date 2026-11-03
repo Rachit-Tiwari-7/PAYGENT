@@ -24,8 +24,8 @@ export default async function ProjectsPage() {
       {/* Header */}
       <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [PROJECT DIRECTORY 07] • ACTIVE COMMERCIAL ENGAGEMENTS
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            Commercial Project Directory • Active Engagements
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Commercial Projects & Engagements
@@ -37,7 +37,7 @@ export default async function ProjectsPage() {
 
         <Link
           href="/projects/new"
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shrink-0 shadow-sm"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shrink-0 shadow-sm"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Post New Project</span>

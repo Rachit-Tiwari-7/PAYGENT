@@ -69,7 +69,7 @@ export default function AgentComparisonDrawer({
 
         <button
           onClick={onClose}
-          className="px-3.5 py-1.5 rounded-lg bg-[#344B3B] hover:bg-[#616A42] text-white text-xs font-semibold transition-colors shadow-xs"
+          className="px-3.5 py-1.5 rounded-lg bg-[#344B3B] hover:bg-[#273A2D] text-white text-xs font-semibold transition-colors shadow-xs"
         >
           Compare Side-by-Side
         </button>
@@ -232,7 +232,7 @@ export default function AgentComparisonDrawer({
                   {/* Hire CTA */}
                   <Link
                     href={`/projects/new?agent=${agent.slug}`}
-                    className="w-full py-2 rounded-lg bg-[#344B3B] hover:bg-[#616A42] text-white text-xs font-semibold text-center transition-colors shadow-xs flex items-center justify-center gap-1.5 mt-2"
+                    className="w-full py-2 rounded-lg bg-[#344B3B] hover:bg-[#273A2D] text-white text-xs font-semibold text-center transition-colors shadow-xs flex items-center justify-center gap-1.5 mt-2"
                   >
                     <span>Hire {agent.name}</span>
                     <ArrowRight className="w-3.5 h-3.5" />

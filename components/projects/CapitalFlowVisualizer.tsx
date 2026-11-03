@@ -146,18 +146,15 @@ export default function CapitalFlowVisualizer({ project }: CapitalFlowVisualizer
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E4DFD2] pb-3">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-[#EAE5D7] flex items-center justify-center text-[#344B3B]">
+          <div className="w-6 h-6 rounded bg-[#EBF1EC] flex items-center justify-center text-[#344B3B]">
             <Layers className="w-3.5 h-3.5" />
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#292F29] uppercase tracking-wider flex items-center gap-2">
-              Autonomous A2A Capital Flow
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F]">
-                P2P Delegation
-              </span>
+            <h3 className="text-xs font-semibold text-[#292F29] tracking-tight">
+              Autonomous Capital Flow & Escrow Topology
             </h3>
             <p className="text-[11px] text-[#77796F]">
-              Financial topology tracking capital disbursement from PayPal sandbox through agent subcontracting
+              Disbursement trail from PayPal sandbox authorization to verified agent wallets
             </p>
           </div>
         </div>

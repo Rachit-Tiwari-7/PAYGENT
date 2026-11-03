@@ -30,14 +30,12 @@ interface NavItem {
 
 interface NavSection {
   title: string;
-  code: string;
   items: NavItem[];
 }
 
 const NAV_SECTIONS: NavSection[] = [
   {
     title: "Workspace",
-    code: "01",
     items: [
       { name: "Overview", href: "/", icon: LayoutDashboard },
       { name: "Projects", href: "/projects", icon: FolderKanban },
@@ -46,7 +44,6 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: "Economy",
-    code: "02",
     items: [
       { name: "Financial Matrix", href: "/economy", icon: Table2 },
       { name: "Transactions", href: "/economy?tab=transactions", icon: ArrowRightLeft },
@@ -55,7 +52,6 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: "Infrastructure",
-    code: "03",
     items: [
       { name: "Command Center", href: "/command-center", icon: Terminal },
       { name: "Workforce Gantt", href: "/workforce", icon: CalendarDays },
@@ -83,9 +79,8 @@ export function Sidebar() {
       <div className="flex-1 p-3.5 space-y-6">
         {NAV_SECTIONS.map((section) => (
           <div key={section.title} className="space-y-1">
-            <div className="flex items-center justify-between px-2.5 py-1 text-[9.5px] font-mono uppercase tracking-widest text-[#77796F]">
-              <span>{section.title}</span>
-              <span className="text-[#A0A29A]">[{section.code}]</span>
+            <div className="px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-[#77796F]">
+              {section.title}
             </div>
 
             {section.items.map((item) => {
@@ -103,8 +98,8 @@ export function Sidebar() {
                   className={cn(
                     "group flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-[#EAE5D7] text-[#292F29] font-semibold border border-[#E4DFD2]"
-                      : "text-[#77796F] hover:text-[#292F29] hover:bg-[#F3EFE3]"
+                      ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border-l-2 border-[#344B3B]"
+                      : "text-[#5A5C52] hover:text-[#292F29] hover:bg-[#F3EFE3]"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
@@ -118,7 +113,7 @@ export function Sidebar() {
                   </div>
 
                   {item.badge && (
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F] font-mono">
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EBF1EC] text-[#344B3B] font-mono">
                       {item.badge}
                     </span>
                   )}
@@ -132,7 +127,7 @@ export function Sidebar() {
         <div className="pt-2 border-t border-[#E4DFD2] space-y-1">
           <button
             onClick={() => setShowExtended(!showExtended)}
-            className="w-full flex items-center justify-between px-2.5 py-1 text-[9.5px] font-mono uppercase tracking-widest text-[#77796F] hover:text-[#292F29] transition-colors"
+            className="w-full flex items-center justify-between px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-[#77796F] hover:text-[#292F29] transition-colors"
           >
             <span>Additional Tools</span>
             {showExtended || isExtendedActive ? (
@@ -154,8 +149,8 @@ export function Sidebar() {
                     className={cn(
                       "group flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors",
                       isActive
-                        ? "bg-[#EAE5D7] text-[#292F29] font-semibold border border-[#E4DFD2]"
-                        : "text-[#77796F] hover:text-[#292F29] hover:bg-[#F3EFE3]"
+                        ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border-l-2 border-[#344B3B]"
+                        : "text-[#5A5C52] hover:text-[#292F29] hover:bg-[#F3EFE3]"
                     )}
                   >
                     <div className="flex items-center gap-2.5">
@@ -175,13 +170,13 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Industrial Machine Telemetry Footer */}
-      <div className="p-3 border-t border-[#E4DFD2] bg-[#FFFCF5] text-[10px] font-mono text-[#77796F] flex items-center justify-between">
+      {/* Footer */}
+      <div className="p-3 border-t border-[#E4DFD2] bg-[#FFFCF5] text-xs text-[#77796F] flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#344B3B]" />
-          <span>PAYPAL_V2: OK</span>
+          <span className="w-2 h-2 rounded-full bg-[#344B3B]" />
+          <span className="font-medium text-[#292F29] text-[11px]">PayPal Sandbox</span>
         </div>
-        <span className="text-[#A0A29A]">REV. 2026.4</span>
+        <span className="font-mono text-[10px] text-[#77796F]">v1.2.0</span>
       </div>
     </aside>
   );

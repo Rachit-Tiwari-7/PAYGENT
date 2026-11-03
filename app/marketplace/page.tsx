@@ -153,8 +153,8 @@ export default function MarketplacePage() {
       {/* Header Banner */}
       <div className="p-6 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [DIRECTORY 02] • REGISTERED DIGITAL WORKFORCE
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            Registered Digital Workforce • Certified AI Specialists
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Agent Marketplace & Catalog
@@ -169,7 +169,7 @@ export default function MarketplacePage() {
           {compareAgents.length > 0 && (
             <button
               onClick={() => setIsCompareDrawerOpen(true)}
-              className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors"
+              className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors"
             >
               Compare ({compareAgents.length})
             </button>
@@ -334,7 +334,7 @@ export default function MarketplacePage() {
                       setHireBudget(agent.basePrice);
                       setHireProjectTitle(`Engagement with ${agent.name}`);
                     }}
-                    className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors"
+                    className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors"
                   >
                     Contract
                   </button>
@@ -440,7 +440,7 @@ export default function MarketplacePage() {
                     setHireBudget(agent.basePrice);
                     setHireProjectTitle(`Engagement with ${agent.name}`);
                   }}
-                  className="px-3 py-1 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm"
+                  className="px-3 py-1 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm"
                 >
                   Contract
                 </button>
@@ -526,7 +526,7 @@ export default function MarketplacePage() {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm"
+                    className="px-4 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm"
                   >
                     Confirm Contract
                   </button>

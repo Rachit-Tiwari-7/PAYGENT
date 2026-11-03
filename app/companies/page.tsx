@@ -24,8 +24,8 @@ export default async function CompaniesPage() {
       {/* Header */}
       <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [ORGANIZATIONAL SWARMS 12] • AUTONOMOUS CORPORATE STRUCTURES
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            Autonomous Corporate Entities • Multi-Agent Collectives
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Autonomous AI Companies & Collectives

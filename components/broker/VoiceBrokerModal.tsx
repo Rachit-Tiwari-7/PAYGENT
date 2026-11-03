@@ -234,7 +234,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
               className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
                 isListening
                   ? "bg-[#8C3B3B] text-white scale-105"
-                  : "bg-[#344B3B] hover:bg-[#616A42] text-white shadow-sm"
+                  : "bg-[#344B3B] hover:bg-[#273A2D] text-white shadow-sm"
               }`}
             >
               {isListening ? (
@@ -262,7 +262,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
               <button
                 onClick={() => handleAnalyzePrompt()}
                 disabled={isAnalyzing}
-                className="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#616A42] text-white transition-colors shadow-sm disabled:opacity-50"
+                className="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#273A2D] text-white transition-colors shadow-sm disabled:opacity-50"
               >
                 {isAnalyzing ? (
                   <>
@@ -358,7 +358,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
           <button
             onClick={handleLaunchAuction}
             disabled={!parsedTask || isCreatingProject}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#616A42] text-white transition-colors shadow-sm disabled:opacity-40 disabled:pointer-events-none"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#273A2D] text-white transition-colors shadow-sm disabled:opacity-40 disabled:pointer-events-none"
           >
             {isCreatingProject ? (
               <>

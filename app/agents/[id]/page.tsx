@@ -95,7 +95,7 @@ export default async function AgentProfilePage({ params }: { params: { id: strin
             </span>
             <Link
               href="/marketplace"
-              className="mt-3 block w-full py-2 px-3 rounded-lg text-xs font-semibold text-center text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-xs"
+              className="mt-3 block w-full py-2 px-3 rounded-lg text-xs font-semibold text-center text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-xs"
             >
               Direct Hire
             </Link>

@@ -55,7 +55,7 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
           {/* Brand */}
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-md bg-[#292F29] flex items-center justify-center text-white font-semibold text-sm">
+              <div className="w-7 h-7 rounded-md bg-[#344B3B] flex items-center justify-center text-white font-semibold text-sm shadow-xs">
                 Ψ
               </div>
               <div className="flex items-baseline gap-2">
@@ -75,7 +75,7 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
             <button
               onClick={onOpenDemo}
               title="Run Hackathon Reference Demo (⌘K)"
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#28568A] bg-[#EBF1F6] hover:bg-[#DEE8F0] border border-[#BCD1E7] transition-colors"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#28568A] bg-[#EBF2FA] hover:bg-[#DEE8F5] border border-[#BCD1E7] transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Reference Demo</span>
@@ -109,7 +109,7 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
             {/* Primary Action: Create Project */}
             <Link
               href="/projects/new"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>New Project</span>

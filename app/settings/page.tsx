@@ -43,8 +43,8 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [CONFIGURATION 11] • SYSTEM ENVIRONMENT & GATEWAYS
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            System Configuration & Sandbox Gateways
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             System & Gateway Configuration
@@ -164,7 +164,7 @@ export default function SettingsPage() {
 
           <button
             type="submit"
-            className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-sm"
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm"
           >
             {saved ? (
               <>

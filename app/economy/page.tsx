@@ -398,8 +398,8 @@ export default function EconomyDashboardPage() {
       {/* Top Banner */}
       <div className="p-6 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [MATRIX 03] • DOUBLE-ENTRY LEDGER & RECONCILIATION
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            Double-Entry Accounting • PayPal Settlement Invariants
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Economy & Settlement Matrix
@@ -533,7 +533,7 @@ export default function EconomyDashboardPage() {
           </div>
           <button
             onClick={() => handleApplyAiFilter()}
-            className="px-3 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#616A42] text-white transition-colors shrink-0"
+            className="px-3 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#273A2D] text-white transition-colors shrink-0"
           >
             Filter
           </button>

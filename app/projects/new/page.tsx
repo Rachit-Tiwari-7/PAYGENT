@@ -94,8 +94,8 @@ export default function NewProjectPage() {
 
       <div className="p-6 sm:p-8 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm space-y-6">
         <div className="border-b border-[#E4DFD2] pb-5">
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [RFP ENGINE 08] • SPECIFICATION & ESCROW ALLOCATION
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            Outcome Specification & Escrow Allocation
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Commission New AI Project
@@ -250,7 +250,7 @@ export default function NewProjectPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors disabled:opacity-50 shadow-sm"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors disabled:opacity-50 shadow-sm"
             >
               {loading ? (
                 <>

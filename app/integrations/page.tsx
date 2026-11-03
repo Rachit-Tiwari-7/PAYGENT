@@ -166,8 +166,8 @@ export default function IntegrationsPage() {
       {/* Header */}
       <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="font-mono text-[10px] uppercase text-[#77796F] tracking-widest block mb-1">
-            [SPONSOR DIRECTORY 10] • RUNTIME ADAPTERS & DEV TOOLS
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+            Runtime Adapters & Developer Infrastructure
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Platform Integrations & Adapters

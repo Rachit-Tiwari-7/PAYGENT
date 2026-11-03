@@ -149,7 +149,7 @@ export default function GuidedTour({ isOpen, onClose }: GuidedTourProps) {
 
           <button
             onClick={handleNext}
-            className="px-4 py-1.5 rounded-lg bg-[#344B3B] hover:bg-[#616A42] text-white font-semibold transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-4 py-1.5 rounded-lg bg-[#344B3B] hover:bg-[#273A2D] text-white font-semibold transition-colors shadow-xs flex items-center gap-1.5"
           >
             <span>{currentStep === TOUR_STEPS.length - 1 ? "Finish Tour" : "Next Step"}</span>
             <ArrowRight className="w-3.5 h-3.5" />

@@ -148,7 +148,7 @@ export default async function AgentsDirectoryPage() {
               <div className="flex sm:flex-col items-center gap-2 shrink-0 w-full lg:w-auto justify-end">
                 <Link
                   href={`/agents/${agent.slug}`}
-                  className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#616A42] transition-colors shadow-xs"
+                  className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-xs"
                 >
                   <span>Inspect Full DNA</span>
                   <ArrowRight className="w-3.5 h-3.5" />
