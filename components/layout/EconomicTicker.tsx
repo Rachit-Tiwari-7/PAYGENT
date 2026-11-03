@@ -57,53 +57,53 @@ export function EconomicTicker() {
   }, []);
 
   return (
-    <div className="w-full bg-[#EAE5D7] border-b border-[#E4DFD2] px-4 sm:px-6 py-1 text-[11px] text-[#77796F] select-none">
+    <div className="w-full bg-[#050505] border-b border-neutral-900 px-4 sm:px-6 py-1 text-[11px] text-neutral-400 select-none">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-5 overflow-x-auto no-scrollbar whitespace-nowrap">
-          <div className="flex items-center gap-1.5 font-medium text-[#292F29]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#344B3B]" />
-            <span className="text-[10px] uppercase tracking-wider text-[#77796F] font-semibold">
+          <div className="flex items-center gap-1.5 font-medium text-neutral-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[10px] uppercase tracking-wider text-neutral-400 font-semibold">
               Autonomous Economy:
             </span>
-            <span className="text-[#344B3B] font-semibold">Live</span>
+            <span className="text-emerald-400 font-semibold">Live</span>
           </div>
 
           <div className="flex items-center gap-1">
             <span>Agents Active:</span>
-            <span className="text-[#292F29] font-mono font-medium">
+            <span className="text-neutral-100 font-mono font-medium">
               {metrics.activeAgents}
             </span>
           </div>
 
-          <span className="text-[#D8D4C7]">•</span>
+          <span className="text-neutral-800">•</span>
 
           <div className="flex items-center gap-1">
             <span>24h Settled Volume:</span>
-            <span className="text-[#292F29] font-mono font-medium">
+            <span className="text-neutral-100 font-mono font-medium">
               ${metrics.volume24h.toLocaleString()}
             </span>
           </div>
 
-          <span className="text-[#D8D4C7]">•</span>
+          <span className="text-neutral-800">•</span>
 
           <div className="flex items-center gap-1">
             <span>PayPal Captured:</span>
-            <span className="text-[#292F29] font-mono font-medium">
+            <span className="text-neutral-100 font-mono font-medium">
               ${metrics.settledPayPal.toLocaleString()}
             </span>
           </div>
 
-          <span className="text-[#D8D4C7]">•</span>
+          <span className="text-neutral-800">•</span>
 
           <div className="flex items-center gap-1">
             <span>Avg Reputation:</span>
-            <span className="text-[#292F29] font-mono font-medium">
+            <span className="text-neutral-100 font-mono font-medium">
               {metrics.reputationAvg}%
             </span>
           </div>
         </div>
 
-        <div className="hidden lg:flex items-center gap-2 pl-4 text-[10px] text-[#77796F] font-mono border-l border-[#E4DFD2]">
+        <div className="hidden lg:flex items-center gap-2 pl-4 text-[10px] text-neutral-400 font-mono border-l border-neutral-900">
           <span>PayPal Sandbox Orders v2</span>
         </div>
       </div>

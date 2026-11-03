@@ -164,15 +164,15 @@ export default function IntegrationsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-[#0c0c0e] border border-[#27272a] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
+          <span className="text-[11px] font-sans font-medium text-[#10b981] block mb-1">
             Runtime Adapters & Developer Infrastructure
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#f4f4f5] tracking-tight">
             Platform Integrations & Adapters
           </h1>
-          <p className="text-xs sm:text-sm text-[#77796F] mt-1 max-w-xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#a1a1aa] mt-1 max-w-xl leading-relaxed">
             Inspect live runtime adapters, test endpoints, download Postman specs, review APIMatic contracts, and execute telemetry verifications.
           </p>
         </div>
@@ -181,9 +181,9 @@ export default function IntegrationsPage() {
           <a
             href="/paygent.postman_collection.json"
             download
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold text-[#f4f4f5] bg-[#1c1c1f] hover:bg-[#27272a] border border-[#27272a] transition-colors"
           >
-            <Download className="w-3.5 h-3.5 text-[#344B3B]" />
+            <Download className="w-3.5 h-3.5 text-[#10b981]" />
             <span>Download Postman Spec</span>
           </a>
         </div>
@@ -197,8 +197,8 @@ export default function IntegrationsPage() {
             onClick={() => setSelectedFilter(cat)}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               selectedFilter === cat
-                ? "bg-[#344B3B] text-white font-semibold"
-                : "text-[#77796F] hover:text-[#292F29] hover:bg-[#EAE5D7]"
+                ? "bg-[#10b981] text-white font-semibold"
+                : "text-[#a1a1aa] hover:text-[#f4f4f5] hover:bg-[#1c1c1f]"
             }`}
           >
             {cat}
@@ -215,21 +215,21 @@ export default function IntegrationsPage() {
           return (
             <div
               key={sponsor.id}
-              className="p-5 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] hover:border-[#344B3B]/30 transition-colors shadow-sm flex flex-col justify-between space-y-4"
+              className="p-5 rounded-xl bg-[#0c0c0e] border border-[#27272a] hover:border-[#10b981]/30 transition-colors shadow-sm flex flex-col justify-between space-y-4"
             >
               <div>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="text-base font-bold text-[#292F29]">{sponsor.name}</h2>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
+                      <h2 className="text-base font-bold text-[#f4f4f5]">{sponsor.name}</h2>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#1c1c1f] text-[#f4f4f5] border border-[#27272a]">
                         {sponsor.category}
                       </span>
                       <span
                         className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-md border ${
                           sponsor.role === "runtime"
-                            ? "bg-[#EAF3EB] text-[#3B6E4C] border-[#3B6E4C]/20"
-                            : "bg-[#EBF1F6] text-[#28568A] border-[#28568A]/20"
+                            ? "bg-[#064e3b] text-[#34d399] border-[#34d399]/20"
+                            : "bg-[#172554] text-[#3b82f6] border-[#3b82f6]/20"
                         }`}
                       >
                         {sponsor.role}
@@ -237,20 +237,20 @@ export default function IntegrationsPage() {
                     </div>
                   </div>
 
-                  <span className="text-[10px] font-bold text-[#3B6E4C] font-mono flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#EAF3EB] border border-[#3B6E4C]/20">
+                  <span className="text-[10px] font-bold text-[#34d399] font-mono flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#064e3b] border border-[#34d399]/20">
                     <CheckCircle2 className="w-3 h-3" />
                     <span>{sponsor.status}</span>
                   </span>
                 </div>
 
-                <p className="text-xs text-[#77796F] mt-2 leading-relaxed">{sponsor.description}</p>
+                <p className="text-xs text-[#a1a1aa] mt-2 leading-relaxed">{sponsor.description}</p>
 
                 {/* Features Badges */}
                 <div className="flex flex-wrap gap-1.5 mt-3">
                   {sponsor.features.map((feat, i) => (
                     <span
                       key={i}
-                      className="text-[10px] px-2 py-0.5 rounded-md bg-[#FFFCF5] text-[#77796F] border border-[#E4DFD2] font-mono"
+                      className="text-[10px] px-2 py-0.5 rounded-md bg-[#0c0c0e] text-[#a1a1aa] border border-[#27272a] font-mono"
                     >
                       {feat}
                     </span>
@@ -259,33 +259,33 @@ export default function IntegrationsPage() {
 
                 {/* Test Output Box if executed */}
                 {testOutput && (
-                  <div className="mt-3 p-3 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] font-mono text-[11px] text-[#292F29] overflow-x-auto max-h-40">
+                  <div className="mt-3 p-3 rounded-lg bg-[#0c0c0e] border border-[#27272a] font-mono text-[11px] text-[#f4f4f5] overflow-x-auto max-h-40">
                     <pre>{JSON.stringify(testOutput, null, 2)}</pre>
                   </div>
                 )}
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-between pt-3 border-t border-[#E4DFD2]">
+              <div className="flex items-center justify-between pt-3 border-t border-[#27272a]">
                 <a
                   href={sponsor.docUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs text-[#77796F] hover:text-[#292F29] flex items-center gap-1 transition-colors"
+                  className="text-xs text-[#a1a1aa] hover:text-[#f4f4f5] flex items-center gap-1 transition-colors"
                 >
                   <span>Official Docs</span>
-                  <ExternalLink className="w-3 h-3 text-[#77796F]" />
+                  <ExternalLink className="w-3 h-3 text-[#a1a1aa]" />
                 </a>
 
                 <button
                   onClick={() => runTest(sponsor.id)}
                   disabled={isTesting}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#f4f4f5] bg-[#1c1c1f] hover:bg-[#27272a] border border-[#27272a] transition-colors"
                 >
                   {isTesting ? (
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#344B3B]" />
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#10b981]" />
                   ) : (
-                    <Play className="w-3 h-3 fill-current text-[#344B3B]" />
+                    <Play className="w-3 h-3 fill-current text-[#10b981]" />
                   )}
                   <span>Test Adapter</span>
                 </button>
