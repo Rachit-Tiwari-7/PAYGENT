@@ -45,10 +45,10 @@ export default function ProjectFinancialContext({ project }: ProjectFinancialCon
       sublabel: isCaptured ? "Capture Settled" : isAuthorized ? "Pre-Authorized" : "Pending Auth",
       pill: isCaptured ? "CAPTURED" : isAuthorized ? "AUTHORIZED" : "PENDING",
       pillColor: isCaptured
-        ? "bg-[#EAF3EB] text-[#27532F] border-[#CDE3D0]"
+        ? "bg-[#064e3b] text-[#4ade80] border-[#065f46]"
         : isAuthorized
-        ? "bg-[#EBF1F6] text-[#234968] border-[#BCD1E7]"
-        : "bg-[#EAE5D7] text-[#77796F] border-[#E4DFD2]",
+        ? "bg-[#172554] text-[#234968] border-[#1e40af]"
+        : "bg-[#1c1c1f] text-[#a1a1aa] border-[#27272a]",
     },
     {
       label: "Allocated to Swarm",
@@ -73,15 +73,15 @@ export default function ProjectFinancialContext({ project }: ProjectFinancialCon
   ];
 
   return (
-    <div className="rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] p-3.5 shadow-subtle">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 divide-y lg:divide-y-0 lg:divide-x divide-[#EEEAE0]">
+    <div className="rounded-lg bg-[#0c0c0e] border border-[#27272a] p-3.5 shadow-subtle">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 divide-y lg:divide-y-0 lg:divide-x divide-[#1f1f23]">
         {metrics.map((m, idx) => (
           <div
             key={m.label}
             className={`${idx > 0 ? "pt-2 lg:pt-0 lg:pl-3" : ""} flex flex-col justify-between`}
           >
             <div className="flex items-center justify-between gap-1">
-              <span className="text-[10px] uppercase tracking-wider text-[#77796F] font-semibold truncate">
+              <span className="text-[10px] uppercase tracking-wider text-[#a1a1aa] font-semibold truncate">
                 {m.label}
               </span>
               {m.pill && (
@@ -93,11 +93,11 @@ export default function ProjectFinancialContext({ project }: ProjectFinancialCon
               )}
             </div>
 
-            <div className="text-base font-semibold font-tabular text-[#292F29] mt-1">
+            <div className="text-base font-semibold font-tabular text-[#f4f4f5] mt-1">
               {currencySymbol}{m.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
 
-            <span className="text-[10px] text-[#77796F] mt-0.5 truncate">
+            <span className="text-[10px] text-[#a1a1aa] mt-0.5 truncate">
               {m.sublabel}
             </span>
           </div>

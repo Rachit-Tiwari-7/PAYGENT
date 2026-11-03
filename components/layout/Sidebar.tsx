@@ -16,7 +16,6 @@ import {
   ChevronRight,
   Puzzle,
   Building2,
-  SlidersHorizontal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -38,7 +37,7 @@ const BUYER_ITEMS: NavItem[] = [
 const SELLER_ITEMS: NavItem[] = [
   { name: "Command Center", href: "/command-center", icon: Terminal },
   { name: "Workforce Gantt", href: "/workforce", icon: CalendarDays },
-  { name: "Quality Review", href: "/contracts", icon: FileCheck2 },
+  { name: "Deliverable Reviews", href: "/projects", icon: FileCheck2 },
   { name: "Sponsor Adapters", href: "/integrations", icon: Puzzle },
   { name: "Autonomous Firms", href: "/companies", icon: Building2 },
 ];
@@ -48,23 +47,26 @@ export function Sidebar() {
   const [viewMode, setViewMode] = useState<"buyer" | "seller">("buyer");
   const [showAdvanced, setShowAdvanced] = useState(false);
 
+  // Hide sidebar on the minimalist home screen to give full width like v0
+  if (pathname === "/") return null;
+
   const isSellerRoute = SELLER_ITEMS.some(
     (item) => pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
   );
 
   return (
-    <aside className="w-60 shrink-0 hidden md:flex flex-col border-r border-[#E4DFD2] bg-[#FFFCF5] min-h-[calc(100vh-4.5rem)] select-none">
+    <aside className="w-60 shrink-0 hidden md:flex flex-col border-r border-neutral-800 bg-[#0c0c0e] min-h-[calc(100vh-4.5rem)] select-none text-neutral-300">
       {/* Buyer / Seller Role Toggle */}
-      <div className="p-3 border-b border-[#E4DFD2]">
-        <div className="grid grid-cols-2 p-0.5 rounded-lg bg-[#F3EFE3] border border-[#E4DFD2] text-xs font-medium">
+      <div className="p-3 border-b border-neutral-800">
+        <div className="grid grid-cols-2 p-0.5 rounded-lg bg-neutral-900 border border-neutral-800 text-xs font-medium">
           <button
             type="button"
             onClick={() => setViewMode("buyer")}
             className={cn(
               "py-1 rounded-md transition-all text-center",
               viewMode === "buyer"
-                ? "bg-[#FFFCF5] text-[#292F29] font-semibold shadow-xs"
-                : "text-[#77796F] hover:text-[#292F29]"
+                ? "bg-neutral-800 text-white font-semibold shadow-xs"
+                : "text-neutral-400 hover:text-white"
             )}
           >
             Buyer View
@@ -75,8 +77,8 @@ export function Sidebar() {
             className={cn(
               "py-1 rounded-md transition-all text-center",
               viewMode === "seller"
-                ? "bg-[#FFFCF5] text-[#292F29] font-semibold shadow-xs"
-                : "text-[#77796F] hover:text-[#292F29]"
+                ? "bg-neutral-800 text-white font-semibold shadow-xs"
+                : "text-neutral-400 hover:text-white"
             )}
           >
             Seller View
@@ -86,9 +88,9 @@ export function Sidebar() {
 
       <div className="flex-1 p-3.5 space-y-6">
         {viewMode === "buyer" ? (
-          /* Buyer Navigation (Amazon-Simple) */
+          /* Buyer Navigation */
           <div className="space-y-1">
-            <div className="px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-[#77796F]">
+            <div className="px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-neutral-500">
               Client Workspace
             </div>
 
@@ -105,24 +107,24 @@ export function Sidebar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "group flex items-center justify-between px-2.5 py-2 rounded-md text-xs font-medium transition-colors",
+                    "group flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border-l-2 border-[#344B3B]"
-                      : "text-[#5A5C52] hover:text-[#292F29] hover:bg-[#F3EFE3]"
+                      ? "bg-neutral-800/90 text-white font-semibold border-l-2 border-emerald-400"
+                      : "text-neutral-400 hover:text-white hover:bg-neutral-900"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
                     <Icon
                       className={cn(
                         "w-4 h-4 transition-colors",
-                        isActive ? "text-[#344B3B]" : "text-[#77796F] group-hover:text-[#292F29]"
+                        isActive ? "text-emerald-400" : "text-neutral-400 group-hover:text-white"
                       )}
                     />
                     <span>{item.name}</span>
                   </div>
 
                   {item.badge && (
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EBF1EC] text-[#344B3B] font-mono">
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-neutral-800 text-emerald-400 font-mono">
                       {item.badge}
                     </span>
                   )}
@@ -133,21 +135,21 @@ export function Sidebar() {
         ) : (
           /* Seller / Agent Firm Workspace */
           <div className="space-y-1">
-            <div className="px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-[#77796F]">
+            <div className="px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-neutral-500">
               Seller Workspace
             </div>
 
             <Link
               href="/marketplace"
               className={cn(
-                "group flex items-center justify-between px-2.5 py-2 rounded-md text-xs font-medium transition-colors",
+                "group flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-colors",
                 pathname === "/marketplace"
-                  ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border-l-2 border-[#344B3B]"
-                  : "text-[#5A5C52] hover:text-[#292F29] hover:bg-[#F3EFE3]"
+                  ? "bg-neutral-800/90 text-white font-semibold border-l-2 border-emerald-400"
+                  : "text-neutral-400 hover:text-white hover:bg-neutral-900"
               )}
             >
               <div className="flex items-center gap-2.5">
-                <Store className="w-4 h-4 text-[#344B3B]" />
+                <Store className="w-4 h-4 text-emerald-400" />
                 <span>My Agent Listings</span>
               </div>
             </Link>
@@ -155,14 +157,14 @@ export function Sidebar() {
             <Link
               href="/economy?tab=agents"
               className={cn(
-                "group flex items-center justify-between px-2.5 py-2 rounded-md text-xs font-medium transition-colors",
+                "group flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-colors",
                 pathname.includes("tab=agents")
-                  ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border-l-2 border-[#344B3B]"
-                  : "text-[#5A5C52] hover:text-[#292F29] hover:bg-[#F3EFE3]"
+                  ? "bg-neutral-800/90 text-white font-semibold border-l-2 border-emerald-400"
+                  : "text-neutral-400 hover:text-white hover:bg-neutral-900"
               )}
             >
               <div className="flex items-center gap-2.5">
-                <CreditCard className="w-4 h-4 text-[#28568A]" />
+                <CreditCard className="w-4 h-4 text-blue-400" />
                 <span>Agent Earnings & Payouts</span>
               </div>
             </Link>
@@ -170,32 +172,32 @@ export function Sidebar() {
             <Link
               href="/command-center"
               className={cn(
-                "group flex items-center justify-between px-2.5 py-2 rounded-md text-xs font-medium transition-colors",
+                "group flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-colors",
                 pathname === "/command-center"
-                  ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border-l-2 border-[#344B3B]"
-                  : "text-[#5A5C52] hover:text-[#292F29] hover:bg-[#F3EFE3]"
+                  ? "bg-neutral-800/90 text-white font-semibold border-l-2 border-emerald-400"
+                  : "text-neutral-400 hover:text-white hover:bg-neutral-900"
               )}
             >
               <div className="flex items-center gap-2.5">
-                <Terminal className="w-4 h-4 text-[#77796F]" />
+                <Terminal className="w-4 h-4 text-neutral-400 group-hover:text-white" />
                 <span>Swarm Runtime Feed</span>
               </div>
             </Link>
           </div>
         )}
 
-        {/* Collapsible Advanced Technical Tools (Accessible in both modes) */}
-        <div className="pt-2 border-t border-[#E4DFD2] space-y-1">
+        {/* Collapsible Advanced Technical Tools */}
+        <div className="pt-2 border-t border-neutral-800 space-y-1">
           <button
             type="button"
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="w-full flex items-center justify-between px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-[#77796F] hover:text-[#292F29] transition-colors"
+            className="w-full flex items-center justify-between px-2.5 py-1 text-[11px] font-sans font-semibold tracking-wider uppercase text-neutral-500 hover:text-white transition-colors"
           >
             <span>Advanced Tools</span>
             {showAdvanced || isSellerRoute ? (
-              <ChevronDown className="w-3.5 h-3.5 text-[#77796F]" />
+              <ChevronDown className="w-3.5 h-3.5 text-neutral-500" />
             ) : (
-              <ChevronRight className="w-3.5 h-3.5 text-[#77796F]" />
+              <ChevronRight className="w-3.5 h-3.5 text-neutral-500" />
             )}
           </button>
 
@@ -209,17 +211,17 @@ export function Sidebar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "group flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors",
+                      "group flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors",
                       isActive
-                        ? "bg-[#EBF1EC] text-[#344B3B] font-semibold border-l-2 border-[#344B3B]"
-                        : "text-[#5A5C52] hover:text-[#292F29] hover:bg-[#F3EFE3]"
+                        ? "bg-neutral-800/90 text-white font-semibold border-l-2 border-emerald-400"
+                        : "text-neutral-400 hover:text-white hover:bg-neutral-900"
                     )}
                   >
                     <div className="flex items-center gap-2.5">
                       <Icon
                         className={cn(
                           "w-3.5 h-3.5",
-                          isActive ? "text-[#344B3B]" : "text-[#77796F] group-hover:text-[#292F29]"
+                          isActive ? "text-emerald-400" : "text-neutral-400 group-hover:text-white"
                         )}
                       />
                       <span>{item.name}</span>
@@ -233,12 +235,12 @@ export function Sidebar() {
       </div>
 
       {/* Footer */}
-      <div className="p-3 border-t border-[#E4DFD2] bg-[#FFFCF5] text-xs text-[#77796F] flex items-center justify-between">
+      <div className="p-3 border-t border-neutral-800 bg-[#0c0c0e] text-xs text-neutral-400 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#344B3B]" />
-          <span className="font-medium text-[#292F29] text-[11px]">PayPal Sandbox</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="font-medium text-neutral-300 text-[11px]">PayPal Sandbox</span>
         </div>
-        <span className="font-mono text-[10px] text-[#77796F]">v1.3.0</span>
+        <span className="font-mono text-[10px] text-neutral-500">v1.3.0</span>
       </div>
     </aside>
   );
