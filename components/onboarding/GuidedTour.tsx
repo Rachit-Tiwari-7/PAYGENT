@@ -79,18 +79,18 @@ export default function GuidedTour({ isOpen, onClose }: GuidedTourProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#f4f4f5]/40 backdrop-blur-xs animate-fade-in">
-      <div className="relative w-full max-w-xl bg-[#0c0c0e] border border-[#27272a] rounded-xl shadow-2xl overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#292F29]/40 backdrop-blur-xs animate-fade-in">
+      <div className="relative w-full max-w-xl bg-[#FFFCF5] border border-[#E4DFD2] rounded-xl shadow-2xl overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#27272a] bg-[#0c0c0e]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E4DFD2] bg-[#FFFCF5]">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-[#1c1c1f] text-[#10b981] border border-[#27272a]">
+            <div className="p-2 rounded-lg bg-[#EAE5D7] text-[#344B3B] border border-[#E4DFD2]">
               <Icon className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-[#f4f4f5] font-mono uppercase tracking-wider flex items-center gap-2">
+              <h3 className="text-xs font-bold text-[#292F29] font-mono uppercase tracking-wider flex items-center gap-2">
                 Paygent Platform Tour
-                <span className="text-[9px] px-2 py-0.5 rounded-md bg-[#1c1c1f] text-[#a1a1aa] border border-[#27272a]">
+                <span className="text-[9px] px-2 py-0.5 rounded-md bg-[#EAE5D7] text-[#77796F] border border-[#E4DFD2]">
                   STEP {currentStep + 1} OF {TOUR_STEPS.length}
                 </span>
               </h3>
@@ -99,7 +99,7 @@ export default function GuidedTour({ isOpen, onClose }: GuidedTourProps) {
 
           <button
             onClick={onClose}
-            className="text-[#a1a1aa] hover:text-[#f4f4f5] p-1 rounded-lg hover:bg-[#1c1c1f] transition-colors"
+            className="text-[#77796F] hover:text-[#292F29] p-1 rounded-lg hover:bg-[#EAE5D7] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -109,17 +109,17 @@ export default function GuidedTour({ isOpen, onClose }: GuidedTourProps) {
         <div className="p-6 space-y-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-[#f4f4f5] tracking-tight">{current.title}</h2>
-              <span className="text-[9px] font-mono px-2 py-0.5 rounded-md bg-[#1c1c1f] text-[#f4f4f5] border border-[#27272a]">
+              <h2 className="text-base font-bold text-[#292F29] tracking-tight">{current.title}</h2>
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded-md bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
                 {current.badge}
               </span>
             </div>
-            <p className="text-xs text-[#a1a1aa] leading-relaxed">{current.description}</p>
+            <p className="text-xs text-[#77796F] leading-relaxed">{current.description}</p>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-[#0c0c0e] border border-[#27272a] text-[11px] text-[#f4f4f5] flex items-start gap-2.5">
-            <Sparkles className="w-4 h-4 text-[#10b981] shrink-0 mt-0.5" />
-            <span className="leading-snug text-[#a1a1aa]">{current.tip}</span>
+          <div className="p-3.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-[11px] text-[#292F29] flex items-start gap-2.5">
+            <Sparkles className="w-4 h-4 text-[#344B3B] shrink-0 mt-0.5" />
+            <span className="leading-snug text-[#77796F]">{current.tip}</span>
           </div>
 
           {/* Dots Indicator */}
@@ -129,7 +129,7 @@ export default function GuidedTour({ isOpen, onClose }: GuidedTourProps) {
                 key={s.step}
                 onClick={() => setCurrentStep(idx)}
                 className={`h-1.5 rounded-full transition-all ${
-                  idx === currentStep ? "w-6 bg-[#10b981]" : "w-1.5 bg-[#27272a] hover:bg-[#a1a1aa]"
+                  idx === currentStep ? "w-6 bg-[#344B3B]" : "w-1.5 bg-[#E4DFD2] hover:bg-[#77796F]"
                 }`}
               />
             ))}
@@ -137,11 +137,11 @@ export default function GuidedTour({ isOpen, onClose }: GuidedTourProps) {
         </div>
 
         {/* Footer Navigation */}
-        <div className="flex items-center justify-between px-6 py-3.5 border-t border-[#27272a] bg-[#0c0c0e] text-xs">
+        <div className="flex items-center justify-between px-6 py-3.5 border-t border-[#E4DFD2] bg-[#FFFCF5] text-xs">
           <button
             onClick={handlePrev}
             disabled={currentStep === 0}
-            className="px-3 py-1.5 rounded-lg text-[#a1a1aa] hover:text-[#f4f4f5] disabled:opacity-30 disabled:hover:text-[#a1a1aa] flex items-center gap-1 transition-colors"
+            className="px-3 py-1.5 rounded-lg text-[#77796F] hover:text-[#292F29] disabled:opacity-30 disabled:hover:text-[#77796F] flex items-center gap-1 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Previous</span>
@@ -149,7 +149,7 @@ export default function GuidedTour({ isOpen, onClose }: GuidedTourProps) {
 
           <button
             onClick={handleNext}
-            className="px-4 py-1.5 rounded-lg bg-[#10b981] hover:bg-[#059669] text-white font-semibold transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-4 py-1.5 rounded-lg bg-[#344B3B] hover:bg-[#273A2D] text-white font-semibold transition-colors shadow-xs flex items-center gap-1.5"
           >
             <span>{currentStep === TOUR_STEPS.length - 1 ? "Finish Tour" : "Next Step"}</span>
             <ArrowRight className="w-3.5 h-3.5" />

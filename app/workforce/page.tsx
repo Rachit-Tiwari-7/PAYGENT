@@ -51,49 +51,49 @@ export default function WorkforceSchedulerPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="p-6 rounded-xl bg-[#0c0c0e] border border-[#27272a] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[11px] font-sans font-medium text-[#10b981] block mb-1">
+          <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
             Workforce Scheduling & Timeline Allocation
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#f4f4f5] tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Agent Workforce & Gantt Allocation
           </h1>
-          <p className="text-xs sm:text-sm text-[#a1a1aa] mt-1 max-w-xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#77796F] mt-1 max-w-xl leading-relaxed">
             Visual resource scheduling, parallel execution timelines, task dependency chains, and automated workload conflict mitigation.
           </p>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[#1c1c1f] border border-[#27272a] text-[#f4f4f5]">
+          <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[#EAE5D7] border border-[#E4DFD2] text-[#292F29]">
             Bryntum Gantt Engine
           </span>
         </div>
       </div>
 
       {/* Main Gantt Timeline View */}
-      <div className="p-6 rounded-xl bg-[#0c0c0e] border border-[#27272a] space-y-6 shadow-sm">
-        <div className="flex items-center justify-between flex-wrap gap-4 border-b border-[#27272a] pb-4">
+      <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] space-y-6 shadow-sm">
+        <div className="flex items-center justify-between flex-wrap gap-4 border-b border-[#E4DFD2] pb-4">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-bold text-[#f4f4f5]">Resource Allocation Matrix</h2>
-            <span className="text-xs text-[#a1a1aa] font-mono">({agents.length} Digital Workers)</span>
+            <h2 className="text-sm font-bold text-[#292F29]">Resource Allocation Matrix</h2>
+            <span className="text-xs text-[#77796F] font-mono">({agents.length} Digital Workers)</span>
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-[#a1a1aa]">
+          <div className="flex items-center gap-3 text-xs text-[#77796F]">
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded bg-[#3b82f6]" />
+              <span className="w-2.5 h-2.5 rounded bg-[#28568A]" />
               <span>In Progress</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded bg-[#34d399]" />
+              <span className="w-2.5 h-2.5 rounded bg-[#3B6E4C]" />
               <span>Completed</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded bg-[#10b981]" />
+              <span className="w-2.5 h-2.5 rounded bg-[#344B3B]" />
               <span>Subcontracted</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded bg-[#fbbf24]" />
+              <span className="w-2.5 h-2.5 rounded bg-[#8C6D23]" />
               <span>Pending Dependencies</span>
             </div>
           </div>
@@ -102,14 +102,14 @@ export default function WorkforceSchedulerPage() {
         {/* Timeline Table Container */}
         {loading ? (
           <div className="p-12 text-center space-y-2">
-            <RefreshCw className="w-5 h-5 text-[#10b981] animate-spin mx-auto" />
-            <p className="text-xs text-[#a1a1aa]">Generating Gantt schedules...</p>
+            <RefreshCw className="w-5 h-5 text-[#344B3B] animate-spin mx-auto" />
+            <p className="text-xs text-[#77796F]">Generating Gantt schedules...</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <div className="min-w-[800px]">
               {/* Timeline Header Columns */}
-              <div className="grid grid-cols-12 gap-2 text-[11px] font-mono text-[#a1a1aa] pb-2 border-b border-[#27272a] px-2">
+              <div className="grid grid-cols-12 gap-2 text-[11px] font-mono text-[#77796F] pb-2 border-b border-[#E4DFD2] px-2">
                 <div className="col-span-3 text-left uppercase">Agent Resource</div>
                 {TIMELINE_SLOTS.map((slot) => (
                   <div key={slot} className="col-span-1 text-center">
@@ -119,23 +119,23 @@ export default function WorkforceSchedulerPage() {
               </div>
 
               {/* Rows for each agent */}
-              <div className="divide-y divide-[#27272a]">
+              <div className="divide-y divide-[#E4DFD2]">
                 {agents.map((agent, agentIdx) => {
                   const tasks = agent.tasksAssigned;
                   return (
                     <div
                       key={agent.id}
-                      className="grid grid-cols-12 gap-2 py-3.5 px-2 items-center hover:bg-[#0c0c0e] transition-colors"
+                      className="grid grid-cols-12 gap-2 py-3.5 px-2 items-center hover:bg-[#FFFCF5] transition-colors"
                     >
                       {/* Left: Agent Info */}
                       <div className="col-span-3 flex items-center gap-2.5">
-                        <span className="text-lg p-1 rounded-md bg-[#1c1c1f] border border-[#27272a]">{agent.avatar}</span>
+                        <span className="text-lg p-1 rounded-md bg-[#EAE5D7] border border-[#E4DFD2]">{agent.avatar}</span>
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-bold text-[#f4f4f5]">{agent.name}</span>
-                            <span className="text-[9px] text-[#34d399] font-medium">●</span>
+                            <span className="text-xs font-bold text-[#292F29]">{agent.name}</span>
+                            <span className="text-[9px] text-[#3B6E4C] font-medium">●</span>
                           </div>
-                          <span className="text-[10px] text-[#a1a1aa] block">{agent.category}</span>
+                          <span className="text-[10px] text-[#77796F] block">{agent.category}</span>
                         </div>
                       </div>
 
@@ -151,8 +151,8 @@ export default function WorkforceSchedulerPage() {
                                 key={t.id}
                                 className={`absolute rounded-md px-2 py-1 text-[10px] font-medium flex items-center justify-between border shadow-xs transition-opacity hover:opacity-90 cursor-pointer ${
                                   isCompleted
-                                    ? "bg-[#064e3b] border-[#34d399]/30 text-[#34d399]"
-                                    : "bg-[#172554] border-[#3b82f6]/30 text-[#3b82f6]"
+                                    ? "bg-[#EAF3EB] border-[#3B6E4C]/30 text-[#3B6E4C]"
+                                    : "bg-[#EBF1F6] border-[#28568A]/30 text-[#28568A]"
                                 }`}
                                 style={{
                                   left: `${((startCol - 1) / 9) * 100}%`,
@@ -168,7 +168,7 @@ export default function WorkforceSchedulerPage() {
                             );
                           })
                         ) : (
-                          <div className="col-span-9 text-[11px] text-[#a1a1aa] italic">
+                          <div className="col-span-9 text-[11px] text-[#77796F] italic">
                             Idle / Available for bidding
                           </div>
                         )}
@@ -182,33 +182,33 @@ export default function WorkforceSchedulerPage() {
         )}
 
         {/* Gantt Diagnostics & Legend */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-[#27272a]">
-          <div className="p-3.5 rounded-lg bg-[#0c0c0e] border border-[#27272a] text-xs">
-            <div className="flex items-center gap-2 text-[#f4f4f5] font-semibold mb-1">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#10b981]" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-[#E4DFD2]">
+          <div className="p-3.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs">
+            <div className="flex items-center gap-2 text-[#292F29] font-semibold mb-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#344B3B]" />
               <span>DAG Dependency Resolution</span>
             </div>
-            <p className="text-[11px] text-[#a1a1aa] leading-snug">
+            <p className="text-[11px] text-[#77796F] leading-snug">
               Subtasks enforce strict topological ordering. Subcontracts (e.g. DataScout) only trigger when predecessor dependencies clear.
             </p>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-[#0c0c0e] border border-[#27272a] text-xs">
-            <div className="flex items-center gap-2 text-[#f4f4f5] font-semibold mb-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#34d399]" />
+          <div className="p-3.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs">
+            <div className="flex items-center gap-2 text-[#292F29] font-semibold mb-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#3B6E4C]" />
               <span>Zero Workload Collisions</span>
             </div>
-            <p className="text-[11px] text-[#a1a1aa] leading-snug">
+            <p className="text-[11px] text-[#77796F] leading-snug">
               Bryntum scheduling algorithms prevent over-subscribing agent context windows and compute bounds.
             </p>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-[#0c0c0e] border border-[#27272a] text-xs">
-            <div className="flex items-center gap-2 text-[#f4f4f5] font-semibold mb-1">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-[#3b82f6]" />
+          <div className="p-3.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs">
+            <div className="flex items-center gap-2 text-[#292F29] font-semibold mb-1">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[#28568A]" />
               <span>Parallel Multi-Agent Swarm</span>
             </div>
-            <p className="text-[11px] text-[#a1a1aa] leading-snug">
+            <p className="text-[11px] text-[#77796F] leading-snug">
               Allows up to 12 concurrent agent execution threads across Channel3, Kernel, and APIMatic tool sandboxes.
             </p>
           </div>

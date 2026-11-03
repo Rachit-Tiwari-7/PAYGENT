@@ -180,18 +180,18 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-      <div className="relative w-full max-w-xl bg-[#0c0c0e] border border-[#27272a] rounded-xl shadow-modal overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-xl bg-[#FFFCF5] border border-[#E4DFD2] rounded-xl shadow-modal overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#27272a] bg-[#0c0c0e]">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#E4DFD2] bg-[#FFFCF5]">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded bg-[#1c1c1f] flex items-center justify-center text-[#10b981]">
+            <div className="w-7 h-7 rounded bg-[#EAE5D7] flex items-center justify-center text-[#344B3B]">
               <Mic className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs font-semibold text-[#f4f4f5] uppercase tracking-wider">
+              <h3 className="text-xs font-semibold text-[#292F29] uppercase tracking-wider">
                 Voice-to-Task Broker
               </h3>
-              <p className="text-[11px] text-[#a1a1aa]">
+              <p className="text-[11px] text-[#77796F]">
                 Speak your outcome. Paygent will decompose, budget, and reverse-auction it.
               </p>
             </div>
@@ -213,13 +213,13 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
                 }
               }}
               title={isVoiceOutputEnabled ? "Voice Feedback On" : "Voice Feedback Off"}
-              className="p-1.5 rounded text-[#a1a1aa] hover:text-[#f4f4f5] hover:bg-[#1c1c1f] transition-colors"
+              className="p-1.5 rounded text-[#77796F] hover:text-[#292F29] hover:bg-[#EAE5D7] transition-colors"
             >
               {isVoiceOutputEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 rounded text-[#a1a1aa] hover:text-[#f4f4f5] hover:bg-[#1c1c1f] transition-colors"
+              className="p-1.5 rounded text-[#77796F] hover:text-[#292F29] hover:bg-[#EAE5D7] transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -228,13 +228,13 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
 
         {/* Body */}
         <div className="p-5 overflow-y-auto space-y-4">
-          <div className="flex flex-col items-center justify-center py-5 px-4 rounded-lg border border-[#27272a] bg-[#0c0c0e] text-center">
+          <div className="flex flex-col items-center justify-center py-5 px-4 rounded-lg border border-[#E4DFD2] bg-[#FFFCF5] text-center">
             <button
               onClick={toggleListening}
               className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
                 isListening
                   ? "bg-[#8C3B3B] text-white scale-105"
-                  : "bg-[#10b981] hover:bg-[#059669] text-white shadow-sm"
+                  : "bg-[#344B3B] hover:bg-[#273A2D] text-white shadow-sm"
               }`}
             >
               {isListening ? (
@@ -244,7 +244,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
               )}
             </button>
 
-            <span className="mt-2 text-xs font-medium text-[#a1a1aa]">
+            <span className="mt-2 text-xs font-medium text-[#77796F]">
               {isListening ? "Listening... Speak now" : "Tap to Speak Outcome"}
             </span>
 
@@ -254,7 +254,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
                 onChange={(e) => setTranscript(e.target.value)}
                 placeholder="Or type outcome e.g. 'I need a competitive intelligence report on ergonomic chairs under ₹2,000'..."
                 rows={3}
-                className="w-full px-3 py-2 text-xs bg-[#0c0c0e] border border-[#27272a] rounded-md text-[#f4f4f5] placeholder-[#71717a] focus:outline-none focus:border-[#10b981] transition-colors resize-none"
+                className="w-full px-3 py-2 text-xs bg-[#FFFCF5] border border-[#E4DFD2] rounded-md text-[#292F29] placeholder-[#96998F] focus:outline-none focus:border-[#344B3B] transition-colors resize-none"
               />
             </div>
 
@@ -262,7 +262,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
               <button
                 onClick={() => handleAnalyzePrompt()}
                 disabled={isAnalyzing}
-                className="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#10b981] hover:bg-[#059669] text-white transition-colors shadow-sm disabled:opacity-50"
+                className="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#273A2D] text-white transition-colors shadow-sm disabled:opacity-50"
               >
                 {isAnalyzing ? (
                   <>
@@ -280,7 +280,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
 
           {!parsedTask && (
             <div className="space-y-1.5">
-              <p className="text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wider">
+              <p className="text-[11px] font-semibold text-[#77796F] uppercase tracking-wider">
                 Quick Test Prompts:
               </p>
               <div className="space-y-1">
@@ -291,10 +291,10 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
                       setTranscript(sample);
                       handleAnalyzePrompt(sample);
                     }}
-                    className="w-full text-left p-2 rounded-md border border-[#27272a] bg-[#0c0c0e] hover:bg-[#0c0c0e] hover:border-[#C1CEBF] text-xs text-[#f4f4f5] transition-colors flex items-center justify-between group"
+                    className="w-full text-left p-2 rounded-md border border-[#E4DFD2] bg-[#FFFCF5] hover:bg-[#FFFCF5] hover:border-[#C1CEBF] text-xs text-[#292F29] transition-colors flex items-center justify-between group"
                   >
                     <span className="truncate pr-2">{sample}</span>
-                    <ArrowRight className="w-3 h-3 text-[#a1a1aa] group-hover:text-[#10b981] shrink-0" />
+                    <ArrowRight className="w-3 h-3 text-[#77796F] group-hover:text-[#344B3B] shrink-0" />
                   </button>
                 ))}
               </div>
@@ -302,39 +302,39 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
           )}
 
           {error && (
-            <div className="p-2.5 rounded-md bg-[#450a0a] border border-[#991b1b] text-xs text-[#f87171] flex items-center gap-1.5">
+            <div className="p-2.5 rounded-md bg-[#F8ECEC] border border-[#ECCACA] text-xs text-[#7A2929] flex items-center gap-1.5">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {parsedTask && (
-            <div className="p-3.5 rounded-md bg-[#0c0c0e] border border-[#27272a] space-y-2.5">
+            <div className="p-3.5 rounded-md bg-[#FFFCF5] border border-[#E4DFD2] space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#4ade80] flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#10b981]" />
+                <span className="text-xs font-semibold text-[#27532F] flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#344B3B]" />
                   Task Specification Decomposed
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1c1c1f] text-[#a1a1aa]">
+                <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#EAE5D7] text-[#77796F]">
                   {parsedTask.category}
                 </span>
               </div>
 
               <div>
-                <h4 className="text-xs font-semibold text-[#f4f4f5]">{parsedTask.title}</h4>
-                <p className="text-xs text-[#a1a1aa] mt-0.5">{parsedTask.objective}</p>
+                <h4 className="text-xs font-semibold text-[#292F29]">{parsedTask.title}</h4>
+                <p className="text-xs text-[#77796F] mt-0.5">{parsedTask.objective}</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-[#27272a] text-xs font-tabular">
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-[#E4DFD2] text-xs font-tabular">
                 <div>
-                  <span className="text-[#a1a1aa] block text-[10px] uppercase">Proposed Budget</span>
-                  <span className="font-semibold text-[#f4f4f5]">
+                  <span className="text-[#77796F] block text-[10px] uppercase">Proposed Budget</span>
+                  <span className="font-semibold text-[#292F29]">
                     ${Number(parsedTask.budget).toFixed(2)} USD
                   </span>
                 </div>
                 <div>
-                  <span className="text-[#a1a1aa] block text-[10px] uppercase">Target SLA</span>
-                  <span className="font-semibold text-[#f4f4f5]">
+                  <span className="text-[#77796F] block text-[10px] uppercase">Target SLA</span>
+                  <span className="font-semibold text-[#292F29]">
                     {parsedTask.timelineHours} Hours
                   </span>
                 </div>
@@ -344,13 +344,13 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3 border-t border-[#27272a] bg-[#0c0c0e] flex items-center justify-between">
+        <div className="px-5 py-3 border-t border-[#E4DFD2] bg-[#FFFCF5] flex items-center justify-between">
           <button
             onClick={() => {
               setParsedTask(null);
               setTranscript("");
             }}
-            className="text-xs text-[#a1a1aa] hover:text-[#f4f4f5] transition-colors"
+            className="text-xs text-[#77796F] hover:text-[#292F29] transition-colors"
           >
             Clear & Reset
           </button>
@@ -358,7 +358,7 @@ export default function VoiceBrokerModal({ isOpen, onClose }: VoiceBrokerModalPr
           <button
             onClick={handleLaunchAuction}
             disabled={!parsedTask || isCreatingProject}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#10b981] hover:bg-[#059669] text-white transition-colors shadow-sm disabled:opacity-40 disabled:pointer-events-none"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-medium bg-[#344B3B] hover:bg-[#273A2D] text-white transition-colors shadow-sm disabled:opacity-40 disabled:pointer-events-none"
           >
             {isCreatingProject ? (
               <>

@@ -127,28 +127,28 @@ export default function LiveExecutionStream({
   }, [isExecuting, onExecutionComplete]);
 
   return (
-    <div className="rounded-lg bg-[#0c0c0e] border border-[#27272a] p-5 space-y-4 shadow-subtle">
+    <div className="rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] p-5 space-y-4 shadow-subtle">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#27272a] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E4DFD2] pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded bg-[#1c1c1f] text-[#10b981] border border-[#27272a]">
+          <div className="p-1.5 rounded bg-[#EAE5D7] text-[#344B3B] border border-[#E4DFD2]">
             <Activity className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-[#f4f4f5] font-mono uppercase tracking-wider flex items-center gap-2">
+            <h4 className="text-xs font-bold text-[#292F29] font-mono uppercase tracking-wider flex items-center gap-2">
               Autonomous Swarm Execution Pipeline
               {isExecuting && (
-                <span className="text-[9px] px-2 py-0.5 rounded bg-[#451a03] text-[#fbbf24] border border-[#92400e] font-mono animate-pulse">
+                <span className="text-[9px] px-2 py-0.5 rounded bg-[#F7F3E8] text-[#8C6D23] border border-[#E5DAC2] font-mono animate-pulse">
                   EXECUTING ({elapsedSeconds}s)
                 </span>
               )}
               {isFinished && (
-                <span className="text-[9px] px-2 py-0.5 rounded bg-[#064e3b] text-[#4ade80] border border-[#065f46] font-mono">
+                <span className="text-[9px] px-2 py-0.5 rounded bg-[#EAF3EB] text-[#27532F] border border-[#CDE3D0] font-mono">
                   ALL STEPS VERIFIED
                 </span>
               )}
             </h4>
-            <p className="text-[11px] text-[#a1a1aa]">
+            <p className="text-[11px] text-[#77796F]">
               Deterministic 4-agent coordination with real-time state delegation
             </p>
           </div>
@@ -166,10 +166,10 @@ export default function LiveExecutionStream({
               key={step.id}
               className={`p-3 rounded-lg border transition-all ${
                 isRunning
-                  ? "bg-[#172554] border-[#3b82f6]/40 shadow-subtle"
+                  ? "bg-[#EBF2FA] border-[#28568A]/40 shadow-subtle"
                   : isDone
-                  ? "bg-[#0c0c0e] border-[#27272a]"
-                  : "bg-[#1c1c1f]/30 border-[#27272a]/60 opacity-60"
+                  ? "bg-[#FFFCF5] border-[#E4DFD2]"
+                  : "bg-[#EAE5D7]/30 border-[#E4DFD2]/60 opacity-60"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
@@ -177,16 +177,16 @@ export default function LiveExecutionStream({
                   <div
                     className={`w-7 h-7 rounded flex items-center justify-center font-mono text-[11px] font-bold shrink-0 border ${
                       isDone
-                        ? "bg-[#064e3b] border-[#065f46] text-[#4ade80]"
+                        ? "bg-[#EAF3EB] border-[#CDE3D0] text-[#27532F]"
                         : isRunning
-                        ? "bg-[#172554] border-[#1e40af] text-[#3b82f6]"
-                        : "bg-[#1c1c1f] border-[#27272a] text-[#a1a1aa]"
+                        ? "bg-[#EBF2FA] border-[#BCD1E7] text-[#28568A]"
+                        : "bg-[#EAE5D7] border-[#E4DFD2] text-[#77796F]"
                     }`}
                   >
                     {isDone ? (
-                      <CheckCircle2 className="w-4 h-4 text-[#4ade80]" />
+                      <CheckCircle2 className="w-4 h-4 text-[#27532F]" />
                     ) : isRunning ? (
-                      <RefreshCw className="w-3.5 h-3.5 text-[#3b82f6] animate-spin" />
+                      <RefreshCw className="w-3.5 h-3.5 text-[#28568A] animate-spin" />
                     ) : (
                       <span>{step.avatar}</span>
                     )}
@@ -194,17 +194,17 @@ export default function LiveExecutionStream({
 
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-[#f4f4f5]">{step.title}</span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#1c1c1f] text-[#f4f4f5] border border-[#27272a]">
+                      <span className="text-xs font-semibold text-[#292F29]">{step.title}</span>
+                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
                         {step.agent}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#a1a1aa] mt-0.5 leading-snug">
+                    <p className="text-[11px] text-[#77796F] mt-0.5 leading-snug">
                       {step.description}
                     </p>
 
                     {(isDone || isRunning) && step.outputSnippet && (
-                      <div className="mt-1.5 flex items-center gap-1.5 text-[10px] font-mono text-[#4ade80] bg-[#064e3b] px-2 py-1 rounded border border-[#065f46]">
+                      <div className="mt-1.5 flex items-center gap-1.5 text-[10px] font-mono text-[#27532F] bg-[#EAF3EB] px-2 py-1 rounded border border-[#CDE3D0]">
                         <ArrowRight className="w-3 h-3 shrink-0" />
                         <span className="truncate">{step.outputSnippet}</span>
                       </div>
@@ -216,10 +216,10 @@ export default function LiveExecutionStream({
                   <span
                     className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
                       isDone
-                        ? "bg-[#064e3b] text-[#4ade80] border border-[#065f46]"
+                        ? "bg-[#EAF3EB] text-[#27532F] border border-[#CDE3D0]"
                         : isRunning
-                        ? "bg-[#172554] text-[#3b82f6] border border-[#1e40af]"
-                        : "bg-[#1c1c1f] text-[#a1a1aa] border border-[#27272a]"
+                        ? "bg-[#EBF2FA] text-[#28568A] border border-[#BCD1E7]"
+                        : "bg-[#EAE5D7] text-[#77796F] border border-[#E4DFD2]"
                     }`}
                   >
                     {isDone ? "VERIFIED" : isRunning ? "RUNNING" : "PENDING"}
@@ -233,9 +233,9 @@ export default function LiveExecutionStream({
 
       {/* Live Terminal Log Drawer */}
       {logs.length > 0 && (
-        <div className="mt-3 p-3 rounded-lg bg-[#f4f4f5] border border-[#27272a] font-mono text-[10px] text-[#1c1c1f] space-y-1 max-h-28 overflow-y-auto">
+        <div className="mt-3 p-3 rounded-lg bg-[#292F29] border border-[#E4DFD2] font-mono text-[10px] text-[#EAE5D7] space-y-1 max-h-28 overflow-y-auto">
           <div className="flex items-center gap-1.5 text-[#9B9C94] pb-1 border-b border-[#3E453E] font-semibold">
-            <Terminal className="w-3 h-3 text-[#fbbf24]" />
+            <Terminal className="w-3 h-3 text-[#B39A65]" />
             <span>Telemetry Log Stream</span>
           </div>
           {logs.map((log, i) => (

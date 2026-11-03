@@ -93,16 +93,16 @@ export default function ScenarioQuickLoaders() {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-baseline justify-between border-b border-[#27272a] pb-2">
+      <div className="flex items-baseline justify-between border-b border-[#E4DFD2] pb-2">
         <div>
-          <h3 className="font-serif text-sm font-medium text-[#f4f4f5]">Pre-Configured Scenarios</h3>
-          <p className="text-xs text-[#a1a1aa]">One-click autonomous commerce and verification workflows</p>
+          <h3 className="font-serif text-sm font-medium text-[#292F29]">Pre-Configured Scenarios</h3>
+          <p className="text-xs text-[#77796F]">One-click autonomous commerce and verification workflows</p>
         </div>
-        <span className="text-xs text-[#a1a1aa] font-sans">Ready to dispatch</span>
+        <span className="text-xs text-[#77796F] font-sans">Ready to dispatch</span>
       </div>
 
       {/* 3-Column Ledger Surface */}
-      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#27272a] bg-[#0c0c0e] border border-[#27272a] rounded-lg shadow-subtle overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#E4DFD2] bg-[#FFFCF5] border border-[#E4DFD2] rounded-lg shadow-subtle overflow-hidden">
         {PRESET_SCENARIOS.map((scenario) => {
           const isLoading = loadingId === scenario.id;
           return (
@@ -110,39 +110,39 @@ export default function ScenarioQuickLoaders() {
               key={scenario.id}
               onClick={() => handleLaunch(scenario)}
               disabled={Boolean(loadingId)}
-              className="group text-left p-4 sm:p-5 flex flex-col justify-between hover:bg-[#1f1f23] transition-colors disabled:opacity-50"
+              className="group text-left p-4 sm:p-5 flex flex-col justify-between hover:bg-[#F9F6ED] transition-colors disabled:opacity-50"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-medium text-[#10b981] bg-[#064e3b] px-2 py-0.5 rounded">
+                  <span className="text-[11px] font-medium text-[#344B3B] bg-[#EBF1EC] px-2 py-0.5 rounded">
                     {scenario.category}
                   </span>
-                  <span className="text-xs font-mono font-medium text-[#f4f4f5] px-2 py-0.5 rounded bg-[#18181b] border border-[#27272a]">
+                  <span className="text-xs font-mono font-medium text-[#292F29] px-2 py-0.5 rounded bg-[#F3EFE3] border border-[#E4DFD2]">
                     {scenario.currencySymbol}{scenario.budget.toLocaleString()} {scenario.currency}
                   </span>
                 </div>
 
-                <div className="text-[11px] text-[#a1a1aa]">
+                <div className="text-[11px] text-[#77796F]">
                   {scenario.label}
                 </div>
 
-                <h4 className="font-serif text-sm font-medium text-[#f4f4f5] group-hover:text-[#10b981] transition-colors leading-snug">
+                <h4 className="font-serif text-sm font-medium text-[#292F29] group-hover:text-[#344B3B] transition-colors leading-snug">
                   {scenario.title}
                 </h4>
 
-                <p className="text-xs text-[#a1a1aa] leading-relaxed line-clamp-2">
+                <p className="text-xs text-[#77796F] leading-relaxed line-clamp-2">
                   {scenario.description}
                 </p>
               </div>
 
-              <div className="pt-4 mt-3 border-t border-[#1f1f23] flex items-center justify-between text-[11px]">
-                <div className="text-[#a1a1aa] font-sans">
-                  <span className="text-[#f4f4f5] font-medium">{scenario.leadAgent}</span>
-                  <span className="text-[#3f3f46]"> → </span>
-                  <span className="text-[#3b82f6] font-medium">{scenario.subAgent}</span>
+              <div className="pt-4 mt-3 border-t border-[#EEEAE0] flex items-center justify-between text-[11px]">
+                <div className="text-[#77796F] font-sans">
+                  <span className="text-[#292F29] font-medium">{scenario.leadAgent}</span>
+                  <span className="text-[#D8D4C7]"> → </span>
+                  <span className="text-[#28568A] font-medium">{scenario.subAgent}</span>
                 </div>
 
-                <span className="text-[#10b981] font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span className="text-[#344B3B] font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   {isLoading ? (
                     <RefreshCw className="w-3 h-3 animate-spin" />
                   ) : (

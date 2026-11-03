@@ -94,7 +94,7 @@ export default function EmbeddedMicroLedger({
         headerName: "Account Type",
         flex: 1.1,
         cellRenderer: (p: any) => (
-          <span className="font-mono text-xs text-[#a1a1aa] font-semibold">{p.value}</span>
+          <span className="font-mono text-xs text-[#77796F] font-semibold">{p.value}</span>
         ),
       },
       { field: "accountName", headerName: "Account / Entity", flex: 1.2 },
@@ -106,8 +106,8 @@ export default function EmbeddedMicroLedger({
           <span
             className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
               p.value === "CREDIT"
-                ? "bg-[#064e3b] text-[#4ade80]"
-                : "bg-[#450a0a] text-[#f87171]"
+                ? "bg-[#EAF3EB] text-[#27532F]"
+                : "bg-[#F8ECEC] text-[#7A2929]"
             }`}
           >
             {p.value}
@@ -119,7 +119,7 @@ export default function EmbeddedMicroLedger({
         headerName: `Amount (${currency})`,
         width: 130,
         cellRenderer: (p: any) => (
-          <span className="font-tabular font-semibold text-[#f4f4f5] text-xs">
+          <span className="font-tabular font-semibold text-[#292F29] text-xs">
             {currencySymbol}{Number(p.value).toFixed(2)}
           </span>
         ),
@@ -151,21 +151,21 @@ export default function EmbeddedMicroLedger({
   };
 
   return (
-    <div className="rounded-lg bg-[#0c0c0e] border border-[#27272a] p-4 space-y-3.5 shadow-subtle">
+    <div className="rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] p-4 space-y-3.5 shadow-subtle">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#1f1f23] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EEEAE0] pb-3">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-[#1c1c1f] flex items-center justify-center text-[#10b981]">
+          <div className="w-6 h-6 rounded bg-[#EAE5D7] flex items-center justify-center text-[#344B3B]">
             <Table2 className="w-3.5 h-3.5" />
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#f4f4f5] uppercase tracking-wider flex items-center gap-2">
+            <h3 className="text-xs font-semibold text-[#292F29] uppercase tracking-wider flex items-center gap-2">
               Embedded AG Grid Micro-Ledger
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#1c1c1f] text-[#a1a1aa]">
+              <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F]">
                 Double-Entry Verified
               </span>
             </h3>
-            <p className="text-[11px] text-[#a1a1aa]">
+            <p className="text-[11px] text-[#77796F]">
               Immutable audit journal for project disbursements and escrow captures
             </p>
           </div>
@@ -180,17 +180,17 @@ export default function EmbeddedMicroLedger({
               value={quickFilter}
               onChange={(e) => onFilterChange(e.target.value)}
               placeholder={isVoiceFiltering ? "Listening for query..." : "Filter micro-ledger..."}
-              className={`text-xs bg-[#0c0c0e] border rounded-md pl-2.5 pr-8 py-1.5 text-[#f4f4f5] placeholder-[#71717a] focus:outline-none transition-all w-48 ${
+              className={`text-xs bg-[#FFFCF5] border rounded-md pl-2.5 pr-8 py-1.5 text-[#292F29] placeholder-[#96998F] focus:outline-none transition-all w-48 ${
                 isVoiceFiltering
-                  ? "border-[#10b981] ring-1 ring-[#10b981]"
-                  : "border-[#27272a]"
+                  ? "border-[#344B3B] ring-1 ring-[#344B3B]"
+                  : "border-[#E4DFD2]"
               }`}
             />
             <button
               onClick={toggleVoiceFilter}
               title={isVoiceFiltering ? "Stop voice listening" : "Speak query (e.g. 'credit')"}
               className={`absolute right-1.5 p-1 rounded transition-colors ${
-                isVoiceFiltering ? "text-[#10b981]" : "text-[#a1a1aa] hover:text-[#f4f4f5]"
+                isVoiceFiltering ? "text-[#344B3B]" : "text-[#77796F] hover:text-[#292F29]"
               }`}
             >
               <Mic className="w-3.5 h-3.5" />
@@ -199,42 +199,42 @@ export default function EmbeddedMicroLedger({
 
           <button
             onClick={onExportCsv}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#f4f4f5] bg-[#1c1c1f] hover:bg-[#27272a] border border-[#27272a] transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors"
           >
-            <Download className="w-3 h-3 text-[#a1a1aa]" />
+            <Download className="w-3 h-3 text-[#77796F]" />
             <span>CSV</span>
           </button>
         </div>
       </div>
 
       {/* Double-Entry Invariant Status Banner */}
-      <div className="p-2.5 rounded-md bg-[#0c0c0e] border border-[#27272a] flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div className="p-2.5 rounded-md bg-[#FFFCF5] border border-[#E4DFD2] flex flex-wrap items-center justify-between gap-2 text-xs">
         <div className="flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-[#10b981]" />
-          <span className="font-semibold text-[#f4f4f5]">
+          <CheckCircle2 className="w-4 h-4 text-[#344B3B]" />
+          <span className="font-semibold text-[#292F29]">
             Mathematical Equilibrium Guaranteed:
           </span>
-          <span className="text-[#a1a1aa] text-[11px]">
+          <span className="text-[#77796F] text-[11px]">
             &Sigma; Debits == &Sigma; Credits (&Delta; = 0.00)
           </span>
         </div>
 
         <div className="flex items-center gap-3 font-tabular text-[11px]">
           <span>
-            <span className="text-[#a1a1aa]">Total Debits: </span>
-            <span className="font-semibold text-[#f4f4f5]">
+            <span className="text-[#77796F]">Total Debits: </span>
+            <span className="font-semibold text-[#292F29]">
               {currencySymbol}{totalDebits.toFixed(2)}
             </span>
           </span>
-          <span className="text-[#3f3f46]">•</span>
+          <span className="text-[#D8D4C7]">•</span>
           <span>
-            <span className="text-[#a1a1aa]">Total Credits: </span>
-            <span className="font-semibold text-[#f4f4f5]">
+            <span className="text-[#77796F]">Total Credits: </span>
+            <span className="font-semibold text-[#292F29]">
               {currencySymbol}{totalCredits.toFixed(2)}
             </span>
           </span>
-          <span className="text-[#3f3f46]">•</span>
-          <span className="px-1.5 py-0.2 rounded font-semibold bg-[#064e3b] text-[#4ade80]">
+          <span className="text-[#D8D4C7]">•</span>
+          <span className="px-1.5 py-0.2 rounded font-semibold bg-[#EAF3EB] text-[#27532F]">
             Reconciled
           </span>
         </div>
