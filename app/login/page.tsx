@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   LogOut,
   Sparkles,
+  Zap,
 } from "lucide-react";
 
 export default function LoginPage() {
@@ -27,6 +28,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
@@ -46,7 +48,7 @@ export default function LoginPage() {
           setTimeout(() => {
             router.push("/");
             router.refresh();
-          }, 800);
+          }, 600);
         }
       } else {
         const { error } = await signUpWithPassword(email.trim(), password, fullName.trim());
@@ -64,9 +66,30 @@ export default function LoginPage() {
     }
   };
 
-  const handleQuickDemoFill = () => {
+  // 1-Click Instant Sample Sign In
+  const handleOneClickSampleSignIn = async () => {
+    setErrorMsg(null);
+    setSuccessMsg(null);
+    setDemoLoading(true);
     setEmail("userexample@gmail.com");
     setPassword("password123");
+
+    try {
+      const { error } = await signInWithPassword("userexample@gmail.com", "password123");
+      if (error) {
+        setErrorMsg("Sample login error: " + error.message);
+      } else {
+        setSuccessMsg("Authenticated as sample user (userexample@gmail.com)! Redirecting...");
+        setTimeout(() => {
+          router.push("/");
+          router.refresh();
+        }, 600);
+      }
+    } catch (err: any) {
+      setErrorMsg(err?.message || "Sample login failed");
+    } finally {
+      setDemoLoading(false);
+    }
   };
 
   if (authLoading) {
@@ -139,7 +162,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto my-10 p-6 sm:p-8 rounded-2xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm space-y-6">
+    <div className="max-w-md mx-auto my-8 p-6 sm:p-8 rounded-2xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm space-y-5">
       {/* Brand Header */}
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAE5D7] text-[#292F29] text-[11px] font-semibold">
@@ -154,6 +177,45 @@ export default function LoginPage() {
             ? "Access autonomous agent projects, contract escrows, and execution ledgers."
             : "Register as a client to commission autonomous multi-agent pipelines."}
         </p>
+      </div>
+
+      {/* 1-Click Sample Sign-In Highlight Card */}
+      <div className="p-3.5 rounded-xl bg-gradient-to-r from-[#EBF2FA] to-[#F0F5FA] border border-[#BCD1E7] space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-[#28568A]">
+            <Zap className="w-4 h-4 fill-[#28568A]" />
+            <span>1-Click Sample Sign-In</span>
+          </div>
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white text-[#28568A] border border-[#BCD1E7]">
+            Demo User
+          </span>
+        </div>
+        <p className="text-[11px] text-[#556980] leading-snug">
+          Click below to instantly log in as the verified demo client (<code>userexample@gmail.com</code>).
+        </p>
+        <button
+          type="button"
+          onClick={handleOneClickSampleSignIn}
+          disabled={demoLoading || loading}
+          className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold text-white bg-[#28568A] hover:bg-[#1E4168] transition-colors shadow-xs disabled:opacity-50"
+        >
+          {demoLoading ? (
+            <div className="animate-spin rounded-full h-3.5 w-3.5 border-b-2 border-white" />
+          ) : (
+            <>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Instant Sign In (Sample User)</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className="relative flex items-center justify-center">
+        <div className="border-t border-[#E4DFD2] w-full" />
+        <span className="bg-[#FFFCF5] px-2 text-[11px] text-[#77796F] uppercase tracking-wider font-medium">
+          or use credentials
+        </span>
       </div>
 
       {/* Mode Switcher */}
@@ -265,7 +327,7 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || demoLoading}
           className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors disabled:opacity-50 shadow-xs"
         >
           {loading ? (
@@ -278,21 +340,6 @@ export default function LoginPage() {
           )}
         </button>
       </form>
-
-      {/* Demo Credentials Quick Fill */}
-      {mode === "signin" && (
-        <div className="pt-2 border-t border-[#E4DFD2]/60">
-          <button
-            type="button"
-            onClick={handleQuickDemoFill}
-            className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium text-[#28568A] bg-[#EBF1F6] hover:bg-[#DEE7F0] border border-[#BCD1E7]/50 transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Use Demo User (userexample@gmail.com)</span>
-          </button>
-        </div>
-      )}
     </div>
   );
 }
-
