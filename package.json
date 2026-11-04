@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "tsx --test tests/**/*.test.mjs",
-    "db:seed": "node scripts/seed-supabase.mjs"
+    "db:seed": "node scripts/seed-supabase.mjs",
+    "db:check": "node --env-file=.env.local scripts/check-supabase.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
