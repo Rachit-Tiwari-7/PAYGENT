@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Sidebar } from "@/components/layout/Sidebar";
-import { EconomicTicker } from "@/components/layout/EconomicTicker";
-import { DemoProvider } from "@/components/demo/DemoContext";
+import { AppShell } from "@/components/layout/AppShell";
 import { AuthProvider } from "@/lib/auth-context";
 
 export const metadata: Metadata = {
@@ -26,20 +23,14 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="bg-[#F3EFE3] text-[#292F29] font-sans antialiased min-h-screen flex flex-col selection:bg-[#F0F2E8] selection:text-[#292F29]">
         <AuthProvider>
-          <DemoProvider>
-            <EconomicTicker />
-            <Navbar />
-            {/* Flush Full-Width Frame: Sidebar starts flush on the left window edge */}
-            <div className="flex flex-1 w-full min-h-0">
-              <Sidebar />
-              <main className="flex-1 min-w-0 overflow-y-auto p-5 sm:p-7 lg:p-9">
-                {children}
-              </main>
-            </div>
-          </DemoProvider>
+          <AppShell>{children}</AppShell>
         </AuthProvider>
       </body>
     </html>

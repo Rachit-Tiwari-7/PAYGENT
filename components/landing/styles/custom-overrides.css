@@ -1,0 +1,507 @@
+/* Inline Style Block 2 */
+
+    body.nexora-landing-active { background-color: #F3EFE3 !important;
+      -webkit-font-smoothing: antialiased;
+    }
+  
+
+/* Inline Style Block 3 (Lenis & Preloader) */
+
+    /*lenis -- IMPORTANT*/
+    html.nexora-landing-active {
+      height: auto;
+      scroll-behavior: initial;
+    }
+
+    html.nexora-landing-active,
+    body.nexora-landing-active { background-color: #F3EFE3 !important;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body.nexora-landing-active.landing-preloading {
+      overflow: hidden;
+    }
+
+    .button-green-container:hover .menu-button__bg,
+    .button-container:hover .menu-button__bg,
+    .articles-btn:hover .articles-button__bg,
+    .footer__form-button-wrapper:hover .menu-button__bg {
+      transform: scale(1.1) !important;
+    }
+
+    .button-container:hover .menu-button__bg {
+      background-color: #fff;
+      opacity: 1 !important;
+    }
+
+    .preloader {
+      display: flex;
+      transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+    }
+
+    html.is-loaded .preloader,
+    body:not(.landing-preloading) .preloader,
+    .preloader.preloader--exiting {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      display: none !important;
+    }
+  
+
+/* Inline Style Block 4 (Embed styles & Keyframes) */
+
+        :root {
+          --doc-height: 100vh;
+        }
+
+        body {
+          -webkit-font-smoothing: antialiased;
+        }
+
+        [no-click] {
+          pointer-events: none;
+        }
+
+        .trigger-wrapper {
+          pointer-events: none;
+        }
+
+        .scroll-wrapper {
+          pointer-events: none;
+        }
+
+        .pointer-wrapper {
+          pointer-events: auto;
+        }
+
+        .header-link {
+          pointer-events: auto;
+        }
+
+        .menu__container-bottom {
+          pointer-events: none;
+        }
+
+        .anim-area-100vh {
+          pointer-events: none;
+        }
+
+        .anim-area-200vh {
+          pointer-events: none;
+        }
+
+        .anim-area-300vh {
+          pointer-events: none;
+        }
+
+        .animate-frame {
+          pointer-events: none;
+        }
+
+        .sticky-space {
+          pointer-events: none;
+        }
+
+        /* -------- Footer form input animation -------- */
+        .footer__field::before,
+        .footer__field::after {
+          content: '';
+          position: absolute;
+          height: 1px;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          width: 100;
+        }
+
+        .footer__field::before {
+          width: 100%;
+          background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer__field::after {
+          background-color: #cafcc4;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .footer__field:hover::after {
+          transform: scaleX(1);
+        }
+
+        /* -------- >Footer form input animation -------- */
+        /* -------- Navigation -------- */
+        .menu-item.w--current {
+          background-color: #faf2ef;
+        }
+
+        .m-open-menu__link.w--current {
+          font-style: italic;
+          color: #cafcc4;
+          border-color: #cafcc4;
+        }
+
+        /* -------- >Navigation -------- */
+        /* ------ menu cta btn ------ */
+        .menu-button .menu-button__bg {
+          transition: top 0.3s ease, left 0.3s ease, right 0.3s ease, bottom 0.3s ease;
+        }
+
+        .menu-button:hover .menu-button__bg {
+          top: -0.18em;
+          left: -0.18em;
+          right: -0.18em;
+          bottom: -0.18em;
+        }
+
+        /* ------ >menu cta btn ------ */
+        a {
+          text-decoration: none;
+        }
+
+        .menu-item {
+          color: inherit;
+        }
+
+        .container-menu__light,
+        .menu-items,
+        .menu-item,
+        .menu-text,
+        .menu-button,
+        .menu-text-non-hover,
+        .m-open-menu,
+        .m-open-menu__link,
+        .button-text-t {
+          font-family: Outfit, "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        }
+
+        .bt-video {
+          display: none !important;
+        }
+
+        /* ------ Nav color change ------ */
+        .container-menu__light {
+          color: #ffffff;
+          --logo-color: #ffffff;
+          --logo-dot-color: #cafcc4;
+          transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .container-menu__light.blue {
+          color: #022336 !important;
+          --logo-color: #022336 !important;
+        }
+
+        .container-menu__light.blue .menu-item,
+        .container-menu__light.blue .menu-text {
+          color: #022336 !important;
+        }
+
+        .container-menu__light:not(.blue) .menu-item,
+        .container-menu__light:not(.blue) .menu-text {
+          color: #ffffff !important;
+        }
+
+        /* Guarantee Section 6S horizontal flex layout */
+        ._6s {
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+        }
+
+        ._6s-horizontal-wrapper {
+          display: flex !important;
+          flex-direction: row !important;
+          flex-wrap: nowrap !important;
+                    min-width: 100%;
+        }
+
+        ._6s-horizontal-card {
+          flex-shrink: 0 !important;
+          flex-grow: 0 !important;
+        }
+
+        /* Sticky WebGL Cosmic Background Container */
+        #intro {
+          background-color: #022336;
+          position: relative;
+        }
+
+        .scroll-animations {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .scroll-anim__video-wrapper {
+          position: sticky;
+          top: 0;
+          height: 100vh;
+          width: 100%;
+          overflow: hidden;
+          background-color: #022336;
+        }
+
+        .scroll-wrapper {
+          position: relative;
+          z-index: 2;
+        }
+
+        /* ------ >Nav color change ------ */
+        /* Slider */
+        ._6s-horizontal-card:last-child {
+          margin-right: 0;
+        }
+
+        ._6s-horizontal-wrapper ._6s-horizontal-card.swiper-slide-prev:first-child~._6s-header {
+          opacity: 0;
+        }
+
+        /* Slider */
+        ._6s-horizontal-wrapper::before {
+          content: '';
+          pointer-events: none;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: -10em;
+          width: 20em;
+          height: 100%;
+          background: linear-gradient(270deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        /* Cursor for slider */
+        .c-cursor {
+          pointer-events: none;
+        }
+
+        ._6s-link-bt {
+          position: relative;
+        }
+
+        ._6s-link-bt::before {
+          content: '';
+          position: absolute;
+          inset: -0.5em;
+        }
+
+        .s8-bt-article::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          inset: 0;
+        }
+
+        @media screen and (max-width: 479px) {
+          .hero-slide__oval-container {
+            height: 100vh;
+            height: var(--doc-height);
+          }
+        }
+
+        /* Team social link */
+        ._6s-link-bt::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          top: 0;
+          border-radius: 100%;
+          background-color: #fff;
+          z-index: -1;
+          -webkit-transition: background 0.3s ease, -webkit-transform 0.3s ease;
+          transition: background 0.3s ease, -webkit-transform 0.3s ease;
+          -o-transition: transform 0.3s ease, background 0.3s ease;
+          transition: transform 0.3s ease, background 0.3s ease;
+          transition: transform 0.3s ease, background 0.3s ease, -webkit-transform 0.3s ease;
+        }
+
+        ._6s-link-bt:hover::before {
+          -webkit-transform: scale(1.1);
+          -ms-transform: scale(1.1);
+          transform: scale(1.1);
+          background-color: #cafcc4;
+        }
+
+        .s8-item:hover {
+          background-color: #cafcc4;
+        }
+
+        .s8-item:hover .s8-bt-article {
+          background-color: #fff;
+        }
+
+        .s8-item:hover .s8-article.is-1 {
+          width: 30em;
+        }
+
+        .s8-item:hover .s8-article.is-2 {
+          height: 70%;
+        }
+
+        /* -------- Hide scrollbar -------- */
+        *::-webkit-scrollbar {
+          display: none;
+        }
+
+        * {
+          -ms-overflow-style: none;
+          /* IE и Edge */
+          scrollbar-width: none;
+          /* Firefox */
+        }
+
+        /* -------- >Hide scrollbar -------- */
+        /* -------- Preloader -------- */
+        @keyframes animate-svg-stroke-1 {
+          0% {
+            stroke-dashoffset: 661.7874755859375px;
+            stroke-dasharray: 661.7874755859375px;
+          }
+
+          69.9999% {
+            stroke-dashoffset: 0;
+            stroke-dasharray: 661.7874755859375px;
+          }
+
+          70% {
+            stroke-dashoffset: 1323.574951171875px;
+            stroke-dasharray: 661.7874755859375px;
+          }
+
+          100% {
+            stroke-dashoffset: 661.7874755859375px;
+            stroke-dasharray: 661.7874755859375px;
+          }
+        }
+
+        .svg-elem-1 {
+          animation: animate-svg-stroke-1 2.6s ease 0s both infinite;
+        }
+
+        /* -------- >Preloader -------- */
+        /* -------- Social share link -------- */
+        @media screen and (min-width: 480px) {
+          .hero-slide__link {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+          }
+
+          .share.open .hero-slide__link {
+            transform: translateY(-2.5em);
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
+
+        .share__list {
+          transform: translateY(2.5em);
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+        }
+
+        .share.open .share__list {
+          transform: translateY(0);
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .share__link::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #fff;
+          border-radius: 100%;
+          z-index: -1;
+          transition: transform 0.3s ease;
+        }
+
+        .share__link:hover::before {
+          transform: scale(1.1);
+        }
+
+        /* -------- >Social share link -------- */
+        /* -------- Nav preloader -------- */
+        .container-menu__light,
+        .container-menu__light-is-back {
+          transform: translateY(-100%);
+          transition: transform 0.6s ease;
+        }
+
+        html.is-loaded .container-menu__light,
+        html.is-loaded .container-menu__light-is-back {
+          transform: translateY(0%);
+        }
+
+        /* -------- >Nav preloader -------- */
+
+        /* -------- WebGL Background Canvas -------- */
+        .scroll-anim__2s-video {
+          overflow: hidden;
+        }
+
+        .scroll-anim__2s-video canvas {
+          width: 100% !important;
+          height: 100% !important;
+          display: block !important;
+          pointer-events: none;
+        }
+
+        /* -------- Hero Initial State & Visibility Fix -------- */
+        .hero-slide__head {
+          display: none !important;
+        }
+
+        /* Ensure the oval container and background image are always visible */
+        .hero-slide__oval-container,
+        html.w-mod-js [data-w-id='37d13c98-9f01-0610-030e-fefc97e35e90'],
+        html.w-mod-disabled-dummy [data-w-id='37d13c98-9f01-0610-030e-fefc97e35e90'] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+
+        /* Ensure links (Read documentation & Share) are visible */
+        .hero-slide__link-container,
+        .hero-slide__links-container,
+        html.w-mod-js [data-w-id='9785e6ca-a1df-1993-03dd-7d11ee2ddcb2'],
+        html.w-mod-disabled-dummy [data-w-id='9785e6ca-a1df-1993-03dd-7d11ee2ddcb2'] {
+          opacity: 1 !important;
+        }
+
+        /* Completely prevent the solid blue curtain from hiding the hero & WebGL */
+        .hero-slide__fill-bg,
+        html.w-mod-js [data-w-id='9ba60a25-a01d-fe95-dca5-f459e87e9d18'],
+        html.w-mod-disabled-dummy [data-w-id='9ba60a25-a01d-fe95-dca5-f459e87e9d18'] {
+          display: none !important;
+          opacity: 0 !important;
+        }
+
+        .hero-slide__fill-side-1,
+        .hero-slide__fill-side-2 {
+          background-color: #101a55 !important;
+        }
+        /* -------- >Hero Initial State & Visibility Fix -------- */
+
+        /* -------- Section 5 Fullscreen Dashboard Image Presentation -------- */
+        ._5s-ipad {
+          height: auto !important;
+          max-width: 60vw !important;
+          border-radius: 14px !important;
+          box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+          bottom: 0 !important;
+        }

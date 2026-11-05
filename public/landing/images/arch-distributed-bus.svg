@@ -1,0 +1,75 @@
+<svg width="320" height="190" viewBox="0 0 320 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lightBg3" x1="0" y1="0" x2="320" y2="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#dce6dd"/>
+      <stop offset="35%" stop-color="#edf2ec"/>
+      <stop offset="100%" stop-color="#f8f9fa"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="320" height="190" fill="url(#lightBg3)"/>
+
+  <!-- Top Header Badge -->
+  <rect x="55" y="10" width="210" height="18" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.15)" stroke-width="1"/>
+  <text x="160" y="22.5" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="8.5" font-weight="700" text-anchor="middle" letter-spacing="1.2">
+    MULTI-TAB BROADCASTCHANNEL BUS
+  </text>
+
+  <!-- Window 1: Faculty Attendance Register (Left) -->
+  <g transform="translate(18, 40)">
+    <rect width="105" height="96" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="1"/>
+    <!-- Browser Titlebar -->
+    <rect x="0" y="0" width="105" height="18" fill="#1e293b"/>
+    <circle cx="8" cy="9" r="2.5" fill="#ffffff" opacity="0.8"/>
+    <circle cx="16" cy="9" r="2.5" fill="#ffffff" opacity="0.8"/>
+    <circle cx="24" cy="9" r="2.5" fill="#ffffff" opacity="0.8"/>
+    <text x="65" y="12.5" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700" text-anchor="middle">Tab I • Faculty</text>
+    
+    <!-- Body -->
+    <text x="8" y="32" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">Attendance Logged</text>
+    <rect x="8" y="38" width="89" height="18" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8"/>
+    <text x="12" y="50" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">Reg: 81.2% (Present)</text>
+
+    <text x="8" y="70" fill="#64748b" font-family="'Times New Roman', Times, Georgia, serif" font-size="6.5" font-style="italic">postMessage(sync_event)</text>
+    <rect x="8" y="76" width="76" height="14" rx="2" fill="#0f172a"/>
+    <text x="12" y="86" fill="#f8fafc" font-family="'Times New Roman', Times, Georgia, serif" font-size="6.5">state.dispatch()</text>
+  </g>
+
+  <!-- Central Real-Time Bus Bridge -->
+  <g transform="translate(133, 68)">
+    <line x1="-8" y1="20" x2="62" y2="20" stroke="#1e293b" stroke-width="1.5"/>
+    <polygon points="62,20 56,16 56,24" fill="#1e293b"/>
+    <polygon points="-8,20 -2,16 -2,24" fill="#1e293b"/>
+
+    <!-- Central Signal Chip -->
+    <rect x="12" y="6" width="30" height="28" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.2"/>
+    <text x="27" y="20" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700" text-anchor="middle">BUS</text>
+    <text x="27" y="30" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="6" font-weight="700" text-anchor="middle">0 ms</text>
+  </g>
+
+  <!-- Window 2: Student Clearance Gate (Right) -->
+  <g transform="translate(197, 40)">
+    <rect width="105" height="96" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="1"/>
+    <!-- Browser Titlebar -->
+    <rect x="0" y="0" width="105" height="18" fill="#1e293b"/>
+    <circle cx="8" cy="9" r="2.5" fill="#ffffff" opacity="0.8"/>
+    <circle cx="16" cy="9" r="2.5" fill="#ffffff" opacity="0.8"/>
+    <circle cx="24" cy="9" r="2.5" fill="#ffffff" opacity="0.8"/>
+    <text x="65" y="12.5" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700" text-anchor="middle">Tab II • Student</text>
+    
+    <!-- Body -->
+    <text x="8" y="32" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">Statutory Clearance</text>
+    <rect x="8" y="38" width="89" height="18" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8"/>
+    <text x="12" y="50" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">Ticket: Unlocked ✓</text>
+
+    <text x="8" y="70" fill="#64748b" font-family="'Times New Roman', Times, Georgia, serif" font-size="6.5" font-style="italic">onmessage(handler)</text>
+    <rect x="8" y="76" width="76" height="14" rx="2" fill="#0f172a"/>
+    <text x="12" y="86" fill="#f8fafc" font-family="'Times New Roman', Times, Georgia, serif" font-size="6.5">0ms UI Re-render</text>
+  </g>
+
+  <!-- Bottom Academic Citation -->
+  <rect x="55" y="160" width="210" height="18" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.15)" stroke-width="1"/>
+  <text x="160" y="172" fill="#334155" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-style="italic" text-anchor="middle">
+    Sub-Millisecond Concurrency without WebSocket Overhead
+  </text>
+</svg>

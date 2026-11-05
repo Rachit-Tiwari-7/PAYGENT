@@ -46,7 +46,7 @@ export default function LoginPage() {
         } else {
           setSuccessMsg("Signed in successfully! Redirecting...");
           setTimeout(() => {
-            router.push("/");
+            router.push("/overview");
             router.refresh();
           }, 600);
         }
@@ -81,7 +81,7 @@ export default function LoginPage() {
       } else {
         setSuccessMsg("Authenticated as sample user (userexample@gmail.com)! Redirecting...");
         setTimeout(() => {
-          router.push("/");
+          router.push("/overview");
           router.refresh();
         }, 600);
       }

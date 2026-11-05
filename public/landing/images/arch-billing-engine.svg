@@ -1,0 +1,75 @@
+<svg width="320" height="190" viewBox="0 0 320 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lightBg8" x1="0" y1="0" x2="320" y2="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#dce6dd"/>
+      <stop offset="35%" stop-color="#edf2ec"/>
+      <stop offset="100%" stop-color="#f8f9fa"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="320" height="190" fill="url(#lightBg8)"/>
+
+  <!-- Top Header Badge -->
+  <rect x="55" y="10" width="210" height="18" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.15)" stroke-width="1"/>
+  <text x="160" y="22.5" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="8.5" font-weight="700" text-anchor="middle" letter-spacing="1.2">
+    ZERO-LEAKAGE BILLING LEDGER
+  </text>
+
+  <!-- Left: Tuition & Dues Invoice Card -->
+  <g transform="translate(18, 40)">
+    <rect width="115" height="96" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="1"/>
+    <!-- Titlebar -->
+    <rect x="0" y="0" width="115" height="18" fill="#1e293b"/>
+    <text x="57" y="12.5" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700" text-anchor="middle">Invoice #NX-FEE-2026</text>
+
+    <!-- Line items -->
+    <text x="8" y="32" fill="#475569" font-family="'Times New Roman', Times, Georgia, serif" font-size="7">Semester Tuition: $3,200</text>
+    <line x1="6" y1="36" x2="109" y2="36" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <text x="8" y="48" fill="#475569" font-family="'Times New Roman', Times, Georgia, serif" font-size="7">Examination Fee: $150</text>
+    <line x1="6" y1="52" x2="109" y2="52" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <text x="8" y="64" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">Total Due: $0.00</text>
+    <line x1="6" y1="68" x2="109" y2="68" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <!-- Paid Badge -->
+    <rect x="10" y="74" width="95" height="15" rx="2" fill="#ecfdf5" stroke="#047857" stroke-width="0.8"/>
+    <text x="57" y="85" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="6.5" font-weight="700" text-anchor="middle">Settled &amp; Reconciled ✓</text>
+  </g>
+
+  <!-- Connective arrow -->
+  <g transform="translate(142, 80)">
+    <line x1="-2" y1="8" x2="34" y2="8" stroke="#1e293b" stroke-width="1.5"/>
+    <polygon points="34,8 28,4 28,12" fill="#1e293b"/>
+  </g>
+
+  <!-- Right: Automatic Clearance Gatekeeper -->
+  <g transform="translate(187, 40)">
+    <rect width="115" height="96" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="1"/>
+    <!-- Titlebar -->
+    <rect x="0" y="0" width="115" height="18" fill="#1e293b"/>
+    <text x="57" y="12.5" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700" text-anchor="middle">Clearance Triggers</text>
+
+    <!-- Trigger 1: Exam Release -->
+    <text x="8" y="32" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">✓ Exam Hall Ticket: OK</text>
+    <line x1="6" y1="36" x2="109" y2="36" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <!-- Trigger 2: Hostel Allotment -->
+    <text x="8" y="48" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">✓ Hostel Clearance: OK</text>
+    <line x1="6" y1="52" x2="109" y2="52" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <!-- Trigger 3: Library NOC -->
+    <text x="8" y="64" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700">✓ Library NOC: Granted</text>
+    <line x1="6" y1="68" x2="109" y2="68" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <!-- Clearance Status -->
+    <rect x="10" y="74" width="95" height="15" rx="2" fill="#047857"/>
+    <text x="57" y="85" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="6.5" font-weight="700" text-anchor="middle">No Hold Placed ✓</text>
+  </g>
+
+  <!-- Bottom Academic Citation -->
+  <rect x="55" y="160" width="210" height="18" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.15)" stroke-width="1"/>
+  <text x="160" y="172" fill="#334155" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-style="italic" text-anchor="middle">
+    Transactional Settlement Binding to Examination Entitlements
+  </text>
+</svg>

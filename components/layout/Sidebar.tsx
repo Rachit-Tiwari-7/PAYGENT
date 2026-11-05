@@ -28,7 +28,7 @@ interface NavItem {
 }
 
 const BUYER_ITEMS: NavItem[] = [
-  { name: "Home", href: "/", icon: Home },
+  { name: "Home", href: "/overview", icon: Home },
   { name: "Explore Agents", href: "/marketplace", icon: Store },
   { name: "My Orders", href: "/projects", icon: Package },
   { name: "Payments", href: "/economy", icon: CreditCard },

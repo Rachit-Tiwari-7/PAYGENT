@@ -1,0 +1,65 @@
+<svg width="320" height="190" viewBox="0 0 320 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lightBg9" x1="0" y1="0" x2="320" y2="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#dce6dd"/>
+      <stop offset="35%" stop-color="#edf2ec"/>
+      <stop offset="100%" stop-color="#f8f9fa"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="320" height="190" fill="url(#lightBg9)"/>
+
+  <!-- Top Header Badge -->
+  <rect x="45" y="10" width="230" height="18" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.15)" stroke-width="1"/>
+  <text x="160" y="22.5" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="8.5" font-weight="700" text-anchor="middle" letter-spacing="1.2">
+    TEAM AC-DC • COMPLIANCE SUITE
+  </text>
+
+  <!-- Left: Live Telemetry & Health Meters -->
+  <g transform="translate(18, 40)">
+    <rect width="120" height="96" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="1"/>
+    <!-- Titlebar -->
+    <rect x="0" y="0" width="120" height="18" fill="#1e293b"/>
+    <text x="60" y="12.5" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700" text-anchor="middle">Live Health Telemetry</text>
+
+    <!-- Metrics -->
+    <text x="8" y="32" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5">• REST State API: 200 OK</text>
+    <line x1="6" y1="36" x2="114" y2="36" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <text x="8" y="48" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5">• Multi-Tab Bus: 0.0 ms</text>
+    <line x1="6" y1="52" x2="114" y2="52" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <text x="8" y="64" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5">• PostgreSQL Pool: Healthy</text>
+    <line x1="6" y1="68" x2="114" y2="68" stroke="#e2e8f0" stroke-width="0.8"/>
+
+    <!-- Operational Badge -->
+    <rect x="10" y="74" width="100" height="15" rx="2" fill="#ecfdf5" stroke="#047857" stroke-width="0.8"/>
+    <text x="60" y="85" fill="#047857" font-family="'Times New Roman', Times, Georgia, serif" font-size="6.5" font-weight="700" text-anchor="middle">All Services Active ✓</text>
+  </g>
+
+  <!-- Right: Judge Auditor Evaluation Cockpit -->
+  <g transform="translate(182, 40)">
+    <rect width="120" height="96" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="1"/>
+    <!-- Titlebar -->
+    <rect x="0" y="0" width="120" height="18" fill="#1e293b"/>
+    <text x="60" y="12.5" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-weight="700" text-anchor="middle">Auditor Controls</text>
+
+    <!-- Action 1 -->
+    <rect x="8" y="24" width="104" height="18" rx="2" fill="#f8fafc" stroke="#1e293b" stroke-width="0.8"/>
+    <text x="60" y="36" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7" font-weight="700" text-anchor="middle">⚡ Launch Dual-Tab Test</text>
+
+    <!-- Action 2 -->
+    <rect x="8" y="46" width="104" height="18" rx="2" fill="#f8fafc" stroke="#1e293b" stroke-width="0.8"/>
+    <text x="60" y="58" fill="#0f172a" font-family="'Times New Roman', Times, Georgia, serif" font-size="7" font-weight="700" text-anchor="middle">📥 Export Audit Log</text>
+
+    <!-- Status 3 -->
+    <rect x="8" y="68" width="104" height="18" rx="2" fill="#047857"/>
+    <text x="60" y="80" fill="#ffffff" font-family="'Times New Roman', Times, Georgia, serif" font-size="7" font-weight="700" text-anchor="middle">✓ Verify PS-6 Criteria</text>
+  </g>
+
+  <!-- Bottom Academic Citation -->
+  <rect x="55" y="160" width="210" height="18" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.15)" stroke-width="1"/>
+  <text x="160" y="172" fill="#334155" font-family="'Times New Roman', Times, Georgia, serif" font-size="7.5" font-style="italic" text-anchor="middle">
+    Live Super-Admin Concurrency &amp; Compliance Verification
+  </text>
+</svg>

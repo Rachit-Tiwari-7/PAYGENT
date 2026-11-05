@@ -1,0 +1,141 @@
+/**
+ * Nexora - Landing Page Modular Stylesheet
+ */
+
+@import "./normalize.css";
+@import "./webflow-core.css";
+@import "./site-components.css";
+@import "./site-responsive.css";
+@import "./swiper-bundle.css";
+@import "./custom-overrides.css";
+
+/* Marzipano Hotspots Styling - Clean Editorial Aesthetic */
+.link-hotspot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+  z-index: 10;
+}
+
+.link-hotspot-inner {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(15, 23, 42, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+}
+
+.link-hotspot:hover .link-hotspot-inner {
+  background: #0f172a;
+  border-color: #0f172a;
+  transform: scale(1.12);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3);
+}
+
+.link-hotspot:hover .link-hotspot-icon {
+  color: #ffffff !important;
+}
+
+.link-hotspot-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #0f172a;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-family: Outfit, "Plus Jakarta Sans", -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.link-hotspot:hover .link-hotspot-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Info Hotspots */
+.info-hotspot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.info-hotspot-inner {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(15, 23, 42, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease;
+  color: #0f172a;
+}
+
+.info-hotspot:hover .info-hotspot-inner {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3);
+  transform: scale(1.12);
+}
+
+
+/* Ensure HackitHero and all sections below display cleanly with proper stacking */
+.home-hero {
+  position: relative;
+  z-index: 10;
+  background: #F3F7F8;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-wrapper {
+  position: relative;
+  z-index: 5;
+}
+
+/* Prevent invisible fallback text in Nexora sections */
+/* Webflow IX2 elements animate normally via ix2 engine */
+
+.scroll-animations {
+  pointer-events: none;
+}
+
+.scroll-anim__2s-video canvas {
+  pointer-events: none;
+}
