@@ -17,7 +17,7 @@ if (typeof globalThis !== "undefined" && typeof (globalThis as any).WebSocket ==
   };
 }
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 // Supabase Cloud Client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://demo-paygent.supabase.co";
@@ -26,19 +26,29 @@ const supabaseKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
   "demo-key";
 
-export const supabase = createClient(supabaseUrl, supabaseKey, {
+export const isSupabaseConfigured = () => {
+  return (
+    Boolean(supabaseUrl) &&
+    Boolean(supabaseKey) &&
+    !supabaseUrl.includes("demo-paygent") &&
+    !supabaseKey.includes("demo")
+  );
+};
+
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey, {
   auth: {
     persistSession: false,
     autoRefreshToken: false,
   },
 });
 
-// Seed data definitions matching supabase/full_setup.sql
+// Seed data definitions for fallback and in-memory test suites
 const SEED_USERS = [
   {
     id: "usr_alex_mercer",
     email: "alex.founder@venture.io",
     name: "Alex Mercer",
+    fullName: "Alex Mercer",
     role: "CLIENT",
     avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
     createdAt: new Date(),
@@ -48,6 +58,7 @@ const SEED_USERS = [
     id: "usr_elena_dev",
     email: "dev@agentcraft.ai",
     name: "Elena Rostova",
+    fullName: "Elena Rostova",
     role: "DEVELOPER",
     avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
     createdAt: new Date(),
@@ -552,7 +563,7 @@ const SEED_REPUTATION_EVENTS = [
   },
 ];
 
-// Helper memory collection implementation
+// Helper memory collection for offline/test fallback
 class MemoryCollection<T extends { id?: string }> {
   private items: T[];
 
@@ -606,7 +617,6 @@ class MemoryCollection<T extends { id?: string }> {
       result = result.slice(0, args.take);
     }
 
-    // Attach includes if requested
     if (args?.include) {
       result = result.map((item) => this.attachIncludes(item, args.include));
     }
@@ -670,27 +680,13 @@ class MemoryCollection<T extends { id?: string }> {
 
   private attachIncludes(item: any, include: any): any {
     const cloned = { ...item };
-    if (include.skills) {
-      cloned.skills = SEED_SKILLS.filter((s) => s.agentId === item.id);
-    }
-    if (include.memories) {
-      cloned.memories = SEED_MEMORIES.filter((m) => m.agentId === item.id);
-    }
-    if (include.versions) {
-      cloned.versions = SEED_VERSIONS.filter((v) => v.agentId === item.id);
-    }
-    if (include.company) {
-      cloned.company = SEED_COMPANIES.find((c) => c.id === item.companyId) || null;
-    }
-    if (include.members) {
-      cloned.members = SEED_AGENTS.filter((a) => a.companyId === item.id);
-    }
-    if (include.companyMembers) {
-      cloned.companyMembers = SEED_COMPANY_MEMBERS.filter((cm) => cm.companyId === item.id);
-    }
-    if (include.tasks) {
-      cloned.tasks = SEED_TASKS.filter((t) => t.projectId === item.id);
-    }
+    if (include.skills) cloned.skills = SEED_SKILLS.filter((s) => s.agentId === item.id);
+    if (include.memories) cloned.memories = SEED_MEMORIES.filter((m) => m.agentId === item.id);
+    if (include.versions) cloned.versions = SEED_VERSIONS.filter((v) => v.agentId === item.id);
+    if (include.company) cloned.company = SEED_COMPANIES.find((c) => c.id === item.companyId) || null;
+    if (include.members) cloned.members = SEED_AGENTS.filter((a) => a.companyId === item.id);
+    if (include.companyMembers) cloned.companyMembers = SEED_COMPANY_MEMBERS.filter((cm) => cm.companyId === item.id);
+    if (include.tasks) cloned.tasks = SEED_TASKS.filter((t) => t.projectId === item.id);
     if (include.bids) {
       cloned.bids = SEED_BIDS.filter((b) => b.projectId === item.id).map((b) => ({
         ...b,
@@ -711,15 +707,7 @@ class MemoryCollection<T extends { id?: string }> {
     }
     if (include.deliverable) {
       const del = SEED_DELIVERABLES.find((d) => d.id === item.deliverableId);
-      if (del) {
-        cloned.deliverable = {
-          ...del,
-          agent: SEED_AGENTS.find((a) => a.id === del.agentId) || { name: "Agent", avatar: "AG" },
-          project: SEED_PROJECTS.find((p) => p.id === del.projectId) || null,
-        };
-      } else {
-        cloned.deliverable = { title: "Executive Report", agent: { name: "Apex Agent" }, project: { title: "Autonomous Research" } };
-      }
+      cloned.deliverable = del ? { ...del, agent: SEED_AGENTS.find((a) => a.id === del.agentId), project: SEED_PROJECTS.find((p) => p.id === del.projectId) } : null;
     }
     if (include.deliverables) {
       cloned.deliverables = SEED_DELIVERABLES.filter((d) => d.projectId === item.id || d.agentId === item.id).map((d) => ({
@@ -729,30 +717,627 @@ class MemoryCollection<T extends { id?: string }> {
         project: SEED_PROJECTS.find((p) => p.id === d.projectId) || null,
       }));
     }
-    if (include.evaluations) {
-      cloned.evaluations = SEED_EVALUATIONS.filter((e) => e.deliverableId === item.id);
+    if (include.evaluations) cloned.evaluations = SEED_EVALUATIONS.filter((e) => e.deliverableId === item.id);
+    if (include.transactions) cloned.transactions = SEED_TRANSACTIONS.filter((tx) => tx.projectId === item.id);
+    if (include.ledgerEntries) cloned.ledgerEntries = SEED_LEDGER.filter((le) => le.projectId === item.id);
+    if (include.user) cloned.user = SEED_USERS.find((u) => u.id === item.userId) || SEED_USERS[0];
+    if (include.leadAgent) cloned.leadAgent = SEED_AGENTS.find((a) => a.id === item.leadAgentId) || null;
+    if (include.assignedAgent) cloned.assignedAgent = SEED_AGENTS.find((a) => a.id === item.assignedAgentId) || null;
+    if (include.reputationEvents) cloned.reputationEvents = SEED_REPUTATION_EVENTS.filter((re) => re.agentId === item.id);
+    if (include.dependencies) cloned.dependencies = SEED_TASK_DEPS.filter((td) => td.taskId === item.id);
+    return cloned;
+  }
+}
+
+// Data transformation helpers
+function toCamelCase(obj: any): any {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(toCamelCase);
+  const result: any = { ...obj };
+
+  for (const [key, value] of Object.entries(obj)) {
+    const camel = key.replace(/_([a-z0-9])/g, (_, g) => g.toUpperCase());
+    if (camel !== key && !(camel in result)) {
+      result[camel] = value;
     }
-    if (include.transactions) {
-      cloned.transactions = SEED_TRANSACTIONS.filter((tx) => tx.projectId === item.id);
+  }
+
+  // Explicit schema aliases
+  if ("is_ceo" in obj) result.isCEO = Boolean(obj.is_ceo);
+  if ("full_name" in obj) {
+    result.name = obj.full_name;
+    result.fullName = obj.full_name;
+  }
+  if ("avatar_url" in obj) result.avatarUrl = obj.avatar_url;
+
+  // JSON fields safeguarding for UI consumption
+  const jsonFields = [
+    "capabilities",
+    "tools",
+    "source_citations",
+    "detailed_feedback",
+    "config_json",
+    "payload",
+    "metadata",
+  ];
+  for (const field of jsonFields) {
+    if (field in obj && typeof obj[field] === "object" && obj[field] !== null) {
+      const stringified = JSON.stringify(obj[field]);
+      result[field] = stringified;
+      const camel = field.replace(/_([a-z0-9])/g, (_, g) => g.toUpperCase());
+      result[camel] = stringified;
     }
-    if (include.ledgerEntries) {
-      cloned.ledgerEntries = SEED_LEDGER.filter((le) => le.projectId === item.id);
+  }
+
+  // Numeric coercions for financial/metrics values
+  const numericFields = [
+    "budget", "spent", "amount", "hourly_rate", "base_price", "reputation_score",
+    "success_rate", "completed_projects", "total_earnings", "total_revenue",
+    "avg_delivery_time_hours", "agreed_price", "platform_fee", "proposed_price",
+    "technical_score", "completeness_score", "quality_score", "compliance_score",
+    "evidence_score", "overall_score", "equity_share", "level", "endorsements",
+    "order_index", "estimated_hours", "allocated_amount", "confidence_score",
+    "round", "original_price", "offered_price", "delta", "previous_value", "new_value"
+  ];
+  for (const f of numericFields) {
+    if (f in obj && obj[f] !== null && obj[f] !== undefined) {
+      const num = Number(obj[f]);
+      if (!isNaN(num)) {
+        result[f] = num;
+        const camel = f.replace(/_([a-z0-9])/g, (_, g) => g.toUpperCase());
+        result[camel] = num;
+      }
     }
-    if (include.user) {
-      cloned.user = SEED_USERS.find((u) => u.id === item.userId) || SEED_USERS[0];
+  }
+
+  return result;
+}
+
+function toSnakeCase(obj: any): any {
+  if (!obj || typeof obj !== "object") return obj;
+  const result: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value === undefined) continue;
+    let snake = key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+    if (key === "isCEO") snake = "is_ceo";
+    if (key === "name" && !("full_name" in obj)) snake = "full_name";
+    if (key === "fullName") snake = "full_name";
+    if (key === "avatarUrl") snake = "avatar_url";
+    result[snake] = value;
+  }
+  return result;
+}
+
+// Live Supabase table collection adapter
+class SupabaseCollection<T extends { id?: string }> {
+  private tableName: string;
+  private idPrefix: string;
+  private memoryFallback: MemoryCollection<T>;
+
+  constructor(tableName: string, idPrefix: string, initialMemory: T[]) {
+    this.tableName = tableName;
+    this.idPrefix = idPrefix;
+    this.memoryFallback = new MemoryCollection(initialMemory);
+  }
+
+  private generateId(): string {
+    const hex = Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10);
+    return `${this.idPrefix}_${hex.substring(0, 16)}`;
+  }
+
+  async findMany(args?: { where?: any; include?: any; orderBy?: any; take?: number }): Promise<any[]> {
+    if (!isSupabaseConfigured()) {
+      return this.memoryFallback.findMany(args);
     }
-    if (include.leadAgent) {
-      cloned.leadAgent = SEED_AGENTS.find((a) => a.id === item.leadAgentId) || null;
+
+    try {
+      let query = supabase.from(this.tableName).select("*");
+
+      if (args?.where) {
+        for (const [key, val] of Object.entries(args.where)) {
+          if (key === "OR" && Array.isArray(val)) {
+            const orConditions = val
+              .map((cond) => {
+                const [k, v] = Object.entries(cond)[0];
+                const snakeK = toSnakeCase({ [k]: true }) ? Object.keys(toSnakeCase({ [k]: true }))[0] : k;
+                return `${snakeK}.eq.${v}`;
+              })
+              .join(",");
+            if (orConditions) {
+              query = query.or(orConditions);
+            }
+          } else if (val && typeof val === "object") {
+            const snakeKey = Object.keys(toSnakeCase({ [key]: true }))[0];
+            if ("contains" in (val as any)) {
+              query = query.ilike(snakeKey, `%${(val as any).contains}%`);
+            } else if ("equals" in (val as any)) {
+              query = query.eq(snakeKey, (val as any).equals);
+            }
+          } else {
+            const snakeKey = Object.keys(toSnakeCase({ [key]: true }))[0];
+            query = query.eq(snakeKey, val);
+          }
+        }
+      }
+
+      if (args?.orderBy) {
+        const [field, direction] = Object.entries(args.orderBy)[0] as [string, "asc" | "desc"];
+        const snakeField = Object.keys(toSnakeCase({ [field]: true }))[0];
+        query = query.order(snakeField, { ascending: direction === "asc" });
+      }
+
+      if (args?.take) {
+        query = query.limit(args.take);
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.warn(`Supabase findMany on ${this.tableName} failed, falling back to memory:`, error.message);
+        return this.memoryFallback.findMany(args);
+      }
+
+      let items = (data || []).map(toCamelCase);
+
+      if (args?.include && items.length > 0) {
+        items = await Promise.all(items.map((item) => this.attachIncludes(item, args.include)));
+      }
+
+      return items;
+    } catch (err: any) {
+      console.warn(`Supabase findMany error on ${this.tableName}:`, err?.message);
+      return this.memoryFallback.findMany(args);
     }
-    if (include.assignedAgent) {
-      cloned.assignedAgent = SEED_AGENTS.find((a) => a.id === item.assignedAgentId) || null;
+  }
+
+  async findFirst(args?: { where?: any; include?: any; orderBy?: any }): Promise<any | null> {
+    const list = await this.findMany({ ...args, take: 1 });
+    return list[0] || null;
+  }
+
+  async findUnique(args: { where: any; include?: any }): Promise<any | null> {
+    const list = await this.findMany({ ...args, take: 1 });
+    return list[0] || null;
+  }
+
+  async create(args: { data: any; include?: any }): Promise<any> {
+    if (!isSupabaseConfigured()) {
+      return this.memoryFallback.create(args);
     }
-    if (include.reputationEvents) {
-      cloned.reputationEvents = SEED_REPUTATION_EVENTS.filter((re) => re.agentId === item.id);
+
+    try {
+      const payload = toSnakeCase(args.data);
+      if (!payload.id && this.tableName !== "profiles") {
+        payload.id = this.generateId();
+      }
+
+      // Ensure valid UUID for project user foreign key if referencing profiles
+      if (this.tableName === "projects" && payload.user_id) {
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(payload.user_id);
+        if (!isUUID) {
+          const { data: firstProfile } = await supabase.from("profiles").select("id").limit(1).maybeSingle();
+          if (firstProfile) {
+            payload.user_id = firstProfile.id;
+          } else {
+            delete payload.user_id;
+          }
+        }
+      }
+
+      const { data, error } = await supabase.from(this.tableName).insert(payload).select().single();
+
+      if (error) {
+        console.warn(`Supabase create on ${this.tableName} failed, falling back to memory:`, error.message);
+        return this.memoryFallback.create(args);
+      }
+
+      let created = toCamelCase(data);
+      if (args.include) {
+        created = await this.attachIncludes(created, args.include);
+      }
+      return created;
+    } catch (err: any) {
+      console.warn(`Supabase create error on ${this.tableName}:`, err?.message);
+      return this.memoryFallback.create(args);
     }
-    if (include.dependencies) {
-      cloned.dependencies = SEED_TASK_DEPS.filter((td) => td.taskId === item.id);
+  }
+
+  async createMany(args: { data: any[] }): Promise<{ count: number }> {
+    if (!isSupabaseConfigured()) {
+      return this.memoryFallback.createMany(args);
     }
+
+    try {
+      const payloads = args.data.map((item) => {
+        const p = toSnakeCase(item);
+        if (!p.id && this.tableName !== "profiles") {
+          p.id = this.generateId();
+        }
+        return p;
+      });
+
+      const { error } = await supabase.from(this.tableName).insert(payloads);
+      if (error) {
+        console.warn(`Supabase createMany on ${this.tableName} failed, falling back to memory:`, error.message);
+        return this.memoryFallback.createMany(args);
+      }
+
+      return { count: payloads.length };
+    } catch (err: any) {
+      console.warn(`Supabase createMany error on ${this.tableName}:`, err?.message);
+      return this.memoryFallback.createMany(args);
+    }
+  }
+
+  async update(args: { where: any; data: any }): Promise<any> {
+    if (!isSupabaseConfigured()) {
+      return this.memoryFallback.update(args);
+    }
+
+    try {
+      const matchCriteria = toSnakeCase(args.where);
+      const updatePayload = toSnakeCase(args.data);
+
+      // Handle increment fields
+      for (const [k, v] of Object.entries(args.data)) {
+        if (v && typeof v === "object" && "increment" in (v as any)) {
+          const current = await this.findFirst({ where: args.where });
+          const snakeKey = Object.keys(toSnakeCase({ [k]: true }))[0];
+          updatePayload[snakeKey] = (Number(current?.[k] || current?.[snakeKey] || 0)) + (v as any).increment;
+        }
+      }
+
+      updatePayload.updated_at = new Date().toISOString();
+
+      const { data, error } = await supabase
+        .from(this.tableName)
+        .update(updatePayload)
+        .match(matchCriteria)
+        .select()
+        .single();
+
+      if (error) {
+        console.warn(`Supabase update on ${this.tableName} failed, falling back to memory:`, error.message);
+        return this.memoryFallback.update(args);
+      }
+
+      return toCamelCase(data);
+    } catch (err: any) {
+      console.warn(`Supabase update error on ${this.tableName}:`, err?.message);
+      return this.memoryFallback.update(args);
+    }
+  }
+
+  async count(args?: { where?: any }): Promise<number> {
+    if (!isSupabaseConfigured()) {
+      return this.memoryFallback.count(args);
+    }
+
+    try {
+      let query = supabase.from(this.tableName).select("*", { count: "exact", head: true });
+      if (args?.where) {
+        for (const [key, val] of Object.entries(args.where)) {
+          const snakeKey = Object.keys(toSnakeCase({ [key]: true }))[0];
+          query = query.eq(snakeKey, val);
+        }
+      }
+      const { count, error } = await query;
+      if (error) {
+        return this.memoryFallback.count(args);
+      }
+      return count || 0;
+    } catch {
+      return this.memoryFallback.count(args);
+    }
+  }
+
+  async deleteMany(): Promise<{ count: number }> {
+    if (!isSupabaseConfigured()) {
+      return this.memoryFallback.deleteMany();
+    }
+    const { error } = await supabase.from(this.tableName).delete().neq("id", "___paygent_keep_all___");
+    if (error) {
+      return this.memoryFallback.deleteMany();
+    }
+    return { count: 0 };
+  }
+
+  private async attachIncludes(item: any, include: any): Promise<any> {
+    const cloned = { ...item };
+
+    try {
+      // 1. Agent includes
+      if (include.skills) {
+        const { data } = await supabase.from("agent_skills").select("*").eq("agent_id", item.id);
+        cloned.skills = (data || []).map(toCamelCase);
+      }
+      if (include.memories) {
+        const { data } = await supabase.from("agent_memories").select("*").eq("agent_id", item.id);
+        cloned.memories = (data || []).map(toCamelCase);
+      }
+      if (include.versions) {
+        const { data } = await supabase.from("agent_versions").select("*").eq("agent_id", item.id);
+        cloned.versions = (data || []).map(toCamelCase);
+      }
+      if (include.company && item.company_id) {
+        const { data } = await supabase.from("companies").select("*").eq("id", item.company_id).maybeSingle();
+        cloned.company = data ? toCamelCase(data) : null;
+      }
+      if (include.members) {
+        const { data } = await supabase.from("agents").select("*, agent_skills(*)").eq("company_id", item.id);
+        cloned.members = (data || []).map((a) => {
+          const c = toCamelCase(a);
+          c.skills = (a.agent_skills || []).map(toCamelCase);
+          return c;
+        });
+      }
+      if (include.companyMembers) {
+        const { data } = await supabase.from("company_members").select("*").eq("company_id", item.id);
+        cloned.companyMembers = (data || []).map(toCamelCase);
+      }
+
+      // 2. Project tasks + dependencies + assigned agent
+      if (include.tasks) {
+        const { data: rawTasks } = await supabase
+          .from("tasks")
+          .select("*")
+          .eq("project_id", item.id)
+          .order("order_index", { ascending: true });
+
+        const tasks = (rawTasks || []).map(toCamelCase);
+        if (include.tasks.include?.assignedAgent) {
+          const agentIds = Array.from(new Set(tasks.map((t) => t.assignedAgentId).filter(Boolean)));
+          if (agentIds.length > 0) {
+            const { data: agents } = await supabase.from("agents").select("*").in("id", agentIds);
+            const agentMap = new Map((agents || []).map((a) => [a.id, toCamelCase(a)]));
+            for (const t of tasks) {
+              t.assignedAgent = t.assignedAgentId ? agentMap.get(t.assignedAgentId) || null : null;
+            }
+          }
+        }
+        if (include.tasks.include?.dependencies) {
+          const taskIds = tasks.map((t) => t.id);
+          if (taskIds.length > 0) {
+            const { data: deps } = await supabase.from("task_dependencies").select("*").in("task_id", taskIds);
+            const depMap = new Map<string, any[]>();
+            for (const d of deps || []) {
+              const list = depMap.get(d.task_id) || [];
+              list.push(toCamelCase(d));
+              depMap.set(d.task_id, list);
+            }
+            for (const t of tasks) {
+              t.dependencies = depMap.get(t.id) || [];
+            }
+          }
+        }
+        cloned.tasks = tasks;
+      }
+
+      // 3. Project bids + negotiations + agent
+      if (include.bids) {
+        const { data: rawBids } = await supabase
+          .from("bids")
+          .select("*")
+          .eq("project_id", item.id)
+          .order("proposed_price", { ascending: true });
+
+        const bids = (rawBids || []).map(toCamelCase);
+        if (include.bids.include?.agent) {
+          const agentIds = Array.from(new Set(bids.map((b) => b.agentId).filter(Boolean)));
+          if (agentIds.length > 0) {
+            const { data: agents } = await supabase.from("agents").select("*").in("id", agentIds);
+            const agentMap = new Map((agents || []).map((a) => [a.id, toCamelCase(a)]));
+            for (const b of bids) {
+              b.agent = agentMap.get(b.agentId) || { name: "Agent", avatar: "AG" };
+            }
+          }
+        }
+        if (include.bids.include?.negotiations) {
+          const bidIds = bids.map((b) => b.id);
+          if (bidIds.length > 0) {
+            const { data: negs } = await supabase.from("negotiations").select("*").in("bid_id", bidIds);
+            const negMap = new Map<string, any[]>();
+            for (const n of negs || []) {
+              const list = negMap.get(n.bid_id) || [];
+              list.push(toCamelCase(n));
+              negMap.set(n.bid_id, list);
+            }
+            for (const b of bids) {
+              b.negotiations = negMap.get(b.id) || [];
+            }
+          }
+        }
+        cloned.bids = bids;
+      }
+
+      // 4. Project contracts + leadAgent + events + subContracts
+      if (include.contracts) {
+        const { data: rawContracts } = await supabase.from("contracts").select("*").eq("project_id", item.id);
+        const contracts = (rawContracts || []).map(toCamelCase);
+
+        const leadAgentIds = Array.from(new Set(contracts.map((c) => c.leadAgentId).filter(Boolean)));
+        let leadAgentMap = new Map<string, any>();
+        if (leadAgentIds.length > 0) {
+          const { data: agents } = await supabase.from("agents").select("*").in("id", leadAgentIds);
+          leadAgentMap = new Map((agents || []).map((a) => [a.id, toCamelCase(a)]));
+        }
+
+        const contractIds = contracts.map((c) => c.id);
+        let eventMap = new Map<string, any[]>();
+        if (contractIds.length > 0) {
+          const { data: events } = await supabase
+            .from("contract_events")
+            .select("*")
+            .in("contract_id", contractIds)
+            .order("created_at", { ascending: false });
+          for (const ev of events || []) {
+            const list = eventMap.get(ev.contract_id) || [];
+            list.push(toCamelCase(ev));
+            eventMap.set(ev.contract_id, list);
+          }
+        }
+
+        for (const c of contracts) {
+          c.leadAgent = leadAgentMap.get(c.leadAgentId) || { name: "Lead", avatar: "LD" };
+          c.events = eventMap.get(c.id) || [];
+          c.subContracts = contracts
+            .filter((sc) => sc.parentContractId === c.id)
+            .map((sc) => ({
+              ...sc,
+              leadAgent: leadAgentMap.get(sc.leadAgentId) || { name: "Sub", avatar: "SB" },
+            }));
+        }
+        cloned.contracts = contracts;
+      }
+
+      // 5. Deliverables + agent + evaluations + project
+      if (include.deliverables) {
+        const { data: rawDels } = await supabase
+          .from("deliverables")
+          .select("*")
+          .or(`project_id.eq.${item.id},agent_id.eq.${item.id}`)
+          .order("created_at", { ascending: false });
+
+        const dels = (rawDels || []).map(toCamelCase);
+        const delIds = dels.map((d) => d.id);
+
+        if (delIds.length > 0) {
+          const { data: evals } = await supabase.from("evaluations").select("*").in("deliverable_id", delIds);
+          const evalMap = new Map<string, any[]>();
+          for (const ev of evals || []) {
+            const list = evalMap.get(ev.deliverable_id) || [];
+            list.push(toCamelCase(ev));
+            evalMap.set(ev.deliverable_id, list);
+          }
+          for (const d of dels) {
+            d.evaluations = evalMap.get(d.id) || [];
+          }
+        }
+
+        const agentIds = Array.from(new Set(dels.map((d) => d.agentId).filter(Boolean)));
+        if (agentIds.length > 0) {
+          const { data: agents } = await supabase.from("agents").select("*").in("id", agentIds);
+          const aMap = new Map((agents || []).map((a) => [a.id, toCamelCase(a)]));
+          for (const d of dels) {
+            d.agent = aMap.get(d.agentId) || { name: "Agent", avatar: "AG" };
+          }
+        }
+
+        cloned.deliverables = dels;
+      }
+
+      if (include.deliverable && item.deliverable_id) {
+        const { data: del } = await supabase.from("deliverables").select("*").eq("id", item.deliverable_id).maybeSingle();
+        if (del) {
+          const cDel = toCamelCase(del);
+          if (del.agent_id) {
+            const { data: a } = await supabase.from("agents").select("*").eq("id", del.agent_id).maybeSingle();
+            cDel.agent = a ? toCamelCase(a) : { name: "Agent", avatar: "AG" };
+          }
+          if (del.project_id) {
+            const { data: p } = await supabase.from("projects").select("*").eq("id", del.project_id).maybeSingle();
+            cDel.project = p ? toCamelCase(p) : null;
+          }
+          cloned.deliverable = cDel;
+        }
+      }
+
+      // 6. Evaluations
+      if (include.evaluations) {
+        const { data } = await supabase.from("evaluations").select("*").eq("deliverable_id", item.id);
+        cloned.evaluations = (data || []).map(toCamelCase);
+      }
+
+      // 7. Transactions + payment events
+      if (include.transactions) {
+        const { data: rawTx } = await supabase
+          .from("transactions")
+          .select("*")
+          .eq("project_id", item.id)
+          .order("created_at", { ascending: false });
+
+        const txs = (rawTx || []).map(toCamelCase);
+        const txIds = txs.map((t) => t.id);
+        if (txIds.length > 0) {
+          const { data: pevs } = await supabase.from("payment_events").select("*").in("transaction_id", txIds);
+          const pevMap = new Map<string, any[]>();
+          for (const pe of pevs || []) {
+            const list = pevMap.get(pe.transaction_id) || [];
+            list.push(toCamelCase(pe));
+            pevMap.set(pe.transaction_id, list);
+          }
+          for (const t of txs) {
+            t.paymentEvents = pevMap.get(t.id) || [];
+          }
+        }
+        cloned.transactions = txs;
+      }
+
+      // 8. Double-entry ledger entries
+      if (include.ledgerEntries) {
+        const { data } = await supabase
+          .from("ledger_entries")
+          .select("*")
+          .eq("project_id", item.id)
+          .order("created_at", { ascending: false });
+        cloned.ledgerEntries = (data || []).map(toCamelCase);
+      }
+
+      // 9. Agent messages
+      if (include.agentMessages) {
+        const { data: msgs } = await supabase
+          .from("agent_messages")
+          .select("*")
+          .eq("project_id", item.id)
+          .order("created_at", { ascending: true });
+        cloned.agentMessages = (msgs || []).map(toCamelCase);
+      }
+
+      // 10. Single relations
+      if (include.user && item.user_id) {
+        const { data: prof } = await supabase.from("profiles").select("*").eq("id", item.user_id).maybeSingle();
+        cloned.user = prof ? toCamelCase(prof) : SEED_USERS[0];
+      }
+      if (include.leadAgent && item.lead_agent_id) {
+        const { data: a } = await supabase.from("agents").select("*").eq("id", item.lead_agent_id).maybeSingle();
+        cloned.leadAgent = a ? toCamelCase(a) : null;
+      }
+      if (include.assignedAgent && item.assigned_agent_id) {
+        const { data: a } = await supabase.from("agents").select("*").eq("id", item.assigned_agent_id).maybeSingle();
+        cloned.assignedAgent = a ? toCamelCase(a) : null;
+      }
+      if (include.project && item.project_id) {
+        const { data: p } = await supabase.from("projects").select("*").eq("id", item.project_id).maybeSingle();
+        cloned.project = p ? toCamelCase(p) : null;
+      }
+      if (include.contract && item.contract_id) {
+        const { data: c } = await supabase.from("contracts").select("*").eq("id", item.contract_id).maybeSingle();
+        cloned.contract = c ? toCamelCase(c) : null;
+      }
+      if (include.reputationEvents) {
+        const { data } = await supabase
+          .from("reputation_events")
+          .select("*")
+          .eq("agent_id", item.id)
+          .order("created_at", { ascending: false });
+        cloned.reputationEvents = (data || []).map(toCamelCase);
+      }
+      if (include.contractsAsLead) {
+        const { data } = await supabase
+          .from("contracts")
+          .select("*")
+          .eq("lead_agent_id", item.id)
+          .order("created_at", { ascending: false });
+        cloned.contractsAsLead = (data || []).map(toCamelCase);
+      }
+      if (include.dependencies && item.id) {
+        const { data } = await supabase.from("task_dependencies").select("*").eq("task_id", item.id);
+        cloned.dependencies = (data || []).map(toCamelCase);
+      }
+    } catch (err: any) {
+      console.warn("Error resolving attachIncludes from Supabase:", err?.message);
+    }
+
     return cloned;
   }
 }
@@ -765,31 +1350,31 @@ const globalForDb = globalThis as unknown as {
 export const db =
   globalForDb.db ||
   {
-    user: new MemoryCollection(SEED_USERS),
-    company: new MemoryCollection(SEED_COMPANIES),
-    agent: new MemoryCollection(SEED_AGENTS),
-    agentSkill: new MemoryCollection(SEED_SKILLS),
-    agentMemory: new MemoryCollection(SEED_MEMORIES),
-    agentVersion: new MemoryCollection(SEED_VERSIONS),
-    companyMember: new MemoryCollection(SEED_COMPANY_MEMBERS),
-    project: new MemoryCollection(SEED_PROJECTS),
-    task: new MemoryCollection(SEED_TASKS),
-    taskDependency: new MemoryCollection(SEED_TASK_DEPS),
-    bid: new MemoryCollection(SEED_BIDS),
-    negotiation: new MemoryCollection(SEED_NEGOTIATIONS),
-    contract: new MemoryCollection(SEED_CONTRACTS),
-    contractEvent: new MemoryCollection(SEED_CONTRACT_EVENTS),
-    deliverable: new MemoryCollection(SEED_DELIVERABLES),
-    evaluation: new MemoryCollection(SEED_EVALUATIONS),
-    dispute: new MemoryCollection([]),
-    transaction: new MemoryCollection(SEED_TRANSACTIONS),
-    ledgerEntry: new MemoryCollection(SEED_LEDGER),
-    paymentEvent: new MemoryCollection(SEED_PAYMENT_EVENTS),
-    reputationEvent: new MemoryCollection(SEED_REPUTATION_EVENTS),
-    workflowRun: new MemoryCollection([]),
-    agentMessage: new MemoryCollection([]),
-    integration: new MemoryCollection(SEED_INTEGRATIONS),
-    automationEvent: new MemoryCollection([]),
+    user: new SupabaseCollection("profiles", "usr", SEED_USERS),
+    company: new SupabaseCollection("companies", "cmp", SEED_COMPANIES),
+    agent: new SupabaseCollection("agents", "agt", SEED_AGENTS),
+    agentSkill: new SupabaseCollection("agent_skills", "skl", SEED_SKILLS),
+    agentMemory: new SupabaseCollection("agent_memories", "mem", SEED_MEMORIES),
+    agentVersion: new SupabaseCollection("agent_versions", "ver", SEED_VERSIONS),
+    companyMember: new SupabaseCollection("company_members", "cpm", SEED_COMPANY_MEMBERS),
+    project: new SupabaseCollection("projects", "prj", SEED_PROJECTS),
+    task: new SupabaseCollection("tasks", "tsk", SEED_TASKS),
+    taskDependency: new SupabaseCollection("task_dependencies", "dep", SEED_TASK_DEPS),
+    bid: new SupabaseCollection("bids", "bid", SEED_BIDS),
+    negotiation: new SupabaseCollection("negotiations", "neg", SEED_NEGOTIATIONS),
+    contract: new SupabaseCollection("contracts", "ctr", SEED_CONTRACTS),
+    contractEvent: new SupabaseCollection("contract_events", "cev", SEED_CONTRACT_EVENTS),
+    deliverable: new SupabaseCollection("deliverables", "del", SEED_DELIVERABLES),
+    evaluation: new SupabaseCollection("evaluations", "eva", SEED_EVALUATIONS),
+    dispute: new SupabaseCollection("disputes", "dsp", []),
+    transaction: new SupabaseCollection("transactions", "txn", SEED_TRANSACTIONS),
+    ledgerEntry: new SupabaseCollection("ledger_entries", "ldg", SEED_LEDGER),
+    paymentEvent: new SupabaseCollection("payment_events", "pev", SEED_PAYMENT_EVENTS),
+    reputationEvent: new SupabaseCollection("reputation_events", "rep", SEED_REPUTATION_EVENTS),
+    workflowRun: new SupabaseCollection("automation_events", "wfr", []),
+    agentMessage: new SupabaseCollection("agent_messages", "msg", []),
+    integration: new SupabaseCollection("integrations", "int", SEED_INTEGRATIONS),
+    automationEvent: new SupabaseCollection("automation_events", "aut", []),
     $disconnect: async () => {},
   };
 
@@ -798,4 +1383,3 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export default db;
-

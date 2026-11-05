@@ -3,13 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, Mic, Sparkles, HelpCircle } from "lucide-react";
+import { Plus, Mic, Sparkles, HelpCircle, LogIn, LogOut, User as UserIcon } from "lucide-react";
 import VoiceBrokerModal from "@/components/broker/VoiceBrokerModal";
 import GuidedTour from "@/components/onboarding/GuidedTour";
 import { sounds } from "@/lib/audio";
+import { useAuth } from "@/lib/auth-context";
 
 export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
   const router = useRouter();
+  const { user, profile, signOut } = useAuth();
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const [isTourOpen, setIsTourOpen] = useState(false);
 
@@ -46,6 +48,19 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
   const handleOpenVoice = () => {
     sounds.playMicStart();
     setIsVoiceOpen(true);
+  };
+
+  const getInitials = () => {
+    if (profile?.fullName) {
+      const parts = profile.fullName.trim().split(" ");
+      return parts.length > 1
+        ? (parts[0][0] + parts[1][0]).toUpperCase()
+        : parts[0].slice(0, 2).toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.slice(0, 2).toUpperCase();
+    }
+    return "AM";
   };
 
   return (
@@ -115,15 +130,45 @@ export function Navbar({ onOpenDemo }: { onOpenDemo?: () => void }) {
               <span>New Project</span>
             </Link>
 
-            {/* User Profile */}
-            <div className="flex items-center gap-2 pl-2 border-l border-[#E4DFD2] ml-1">
-              <div className="w-7 h-7 rounded-full bg-[#EAE5D7] border border-[#E4DFD2] flex items-center justify-center text-[11px] font-semibold text-[#292F29]">
-                AM
+            {/* User Profile / Auth State */}
+            {user ? (
+              <div className="flex items-center gap-2 pl-2 border-l border-[#E4DFD2] ml-1">
+                <Link
+                  href="/login"
+                  title="View Account Details"
+                  className="flex items-center gap-2 hover:opacity-85 transition-opacity"
+                >
+                  <div className="w-7 h-7 rounded-full bg-[#344B3B] text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
+                    {getInitials()}
+                  </div>
+                  <div className="hidden lg:flex flex-col text-left">
+                    <span className="text-xs font-semibold text-[#292F29] leading-tight">
+                      {profile?.fullName || user.email?.split("@")[0] || "Client"}
+                    </span>
+                    <span className="text-[10px] text-[#3B6E4C] leading-none font-medium">
+                      {profile?.role || "CLIENT"}
+                    </span>
+                  </div>
+                </Link>
+                <button
+                  onClick={() => signOut()}
+                  title="Sign Out"
+                  className="p-1 rounded-md text-[#77796F] hover:text-[#8C2323] hover:bg-[#FDF0ED] transition-colors"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
               </div>
-              <span className="text-xs font-medium text-[#292F29] hidden lg:inline">
-                Alex Mercer
-              </span>
-            </div>
+            ) : (
+              <div className="flex items-center gap-2 pl-2 border-l border-[#E4DFD2] ml-1">
+                <Link
+                  href="/login"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold text-[#344B3B] bg-[#EAF3EB] hover:bg-[#DDECE0] border border-[#CDE3D0] transition-colors shadow-xs"
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>Sign In</span>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </header>

@@ -35,4 +35,5 @@ Click the **"1-Click Interactive Demo"** button in the navigation bar to observe
 - [`README.md`](./README.md) — Architectural overview, core protocols, and AG Grid specification.
 - [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — Technical architecture and protocol invariants.
 - [`docs/API_REFERENCE.md`](./docs/API_REFERENCE.md) — Endpoints, parameters, and payload schemas.
-- [`supabase/full_setup.sql`](./supabase/full_setup.sql) — Production PostgreSQL schema and database seed script.
+- [`supabase/setup.sql`](./supabase/setup.sql) — Complete Supabase schema, RLS, auth trigger, and seed script.
+- [`supabase/README.md`](./supabase/README.md) — Supabase project setup and sign-in instructions.
