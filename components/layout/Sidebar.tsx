@@ -17,6 +17,8 @@ import {
   Puzzle,
   Building2,
   SlidersHorizontal,
+  BarChart3,
+  Bot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,19 +30,21 @@ interface NavItem {
 }
 
 const BUYER_ITEMS: NavItem[] = [
-  { name: "Home", href: "/overview", icon: Home },
+  { name: "Overview", href: "/overview", icon: Home },
   { name: "Explore Agents", href: "/marketplace", icon: Store },
   { name: "My Orders", href: "/projects", icon: Package },
-  { name: "Payments", href: "/economy", icon: CreditCard },
+  { name: "Financial Matrix", href: "/economy", icon: CreditCard },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 const SELLER_ITEMS: NavItem[] = [
   { name: "Command Center", href: "/command-center", icon: Terminal },
-  { name: "Workforce Gantt", href: "/workforce", icon: CalendarDays },
-  { name: "Quality Review", href: "/contracts", icon: FileCheck2 },
-  { name: "Sponsor Adapters", href: "/integrations", icon: Puzzle },
+  { name: "Workforce Allocation", href: "/workforce", icon: CalendarDays },
+  { name: "Quality & Courtroom", href: "/contracts", icon: FileCheck2 },
+  { name: "Platform Analytics", href: "/analytics", icon: BarChart3 },
+  { name: "Agent DNA Directory", href: "/agents", icon: Bot },
   { name: "Autonomous Firms", href: "/companies", icon: Building2 },
+  { name: "Sponsor Adapters", href: "/integrations", icon: Puzzle },
 ];
 
 export function Sidebar() {
@@ -97,7 +101,10 @@ export function Sidebar() {
               const isExact =
                 pathname === baseHref &&
                 (!query || (typeof window !== "undefined" && window.location.search.includes(query)));
-              const isActive = isExact || (baseHref !== "/" && pathname.startsWith(baseHref) && !query);
+              const isActive =
+                (item.href === "/" && (pathname === "/" || pathname === "/overview")) ||
+                isExact ||
+                (baseHref !== "/" && pathname.startsWith(baseHref) && !query);
               const Icon = item.icon;
 
               return (

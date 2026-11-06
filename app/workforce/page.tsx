@@ -66,7 +66,7 @@ export default function WorkforceSchedulerPage() {
 
         <div className="flex items-center gap-2 shrink-0">
           <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[#EAE5D7] border border-[#E4DFD2] text-[#292F29]">
-            Bryntum Gantt Engine
+            Autonomous Workforce Scheduler & Gantt Allocation (Bryntum Standard Compatible)
           </span>
         </div>
       </div>

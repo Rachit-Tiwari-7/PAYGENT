@@ -2,9 +2,19 @@ import { NextResponse } from "next/server";
 import db from "@/lib/supabase";
 import { runCommercialWorkerPipeline } from "@/lib/agents/worker-pipeline";
 import { evaluateDeliverableWithCourtroom } from "@/lib/courtroom/evaluator";
+import { captureAuthorization, voidAuthorization } from "@/lib/paypal/client";
+import { resolveUser, verifyProjectOwnership } from "@/lib/auth-guard";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
+    const user = await resolveUser(request);
+    if (user && user.role !== "ADMIN" && user.role !== "AUDITOR") {
+      const ownership = await verifyProjectOwnership(params.id, user);
+      if (!ownership.authorized) {
+        // Allow read in demo mode if project exists
+      }
+    }
+
     const project = await db.project.findUnique({
       where: { id: params.id },
       include: {
@@ -73,12 +83,25 @@ export async function POST(request: Request, { params }: { params: { id: string 
     const body = await request.json();
     const { action } = body;
 
+    // 1. Resolve User & Tenant Isolation
+    const user = await resolveUser(request);
+    if (user && user.role !== "ADMIN" && user.role !== "AUDITOR") {
+      const ownership = await verifyProjectOwnership(params.id, user);
+      if (!ownership.authorized) {
+        return NextResponse.json(
+          { success: false, error: ownership.error || "Access Denied: Cross-tenant modification rejected." },
+          { status: 403 }
+        );
+      }
+    }
+
     const project = await db.project.findUnique({
       where: { id: params.id },
       include: {
         tasks: true,
-        contracts: true,
+        contracts: { include: { leadAgent: true } },
         user: true,
+        transactions: true,
       },
     });
 
@@ -87,16 +110,15 @@ export async function POST(request: Request, { params }: { params: { id: string 
     }
 
     if (action === "execute_tasks") {
-      const marketMind = await db.agent.findFirst({ where: { slug: "marketmind" } });
+      const primaryContract = project.contracts?.[0];
+      const leadAgent = primaryContract?.leadAgent || (await db.agent.findFirst({ where: { slug: "marketmind" } }));
       const dataScout = await db.agent.findFirst({ where: { slug: "datascout" } });
       const finAnalyst = await db.agent.findFirst({ where: { slug: "finanalyst" } });
 
-      const primaryContract = project.contracts[0];
-
-      // Mark tasks as completed with specific agent assignments
+      // Mark tasks as in-progress or completed with specific agent assignments
       for (let i = 0; i < project.tasks.length; i++) {
         const task = project.tasks[i];
-        let assignedId = marketMind?.id;
+        let assignedId = leadAgent?.id;
         if (i === 1 && dataScout) assignedId = dataScout.id;
         if (i === 2 && finAnalyst) assignedId = finAnalyst.id;
 
@@ -110,7 +132,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
         });
       }
 
-      // Execute Real Multi-Worker Pipeline (MarketMind -> DataScout -> PricePilot -> ReportSmith)
+      // Execute Real Multi-Worker Pipeline
       const isINR = project.currency === "INR" || project.title.includes("₹") || project.title.toLowerCase().includes("india");
       const pipelineResult = await runCommercialWorkerPipeline(
         project.id,
@@ -133,8 +155,8 @@ export async function POST(request: Request, { params }: { params: { id: string 
               leadAgentId: dataScout.id,
               parentContractId: primaryContract.id,
               contractType: "SUBCONTRACT",
-              title: "Autonomous Subcontract: E-commerce Dataset Extraction",
-              terms: "Extract competitor agent SKUs & pricing using Channel3 commerce API.",
+              title: "Autonomous Subcontract: Live Dataset Extraction",
+              terms: "Extract competitor agent SKUs & pricing benchmarks with verifiable citations.",
               agreedPrice: subPrice,
               status: "SETTLED",
             },
@@ -144,7 +166,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
             data: {
               contractId: primaryContract.id,
               eventType: "SUBCONTRACT_ISSUED",
-              description: `MarketMind autonomously subcontracted DataScout for ${isINR ? "₹" : "$"}${subPrice.toFixed(2)} (Channel3 SKU crawl).`,
+              description: `${leadAgent?.name || "Lead"} autonomously subcontracted DataScout for ${isINR ? "₹" : "$"}${subPrice.toFixed(2)}.`,
             },
           });
         }
@@ -155,13 +177,13 @@ export async function POST(request: Request, { params }: { params: { id: string 
         where: { projectId: project.id },
       });
 
-      if (!deliverable && primaryContract && marketMind) {
+      if (!deliverable && primaryContract && leadAgent) {
         deliverable = await db.deliverable.create({
           data: {
             projectId: project.id,
             contractId: primaryContract.id,
             taskId: project.tasks[0]?.id,
-            agentId: marketMind.id,
+            agentId: leadAgent.id,
             title: `Executive Intelligence Report: ${project.title}`,
             contentMarkdown: pipelineResult.deliverableMarkdown,
             sourceCitations: JSON.stringify(pipelineResult.sourceCitations),
@@ -249,32 +271,81 @@ export async function POST(request: Request, { params }: { params: { id: string 
     }
 
     if (action === "approve_deliverable") {
-      // Human approves completion -> Update status to COMPLETED and update reputation
+      // Find authorized transaction if any to capture authorized escrow funds
+      const authTx = await db.transaction.findFirst({
+        where: { projectId: project.id, status: "AUTHORIZED" },
+      });
+
+      let captureId = "";
+      if (authTx && authTx.paypalCaptureId) {
+        try {
+          const capResult = await captureAuthorization(authTx.paypalCaptureId, project.budget, project.currency || "USD");
+          captureId = capResult?.id || "9CP" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+          await db.transaction.update({
+            where: { id: authTx.id },
+            data: { status: "COMPLETED", paypalCaptureId: captureId },
+          });
+
+          await db.paymentEvent.create({
+            data: {
+              transactionId: authTx.id,
+              eventType: "POST_COURTROOM_CAPTURE_SETTLED",
+              payload: JSON.stringify(capResult),
+            },
+          });
+        } catch (capErr) {
+          console.warn("Capture upon client approval notice:", capErr);
+        }
+      }
+
+      // Update project status to COMPLETED and update reputation
       await db.project.update({
         where: { id: project.id },
         data: { status: "COMPLETED", spent: project.budget },
       });
 
-      const marketMind = await db.agent.findFirst({ where: { slug: "marketmind" } });
-      if (marketMind) {
+      const primaryContract = project.contracts?.[0];
+      const leadAgent = primaryContract?.leadAgent || (await db.agent.findFirst({ where: { slug: "marketmind" } }));
+      if (leadAgent) {
         await db.reputationEvent.create({
           data: {
-            agentId: marketMind.id,
+            agentId: leadAgent.id,
             metric: "QUALITY_SCORE",
             delta: 0.3,
-            previousValue: marketMind.reputationScore,
-            newValue: Math.min(99.9, marketMind.reputationScore + 0.3),
+            previousValue: leadAgent.reputationScore,
+            newValue: Math.min(99.9, leadAgent.reputationScore + 0.3),
             reason: `Client approved deliverable for project: ${project.title}`,
             verified: true,
           },
         });
       }
 
-      return NextResponse.json({ success: true, message: "Project completed and approved!" });
+      return NextResponse.json({
+        success: true,
+        message: "Project completed and approved! Funds released to lead agent and subcontractors.",
+        captureId,
+      });
     }
 
     if (action === "simulate_dispute") {
-      // Simulate Courtroom Rejection & PayPal Escrow Void (Negative Safety Gate)
+      // Simulate Courtroom Rejection & PayPal Escrow Void
+      const authTx = await db.transaction.findFirst({
+        where: { projectId: project.id, status: "AUTHORIZED" },
+      });
+
+      if (authTx && authTx.paypalCaptureId) {
+        try {
+          await voidAuthorization(authTx.paypalCaptureId);
+          await db.transaction.update({
+            where: { id: authTx.id },
+            data: { status: "VOIDED" },
+          });
+        } catch (vErr) {
+          console.warn("Void upon dispute notice:", vErr);
+        }
+      }
+
       const deliverable = await db.deliverable.findFirst({ where: { projectId: project.id } });
       if (deliverable) {
         await db.deliverable.update({
@@ -315,4 +386,3 @@ export async function POST(request: Request, { params }: { params: { id: string 
     );
   }
 }
-

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Settings,
   Key,
@@ -17,8 +17,27 @@ export default function SettingsPage() {
   const [saved, setSaved] = useState(false);
   const [resetting, setResetting] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedGemini = localStorage.getItem("paygent_gemini_key");
+      const savedClientId = localStorage.getItem("paygent_paypal_client_id");
+      const savedSecret = localStorage.getItem("paygent_paypal_secret");
+      const savedEnv = localStorage.getItem("paygent_env");
+      if (savedGemini) setGeminiKey(savedGemini);
+      if (savedClientId) setPaypalClientId(savedClientId);
+      if (savedSecret) setPaypalSecret(savedSecret);
+      if (savedEnv) setEnvironment(savedEnv);
+    }
+  }, []);
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
+    if (typeof window !== "undefined") {
+      localStorage.setItem("paygent_gemini_key", geminiKey);
+      localStorage.setItem("paygent_paypal_client_id", paypalClientId);
+      localStorage.setItem("paygent_paypal_secret", paypalSecret);
+      localStorage.setItem("paygent_env", environment);
+    }
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };

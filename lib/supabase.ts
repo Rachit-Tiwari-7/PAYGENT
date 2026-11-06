@@ -563,12 +563,68 @@ const SEED_REPUTATION_EVENTS = [
   },
 ];
 
-// Helper memory collection for offline/test fallback
+// Persistence disk storage helper for server environments when Supabase cloud is offline
+function getStoreFilePath(): string | null {
+  if (typeof window !== "undefined") return null;
+  try {
+    const path = require("path");
+    return path.join(process.cwd(), "data", "paygent-store.json");
+  } catch {
+    return null;
+  }
+}
+
+function loadPersistedTable(tableName: string): any[] | null {
+  if (typeof window !== "undefined") return null;
+  try {
+    const fs = require("fs");
+    const filePath = getStoreFilePath();
+    if (!filePath || !fs.existsSync(filePath)) return null;
+    const raw = fs.readFileSync(filePath, "utf-8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed[tableName]) ? parsed[tableName] : null;
+  } catch {
+    return null;
+  }
+}
+
+function savePersistedTable(tableName: string, items: any[]) {
+  if (typeof window !== "undefined") return;
+  try {
+    const fs = require("fs");
+    const path = require("path");
+    const filePath = getStoreFilePath();
+    if (!filePath) return;
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    let store: Record<string, any[]> = {};
+    if (fs.existsSync(filePath)) {
+      try {
+        store = JSON.parse(fs.readFileSync(filePath, "utf-8")) || {};
+      } catch {}
+    }
+    store[tableName] = items;
+    fs.writeFileSync(filePath, JSON.stringify(store, null, 2), "utf-8");
+  } catch {
+    // Non-fatal if filesystem is read-only
+  }
+}
+
+// Helper memory collection for offline/test fallback with automatic disk persistence
 class MemoryCollection<T extends { id?: string }> {
+  private tableName: string;
   private items: T[];
 
-  constructor(initialItems: T[]) {
-    this.items = [...initialItems];
+  constructor(tableName: string, initialItems: T[]) {
+    this.tableName = tableName;
+    const persisted = loadPersistedTable(tableName);
+    if (persisted && Array.isArray(persisted) && persisted.length > 0) {
+      this.items = [...persisted];
+    } else {
+      this.items = [...initialItems];
+    }
   }
 
   async findMany(args?: { where?: any; include?: any; orderBy?: any; take?: number }): Promise<any[]> {
@@ -642,13 +698,21 @@ class MemoryCollection<T extends { id?: string }> {
       ...args.data,
     };
     this.items.unshift(newItem as any);
+    savePersistedTable(this.tableName, this.items);
     return args.include ? this.attachIncludes(newItem, args.include) : newItem;
   }
 
   async createMany(args: { data: any[] }): Promise<{ count: number }> {
     for (const item of args.data) {
-      await this.create({ data: item });
+      const newItem = {
+        id: item.id || "gen_" + Math.random().toString(36).substring(2, 12),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        ...item,
+      };
+      this.items.unshift(newItem as any);
     }
+    savePersistedTable(this.tableName, this.items);
     return { count: args.data.length };
   }
 
@@ -664,6 +728,7 @@ class MemoryCollection<T extends { id?: string }> {
       }
     }
     target.updatedAt = new Date();
+    savePersistedTable(this.tableName, this.items);
     return target;
   }
 
@@ -675,6 +740,7 @@ class MemoryCollection<T extends { id?: string }> {
   async deleteMany(): Promise<{ count: number }> {
     const count = this.items.length;
     this.items = [];
+    savePersistedTable(this.tableName, this.items);
     return { count };
   }
 
@@ -817,7 +883,7 @@ class SupabaseCollection<T extends { id?: string }> {
   constructor(tableName: string, idPrefix: string, initialMemory: T[]) {
     this.tableName = tableName;
     this.idPrefix = idPrefix;
-    this.memoryFallback = new MemoryCollection(initialMemory);
+    this.memoryFallback = new MemoryCollection(tableName, initialMemory);
   }
 
   private generateId(): string {

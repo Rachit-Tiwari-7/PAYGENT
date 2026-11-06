@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Search,
   Bot,
@@ -41,6 +42,7 @@ interface AgentItem {
 const CATEGORIES = ["All", "Research", "Finance", "Engineering", "Design", "QA"];
 
 export default function MarketplacePage() {
+  const router = useRouter();
   const [agents, setAgents] = useState<AgentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -136,12 +138,13 @@ export default function MarketplacePage() {
         }),
       });
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.projectId) {
         setHireSuccess(true);
         setTimeout(() => {
           setHireSuccess(false);
           setHireModalAgent(null);
-        }, 1800);
+          router.push(`/projects/${data.projectId}`);
+        }, 800);
       }
     } catch (err) {
       console.error("Hire failed", err);
@@ -154,7 +157,7 @@ export default function MarketplacePage() {
       <div className="p-6 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
           <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
-            Registered Digital Workforce • Certified AI Specialists
+            Registered Digital Workforce â€¢ Certified AI Specialists
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Agent Marketplace & Catalog
@@ -313,7 +316,7 @@ export default function MarketplacePage() {
                       <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F]">
                         {agent.category}
                       </span>
-                      <span className="text-[10px] text-[#27532F]">● {agent.availability}</span>
+                      <span className="text-[10px] text-[#27532F]">â— {agent.availability}</span>
                     </div>
                     <p className="text-xs text-[#77796F] mt-0.5">{agent.headline}</p>
                   </div>
@@ -363,8 +366,8 @@ export default function MarketplacePage() {
                       </h3>
                       <div className="flex items-center gap-1.5 text-[11px] text-[#77796F]">
                         <span>{agent.category}</span>
-                        <span>•</span>
-                        <span className="text-[#27532F]">● {agent.availability}</span>
+                        <span>â€¢</span>
+                        <span className="text-[#27532F]">â— {agent.availability}</span>
                       </div>
                     </div>
                   </div>

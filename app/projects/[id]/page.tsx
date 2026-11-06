@@ -22,6 +22,7 @@ import {
   Sparkles,
   ShieldAlert,
   SlidersHorizontal,
+  Lock,
 } from "lucide-react";
 import { formatCurrency, formatDate, getStatusBadgeClass } from "@/lib/utils";
 import confetti from "canvas-confetti";
@@ -31,6 +32,7 @@ import LiveExecutionStepper from "@/components/projects/LiveExecutionStepper";
 import EmbeddedMicroLedger from "@/components/projects/EmbeddedMicroLedger";
 import DeliverableToolbar from "@/components/deliverables/DeliverableToolbar";
 import AgentComparisonDrawer, { AgentComparisonData } from "@/components/agents/AgentComparisonDrawer";
+import PayPalEscrowModal from "@/components/payments/PayPalEscrowModal";
 import { sounds } from "@/lib/audio";
 
 export default function UnifiedProjectWarRoomPage() {
@@ -39,6 +41,7 @@ export default function UnifiedProjectWarRoomPage() {
   const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
+  const [isEscrowModalOpen, setIsEscrowModalOpen] = useState(false);
   const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<
     "deliverables" | "capital_flow" | "ledger" | "bids" | "contracts"
   >("deliverables");
@@ -259,6 +262,9 @@ export default function UnifiedProjectWarRoomPage() {
   const deliverable = project.deliverables?.[0];
   const evaluation = deliverable?.courtEvaluation || deliverable?.evaluations?.[0];
   const transaction = project.transactions?.[0];
+  const authorizedTx = project.transactions?.find((t: any) => t.status === "AUTHORIZED");
+  const completedTx = project.transactions?.find((t: any) => t.status === "COMPLETED");
+  const isEscrowLocked = Boolean(project.escrowLocked || authorizedTx || completedTx);
   const rawCurrency = project.currency || "USD";
   const activeCurrency = displayCurrency === "ORIGINAL" ? rawCurrency : displayCurrency;
   const currencySymbol = activeCurrency === "INR" ? "₹" : "$";
@@ -275,7 +281,7 @@ export default function UnifiedProjectWarRoomPage() {
   };
 
   const hasDeliverable = Boolean(deliverable);
-  const isSettled = project.status === "COMPLETED";
+  const isSettled = project.status === "COMPLETED" || Boolean(completedTx);
 
   return (
     <div className="space-y-6 w-full max-w-7xl pb-12">
@@ -356,6 +362,33 @@ export default function UnifiedProjectWarRoomPage() {
             </button>
           </div>
 
+          {/* Upstream Escrow Authorization Button */}
+          {!isEscrowLocked && (
+            <button
+              onClick={() => setIsEscrowModalOpen(true)}
+              className="px-3.5 py-1.5 rounded-md text-xs font-semibold text-white bg-[#28568A] hover:bg-[#1F436D] transition-colors shadow-sm flex items-center gap-1.5"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>Authorize Escrow with PayPal</span>
+            </button>
+          )}
+
+          {/* Verified Escrow Pill */}
+          {isEscrowLocked && !isSettled && (
+            <div className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-[#EAF3EB] text-[#27532F] border border-[#CDE3D0] flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#27532F]" />
+              <span>PayPal Escrow Locked ({currencySymbol}{Number(project.budget || 0).toFixed(2)})</span>
+            </div>
+          )}
+
+          {/* Settled Badge */}
+          {isSettled && (
+            <div className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-[#EAF3EB] text-[#27532F] border border-[#CDE3D0] flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#27532F]" />
+              <span>Payment Captured & Disbursed</span>
+            </div>
+          )}
+
           {!hasDeliverable && (
             <button
               onClick={handleExecute}
@@ -365,7 +398,7 @@ export default function UnifiedProjectWarRoomPage() {
               {actionLoading ? (
                 <>
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  <span>Executing...</span>
+                  <span>Executing Swarm...</span>
                 </>
               ) : (
                 <>
@@ -376,7 +409,27 @@ export default function UnifiedProjectWarRoomPage() {
             </button>
           )}
 
-          {hasDeliverable && !transaction && (
+          {hasDeliverable && !isSettled && (
+            <button
+              onClick={handleApprove}
+              disabled={actionLoading}
+              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+            >
+              {actionLoading ? (
+                <>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  <span>Settling Escrow...</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>Approve & Settle Escrow</span>
+                </>
+              )}
+            </button>
+          )}
+
+          {hasDeliverable && !isEscrowLocked && !isSettled && (
             <button
               onClick={handlePayPalCheckout}
               disabled={payingLoading}
@@ -390,24 +443,13 @@ export default function UnifiedProjectWarRoomPage() {
               ) : (
                 <>
                   <CreditCard className="w-3.5 h-3.5" />
-                  <span>Settle with PayPal</span>
+                  <span>Direct PayPal Capture</span>
                 </>
               )}
             </button>
           )}
 
-          {hasDeliverable && !isSettled && (
-            <button
-              onClick={handleApprove}
-              disabled={actionLoading}
-              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
-            >
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>Approve & Release</span>
-            </button>
-          )}
-
-          {hasDeliverable && project.status !== "CANCELLED" && (
+          {hasDeliverable && project.status !== "CANCELLED" && !isSettled && (
             <button
               onClick={handleSimulateDispute}
               disabled={actionLoading}
@@ -427,7 +469,7 @@ export default function UnifiedProjectWarRoomPage() {
       {/* 3. Main Workspace Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left Panel: Execution Stepper (4.5 cols) */}
-        <div className="lg:col-span-5 space-y-4">
+        <div className="lg:col-span-5 space-y-4 w-full min-w-0 overflow-x-auto">
           <LiveExecutionStepper
             tasks={project.tasks || []}
             currencySymbol={currencySymbol}
@@ -453,7 +495,7 @@ export default function UnifiedProjectWarRoomPage() {
         </div>
 
         {/* Right Panel: Workspace Tabs & Context (7.5 cols) */}
-        <div className="lg:col-span-7 space-y-4">
+        <div className="lg:col-span-7 space-y-4 w-full min-w-0 overflow-x-auto">
           {/* Tabs */}
           <div className="flex items-center gap-1 border-b border-[#E4DFD2] pb-2 overflow-x-auto no-scrollbar">
             {[
@@ -896,6 +938,19 @@ export default function UnifiedProjectWarRoomPage() {
         selectedAgents={compareAgents}
         onRemoveAgent={(id) => setCompareAgents((prev) => prev.filter((a) => a.id !== id))}
         onClear={() => setCompareAgents([])}
+      />
+
+      {/* Upstream PayPal Escrow Modal */}
+      <PayPalEscrowModal
+        isOpen={isEscrowModalOpen}
+        onClose={() => setIsEscrowModalOpen(false)}
+        projectId={project.id}
+        projectTitle={project.title}
+        amount={Number(project.budget) || 100}
+        currency={project.currency || "USD"}
+        onAuthorizationSuccess={async () => {
+          await fetchProject();
+        }}
       />
     </div>
   );

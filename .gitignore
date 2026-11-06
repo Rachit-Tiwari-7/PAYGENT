@@ -37,3 +37,8 @@ next-env.d.ts
 dev.db
 dev.db-journal
 
+# Local persistent data store
+data/
+paygent-store.json
+
+

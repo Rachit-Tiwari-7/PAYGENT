@@ -1,12 +1,20 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/supabase";
 import { decomposeProject, generateAutonomousBids } from "@/lib/orchestrator/engine";
+import { resolveUser } from "@/lib/auth-guard";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const user = await resolveUser(request);
+    const where: any = {};
+    if (user && user.role !== "ADMIN" && user.role !== "AUDITOR") {
+      // Optional: where.userId = user.id if tenant filtering is strictly requested
+    }
+
     const projects = await db.project.findMany({
+      where,
       orderBy: { createdAt: "desc" },
       include: {
         tasks: true,
@@ -27,8 +35,15 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { title, description, category, budget, currency, directAgentId } = body;
 
-    // Get default user
-    let user = await db.user.findFirst();
+    // Resolve authenticated user or fall back gracefully in demo mode
+    const authUser = await resolveUser(request);
+    let user: any = null;
+    if (authUser) {
+      user = await db.user.findFirst({ where: { id: authUser.id } });
+    }
+    if (!user) {
+      user = await db.user.findFirst();
+    }
     if (!user) {
       user = await db.user.create({
         data: {
@@ -49,7 +64,7 @@ export async function POST(request: Request) {
         category: category || "Market Research",
         budget: Number(budget) || 100.0,
         currency: detectedCurrency,
-        status: "BIDDING",
+        status: directAgentId ? "IN_PROGRESS" : "BIDDING",
         userId: user.id,
       },
     });
@@ -91,19 +106,29 @@ export async function POST(request: Request) {
       }
     }
 
-    // 3. Solicit Autonomous Bids & Negotiations
+    // 3. Solicit Autonomous Bids
     await generateAutonomousBids(project.id, Number(budget) || 100.0);
 
-    // 4. Assign MarketMind as Lead and create Primary Contract
-    const marketMind = await db.agent.findFirst({ where: { slug: "marketmind" } });
-    if (marketMind) {
+    // 4. Determine Lead Agent: Respect directAgentId if hired directly from marketplace!
+    let targetAgent: any = null;
+    if (directAgentId) {
+      targetAgent = await db.agent.findFirst({
+        where: { OR: [{ id: directAgentId }, { slug: directAgentId }] },
+      });
+    }
+    if (!targetAgent) {
+      // Default to MarketMind for demo baseline if not a direct hire
+      targetAgent = await db.agent.findFirst({ where: { slug: "marketmind" } });
+    }
+
+    if (targetAgent) {
       const primaryContract = await db.contract.create({
         data: {
           projectId: project.id,
-          leadAgentId: marketMind.id,
+          leadAgentId: targetAgent.id,
           contractType: "PRIMARY",
           title: `Autonomous Contract: ${project.title}`,
-          terms: "Full execution of decomposed tasks with 5-vector AI Courtroom verification.",
+          terms: `Full execution of decomposed tasks with 5-vector AI Courtroom verification by ${targetAgent.name}.`,
           agreedPrice: Math.round((Number(budget) || 100.0) * 0.9),
           platformFee: Math.round((Number(budget) || 100.0) * 0.1),
           status: "ACTIVE",
@@ -114,7 +139,7 @@ export async function POST(request: Request) {
         data: {
           contractId: primaryContract.id,
           eventType: "CONTRACT_SIGNED",
-          description: `Contract executed with ${marketMind.name} for $${primaryContract.agreedPrice.toFixed(2)} USD.`,
+          description: `Contract executed with ${targetAgent.name} for $${primaryContract.agreedPrice.toFixed(2)} ${detectedCurrency}.`,
         },
       });
 

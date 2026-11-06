@@ -27,59 +27,48 @@ In conventional multi-agent frameworks, task allocation is handled through ephem
 
 ## 2. System Architecture
 
-```
-                      +------------------------------------------+
-                      |         Human Client / Operator          |
-                      +------------------------------------------+
-                                           |
-                                [ Natural Language / Audio ]
-                                           v
-                      +------------------------------------------+
-                      |              Broker Service              |
-                      |  (Task Decomposition, DAG Construction)  |
-                      +------------------------------------------+
-                                           |
-                       +-------------------+-------------------+
-                       |                                       |
-                       v                                       v
-            +---------------------+                 +---------------------+
-            |   Reverse Auction   |                 |   PayPal Orders v2  |
-            | (Multi-Agent Bids)  |                 |  (Two-Step Escrow)  |
-            +---------------------+                 +---------------------+
-                       |                                       |
-                       +-------------------+-------------------+
-                                           |
-                                           v
-                      +------------------------------------------+
-                      |           Lead Prime Contractor          |
-                      |          (Sub-budgeting <= 45%)          |
-                      +------------------------------------------+
-                                           |
-                     +---------------------+---------------------+
-                     |                     |                     |
-                     v                     v                     v
-            +-----------------+   +-----------------+   +-----------------+
-            | Subcontractor A |   | Subcontractor B |   | Subcontractor C |
-            |  (DataScout)    |   |  (PricePilot)   |   |  (ReportSmith)  |
-            +-----------------+   +-----------------+   +-----------------+
-                     |                     |                     |
-                     +---------------------+---------------------+
-                                           |
-                                [ Structured Deliverable ]
-                                           v
-                      +------------------------------------------+
-                      |            AI Judicial Arbiter           |
-                      |     (3-Layer Deterministic Evaluation)   |
-                      +------------------------------------------+
-                                           |
-                                [ Approved Verdict >= 85% ]
-                                           v
-                      +------------------------------------------+
-                      |        Double-Entry Settlement           |
-                      |  - PayPal Orders v2 Capture              |
-                      |  - Balanced Ledger Disbursement          |
-                      |  - Agent Reputation State Mutation       |
-                      +------------------------------------------+
+```mermaid
+flowchart TD
+    subgraph Client_Experience ["Client Experience (Amazon-Inspired Storefront)"]
+        A1["Storefront & Catalog: /"]
+        A2["Digital Workforce: /marketplace"]
+        A3["Project War Room: /projects/[id]"]
+        A4["Financial Command Matrix: /economy (AG Grid)"]
+        A5["Scheduler: /workforce (Bryntum Standard Compatible)"]
+    end
+
+    subgraph Authentication_Layer ["Tenant Isolation & Session Guard"]
+        B1["lib/auth-guard.ts (JWT / Header / Local Profile Resolution)"]
+    end
+
+    subgraph Commerce_Orchestration ["Commerce & Swarm Orchestration"]
+        C1["Task Decomposition Engine (/api/broker/parse-task)"]
+        C2["Multi-Agent Reverse Auction & Counteroffer Engine"]
+        C3["Worker Swarm Pipeline (Gemini 1.5 Flash + Channel3 SKUs)"]
+        C4["A2A Subcontracting Cascade (<=45% Budget Ceiling Enforced)"]
+    end
+
+    subgraph Trust_and_Settlement ["Judicial Quality Gate & PayPal Settlement"]
+        D1["AI Courtroom Engine (5-Vector Judicial Evaluation)"]
+        D2["PayPal Orders v2 Client (Authorize Hold -> Capture / Void)"]
+        D3["Double-Entry Economic Ledger (Balancing Invariant: Debits = Credits)"]
+    end
+
+    subgraph Persistence_Layer ["Storage & Verification"]
+        E1["lib/supabase.ts (Disk-Persisted MemoryCollection in data/paygent-store.json)"]
+        E2["51 Passing Unit & Integration Tests (tests/**/*.test.mjs)"]
+    end
+
+    A1 & A2 & A3 --> B1
+    B1 --> C1 & C2
+    C1 --> C2 --> C3 --> C4
+    C4 --> D1
+    D1 -- "Verdict: Approved (>=70)" --> D2
+    D1 -- "Verdict: Rejected / Disputed" --> D2
+    D2 -- "Post-Approval Capture" --> D3
+    D2 -- "Cryptographic Webhook" --> D3
+    C1 & C2 & C3 & D1 & D2 & D3 --> E1
+    E1 --> E2
 ```
 
 ---
@@ -90,10 +79,11 @@ In conventional multi-agent frameworks, task allocation is handled through ephem
 
 Immediate payment on task initiation exposes clients to non-performance or hallucinated output. Post-delivery payment without escrow exposes agents to client non-payment. Paygent resolves counterparty risk via a two-step settlement lifecycle:
 
-1. **Authorization Gate**: On contract formation, Paygent initiates a PayPal Orders v2 order with `intent: "CAPTURE"`. Funds are authorized and locked in escrow.
+1. **Authorization Gate**: On contract formation, Paygent initiates a PayPal Orders v2 order with `intent: "AUTHORIZE"`. Funds are authorized and locked in escrow hold without immediate charge.
 2. **Execution Insulation**: Subcontractor agents execute work within sandbox environments without holding client capital.
-3. **Judicial Gate**: Server-side capture is programmatically gated behind a cryptographic pass certificate issued by the AI Courtroom (minimum composite score: 85/100).
-4. **Dispute Handling**: In the event of contract breach or rejected revision, the pre-authorized hold is voided via `/v2/checkout/orders/{id}/void`, returning 100% of escrowed capital to the buyer.
+3. **Judicial Gate**: Server-side capture is programmatically gated behind a cryptographic pass certificate issued by the AI Courtroom (minimum composite score: 70/100).
+4. **Post-Approval Settlement**: Upon client approval, `/api/payments/capture-order` executes server-side, capturing the pre-authorized funds and disbursing to the double-entry ledger.
+5. **Dispute Handling**: In the event of contract breach or rejected revision, the pre-authorized hold is voided via `/v2/checkout/orders/{id}/void`, returning 100% of escrowed capital to the buyer.
 
 ### 3.2 Autonomous Subcontracting (A2A Protocol)
 
@@ -167,7 +157,35 @@ Navigate to `http://localhost:3000` to access the interface.
 
 ---
 
-## 7. Verification and Testing
+## 7. 3-Minute Hackathon Judge & Evaluator Walkthrough
+
+Follow this step-by-step path to experience the complete autonomous commerce lifecycle:
+
+1. **Browse the Buyer Storefront (`/`)**:
+   - Explore outcome packages and featured agents.
+   - Click **"Hire Directly"** on **MarketMind** (or any agent) from the catalog or go to `/marketplace`.
+2. **Authorize Escrow Hold (`/projects/[id]`)**:
+   - You enter the **Project War Room**.
+   - Click **"Authorize Escrow with PayPal"** to launch the Orders v2 modal.
+   - Use the **1-Click Sandbox Fast-Path** (or real PayPal buttons) to authorize funds into escrow.
+   - The UI immediately confirms: `🛡️ PayPal Escrow Locked ($X.XX USD)`.
+3. **Execute the Autonomous Swarm**:
+   - Click **"Execute Swarm"**.
+   - Watch the **Live Execution Stepper** decompose tasks, recruit specialist subcontractors (e.g. CyberSentry and DataWeaver), and generate the deliverable via Google Gemini 1.5 Flash.
+4. **Inspect the AI Courtroom Verdict**:
+   - The deliverable is scored across 5 judicial vectors (Technical Rigor, Completeness, Quality, Compliance, Evidence Trail).
+   - Verify the 3-layer deterministic evidence trail.
+5. **Approve Deliverable & Release Settlement**:
+   - Click **"Approve & Settle Escrow"**.
+   - The server captures the pre-authorized PayPal hold, releases funds to agent wallets, and fires celebration confetti.
+6. **Audit the Financial Matrix (`/economy`)**:
+   - Navigate to `/economy` powered by **AG Grid**.
+   - Inspect the **Pinned Bottom Row**: Verify that Total Debits equals Total Credits with **`$0.00 Variance Verified`**.
+   - Try the **Voice / Natural Language filter**: Speak or type *"show credits over 20"* to see real-time AG Grid filter model translation.
+
+---
+
+## 8. Verification and Testing
 
 Paygent maintains an automated verification suite covering unit functionality, negative testing, financial accounting invariants, and end-to-end integration flows.
 
@@ -189,7 +207,7 @@ npm test
 
 ---
 
-## 8. Documentation Index
+## 9. Documentation Index
 
 - [System Architecture](docs/ARCHITECTURE.md)
 - [API Reference](docs/API_REFERENCE.md)
@@ -197,6 +215,6 @@ npm test
 
 ---
 
-## 9. License
+## 10. License
 
 This project is licensed under the MIT License.
