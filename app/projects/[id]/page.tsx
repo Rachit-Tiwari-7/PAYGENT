@@ -23,6 +23,10 @@ import {
   ShieldAlert,
   SlidersHorizontal,
   Lock,
+  RotateCcw,
+  MessageSquareQuote,
+  FileEdit,
+  X,
 } from "lucide-react";
 import { formatCurrency, formatDate, getStatusBadgeClass } from "@/lib/utils";
 import confetti from "canvas-confetti";
@@ -51,6 +55,11 @@ export default function UnifiedProjectWarRoomPage() {
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [compareAgents, setCompareAgents] = useState<AgentComparisonData[]>([]);
   const [displayCurrency, setDisplayCurrency] = useState<"ORIGINAL" | "USD" | "INR">("ORIGINAL");
+
+  // Buyer Revision Workflow State
+  const [isRevisionModalOpen, setIsRevisionModalOpen] = useState(false);
+  const [revisionNotes, setRevisionNotes] = useState("");
+  const [revisionLoading, setRevisionLoading] = useState(false);
 
   const FX_USD_TO_INR = 86.50;
 
@@ -170,6 +179,35 @@ export default function UnifiedProjectWarRoomPage() {
       console.error("Approval error:", err);
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  const handleRequestRevision = async (overrideNotes?: string) => {
+    const notesToSubmit = overrideNotes || revisionNotes;
+    if (!notesToSubmit.trim()) return;
+    setRevisionLoading(true);
+    sounds.playStepComplete();
+    try {
+      const res = await fetch(`/api/projects/${params.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "request_revision",
+          revisionNotes: notesToSubmit.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsRevisionModalOpen(false);
+        setRevisionNotes("");
+        await fetchProject();
+        sounds.playSuccessChime();
+        setActiveWorkspaceTab("deliverables");
+      }
+    } catch (err) {
+      console.error("Revision request error:", err);
+    } finally {
+      setRevisionLoading(false);
     }
   };
 
@@ -410,23 +448,43 @@ export default function UnifiedProjectWarRoomPage() {
           )}
 
           {hasDeliverable && !isSettled && (
-            <button
-              onClick={handleApprove}
-              disabled={actionLoading}
-              className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
-            >
-              {actionLoading ? (
-                <>
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  <span>Settling Escrow...</span>
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Approve & Settle Escrow</span>
-                </>
-              )}
-            </button>
+            <>
+              <button
+                onClick={() => setIsRevisionModalOpen(true)}
+                disabled={actionLoading || revisionLoading}
+                className="px-3.5 py-1.5 rounded-md text-xs font-medium text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#D5CFBF] transition-colors shadow-xs flex items-center gap-1.5 disabled:opacity-50"
+              >
+                {revisionLoading ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#8C6D23]" />
+                    <span>Swarm Revising...</span>
+                  </>
+                ) : (
+                  <>
+                    <RotateCcw className="w-3.5 h-3.5 text-[#8C6D23]" />
+                    <span>Request Revision</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={handleApprove}
+                disabled={actionLoading || revisionLoading}
+                className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+              >
+                {actionLoading ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Settling Escrow...</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Approve & Settle Escrow</span>
+                  </>
+                )}
+              </button>
+            </>
           )}
 
           {hasDeliverable && !isEscrowLocked && !isSettled && (
@@ -571,6 +629,28 @@ export default function UnifiedProjectWarRoomPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
+                  {/* Revision Workflow Status Banner */}
+                  {deliverable.version > 1 && (
+                    <div className="p-3.5 rounded-lg bg-[#FFF9EB] border border-[#ECD9A8] text-[#8C6D23] flex items-center justify-between text-xs shadow-xs">
+                      <div className="flex items-center gap-2.5">
+                        <div className="p-1.5 rounded-md bg-[#F8ECC9] border border-[#ECD9A8]">
+                          <RotateCcw className="w-4 h-4 text-[#8C6D23]" />
+                        </div>
+                        <div>
+                          <span className="font-bold text-[#785C19] block">
+                            Revision v{deliverable.version} Successfully Integrated
+                          </span>
+                          <span className="text-[11px] text-[#8C6D23]">
+                            The autonomous swarm re-synthesized the deliverable according to your requirements and re-evaluated compliance with QualityGuard.
+                          </span>
+                        </div>
+                      </div>
+                      <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-[#F8ECC9] text-[#785C19] border border-[#ECD9A8] shrink-0">
+                        Version {deliverable.version}
+                      </span>
+                    </div>
+                  )}
+
                   {/* AI Courtroom Verdict Card */}
                   {evaluation && (
                     <div className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] space-y-3 shadow-subtle">
@@ -952,6 +1032,99 @@ export default function UnifiedProjectWarRoomPage() {
           await fetchProject();
         }}
       />
+
+      {/* Buyer Revision Request Modal */}
+      {isRevisionModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#292F29]/40 backdrop-blur-xs animate-fade-in">
+          <div className="relative w-full max-w-lg bg-[#FFFCF5] border border-[#E4DFD2] rounded-xl shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E4DFD2] pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-lg bg-[#FFF9EB] text-[#8C6D23] border border-[#ECD9A8]">
+                  <RotateCcw className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#292F29]">Request Deliverable Revision</h3>
+                  <p className="text-xs text-[#77796F]">
+                    The autonomous agent swarm will re-run execution and incorporate your feedback.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsRevisionModalOpen(false)}
+                className="p-1 rounded-lg text-[#77796F] hover:text-[#292F29] hover:bg-[#EAE5D7] transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-[#292F29] block">
+                Revision Requirements & Feedback Notes
+              </label>
+              <textarea
+                value={revisionNotes}
+                onChange={(e) => setRevisionNotes(e.target.value)}
+                placeholder="E.g., Please provide more granular unit economics per SKU, compare against 3 additional SaaS vendors, and deepen financial margin sensitivity analysis."
+                rows={4}
+                className="w-full p-3 text-xs rounded-lg border border-[#E4DFD2] bg-white text-[#292F29] placeholder-[#A4A299] focus:outline-none focus:border-[#344B3B] resize-none"
+              />
+            </div>
+
+            {/* Quick Feedback Presets */}
+            <div className="space-y-1.5">
+              <span className="text-[10px] uppercase font-mono tracking-wider text-[#77796F] block">
+                Quick Requirements Presets
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  "Decompose competitor unit pricing further",
+                  "Add 3-year cash flow forecast breakdown",
+                  "Audit and expand vendor source citations",
+                  "Refine TAM/SAM/SOM market sizing methodology",
+                ].map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => setRevisionNotes(preset)}
+                    className="text-[11px] px-2.5 py-1 rounded-md bg-[#EAE5D7] hover:bg-[#E4DFD2] text-[#292F29] border border-[#D5CFBF] transition-colors text-left"
+                  >
+                    + {preset}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#E4DFD2]">
+              <button
+                type="button"
+                onClick={() => setIsRevisionModalOpen(false)}
+                disabled={revisionLoading}
+                className="px-3 py-1.5 rounded-lg text-xs font-medium text-[#77796F] hover:text-[#292F29] hover:bg-[#EAE5D7] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => handleRequestRevision()}
+                disabled={revisionLoading || !revisionNotes.trim()}
+                className="px-4 py-2 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] shadow-xs transition-colors disabled:opacity-50 flex items-center gap-1.5"
+              >
+                {revisionLoading ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Executing Swarm Revision...</span>
+                  </>
+                ) : (
+                  <>
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Submit Revision to Swarm</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@
 import db from "@/lib/supabase";
 import { testChannel3Adapter } from "@/lib/integrations/adapters";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getServerConfig } from "@/lib/config";
 
 export interface ExecutionPipelineResult {
   deliverableMarkdown: string;
@@ -148,7 +149,8 @@ export async function runCommercialWorkerPipeline(
 
   // 4. Stage 4: ReportSmith Synthesis (AI-Powered with Gemini if key available, else heuristic synthesis)
   let deliverableMarkdown = "";
-  const apiKey = process.env.GEMINI_API_KEY;
+  const serverCfg = getServerConfig();
+  const apiKey = serverCfg.geminiApiKey || process.env.GEMINI_API_KEY;
 
   if (apiKey && !apiKey.startsWith("demo_") && apiKey.length > 10) {
     try {

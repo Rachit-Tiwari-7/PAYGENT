@@ -3,15 +3,20 @@
 
 import fs from "fs";
 import path from "path";
+import { getServerConfig } from "@/lib/config";
 
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || "sb-client-id-demo";
-const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || "sb-secret-demo";
-const PAYPAL_ENV = process.env.PAYPAL_ENVIRONMENT || "sandbox";
+function getPayPalCredentials() {
+  const cfg = getServerConfig();
+  const clientId = cfg.paypalClientId || process.env.PAYPAL_CLIENT_ID || "sb-client-id-demo";
+  const clientSecret = cfg.paypalClientSecret || process.env.PAYPAL_CLIENT_SECRET || "sb-secret-demo";
+  const env = cfg.paypalEnvironment || process.env.PAYPAL_ENVIRONMENT || "sandbox";
+  const baseUrl = env === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
+  return { clientId, clientSecret, env, baseUrl };
+}
 
-const BASE_URL =
-  PAYPAL_ENV === "live"
-    ? "https://api-m.paypal.com"
-    : "https://api-m.sandbox.paypal.com";
+function isMockCredentials(clientId: string, clientSecret: string) {
+  return clientId.startsWith("sb-client-id") || !clientSecret || clientSecret.startsWith("sb-secret-demo");
+}
 
 const TOKEN_CACHE_FILE = path.join(process.cwd(), "data", "paypal-token-cache.json");
 
@@ -57,15 +62,17 @@ export async function getPayPalAccessToken(): Promise<string> {
     return existing;
   }
 
+  const { clientId, clientSecret, baseUrl } = getPayPalCredentials();
+
   // If demo mock credentials, return mock token for zero-dependency execution
-  if (PAYPAL_CLIENT_ID.startsWith("sb-client-id") || !PAYPAL_CLIENT_SECRET) {
+  if (isMockCredentials(clientId, clientSecret)) {
     const mockToken = "mock_access_token_" + Date.now();
     persistToken(mockToken, 3600);
     return mockToken;
   }
 
-  const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString("base64");
-  const response = await fetch(`${BASE_URL}/v1/oauth2/token`, {
+  const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const response = await fetch(`${baseUrl}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${auth}`,
@@ -96,8 +103,10 @@ export async function createPayPalOrder(
     throw new Error("Order amount must be greater than zero");
   }
 
+  const { clientId, clientSecret, baseUrl } = getPayPalCredentials();
+
   // If sandbox demo mock keys, simulate realistic order creation response
-  if (PAYPAL_CLIENT_ID.startsWith("sb-client-id")) {
+  if (isMockCredentials(clientId, clientSecret)) {
     const mockOrderId = "8NB" + Math.random().toString(36).substring(2, 11).toUpperCase();
     return {
       id: mockOrderId,
@@ -114,7 +123,7 @@ export async function createPayPalOrder(
   }
 
   const accessToken = await getPayPalAccessToken();
-  const response = await fetch(`${BASE_URL}/v2/checkout/orders`, {
+  const response = await fetch(`${baseUrl}/v2/checkout/orders`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -149,7 +158,8 @@ export async function createPayPalOrder(
  * Called once buyer approves the order to lock funds prior to agent execution.
  */
 export async function authorizePayPalOrder(orderId: string) {
-  if (PAYPAL_CLIENT_ID.startsWith("sb-client-id")) {
+  const { clientId, clientSecret, baseUrl } = getPayPalCredentials();
+  if (isMockCredentials(clientId, clientSecret)) {
     const mockAuthId = "6AU" + Math.random().toString(36).substring(2, 11).toUpperCase();
     return {
       id: orderId,
@@ -171,7 +181,7 @@ export async function authorizePayPalOrder(orderId: string) {
   }
 
   const accessToken = await getPayPalAccessToken();
-  const response = await fetch(`${BASE_URL}/v2/checkout/orders/${orderId}/authorize`, {
+  const response = await fetch(`${baseUrl}/v2/checkout/orders/${orderId}/authorize`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -187,7 +197,8 @@ export async function authorizePayPalOrder(orderId: string) {
  * Triggered strictly after the AI Courtroom evaluates and approves the deliverable (Score >= 85%).
  */
 export async function captureAuthorization(authorizationId: string, amount?: number, currency: string = "USD") {
-  if (PAYPAL_CLIENT_ID.startsWith("sb-client-id")) {
+  const { clientId, clientSecret, baseUrl } = getPayPalCredentials();
+  if (isMockCredentials(clientId, clientSecret)) {
     const mockCaptureId = "9CP" + Math.random().toString(36).substring(2, 11).toUpperCase();
     return {
       id: mockCaptureId,
@@ -197,7 +208,7 @@ export async function captureAuthorization(authorizationId: string, amount?: num
   }
 
   const accessToken = await getPayPalAccessToken();
-  const response = await fetch(`${BASE_URL}/v2/payments/authorizations/${authorizationId}/capture`, {
+  const response = await fetch(`${baseUrl}/v2/payments/authorizations/${authorizationId}/capture`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -222,7 +233,8 @@ export async function captureAuthorization(authorizationId: string, amount?: num
  * Triggered if the AI Courtroom rejects the deliverable or critical SLA failures occur.
  */
 export async function voidAuthorization(authorizationId: string) {
-  if (PAYPAL_CLIENT_ID.startsWith("sb-client-id")) {
+  const { clientId, clientSecret, baseUrl } = getPayPalCredentials();
+  if (isMockCredentials(clientId, clientSecret)) {
     return {
       id: authorizationId,
       status: "VOIDED",
@@ -230,7 +242,7 @@ export async function voidAuthorization(authorizationId: string) {
   }
 
   const accessToken = await getPayPalAccessToken();
-  const response = await fetch(`${BASE_URL}/v2/payments/authorizations/${authorizationId}/void`, {
+  const response = await fetch(`${baseUrl}/v2/payments/authorizations/${authorizationId}/void`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -250,8 +262,9 @@ export async function voidAuthorization(authorizationId: string) {
  * Fallback for immediate non-milestone direct checkout flows.
  */
 export async function capturePayPalOrder(orderId: string) {
+  const { clientId, clientSecret, baseUrl } = getPayPalCredentials();
   // If sandbox demo mock keys, simulate realistic capture response
-  if (PAYPAL_CLIENT_ID.startsWith("sb-client-id")) {
+  if (isMockCredentials(clientId, clientSecret)) {
     const mockCaptureId = "9CP" + Math.random().toString(36).substring(2, 11).toUpperCase();
     return {
       id: orderId,
@@ -273,7 +286,7 @@ export async function capturePayPalOrder(orderId: string) {
   }
 
   const accessToken = await getPayPalAccessToken();
-  const response = await fetch(`${BASE_URL}/v2/checkout/orders/${orderId}/capture`, {
+  const response = await fetch(`${baseUrl}/v2/checkout/orders/${orderId}/capture`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -292,6 +305,7 @@ export async function verifyPayPalWebhookSignature(
   headers: Headers | Record<string, string>,
   webhookEvent: any
 ): Promise<{ verified: boolean; status: string; reason?: string }> {
+  const { clientId, clientSecret, baseUrl } = getPayPalCredentials();
   const getHeader = (key: string): string => {
     if (typeof (headers as any).get === "function") {
       return (headers as any).get(key) || (headers as any).get(key.toLowerCase()) || "";
@@ -307,7 +321,7 @@ export async function verifyPayPalWebhookSignature(
   const webhookId = process.env.PAYPAL_WEBHOOK_ID || "sb-webhook-mock";
 
   // If running with mock sandbox demo credentials
-  if (PAYPAL_CLIENT_ID.startsWith("sb-client-id") || !transmissionSig) {
+  if (isMockCredentials(clientId, clientSecret) || !transmissionSig) {
     return {
       verified: true,
       status: "SUCCESS",
@@ -317,7 +331,7 @@ export async function verifyPayPalWebhookSignature(
 
   try {
     const accessToken = await getPayPalAccessToken();
-    const response = await fetch(`${BASE_URL}/v1/notifications/verify-webhook-signature`, {
+    const response = await fetch(`${baseUrl}/v1/notifications/verify-webhook-signature`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,

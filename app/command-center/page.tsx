@@ -23,121 +23,27 @@ interface EventStreamItem {
   badgeColor: string;
 }
 
-const INITIAL_EVENTS: EventStreamItem[] = [
-  {
-    id: "ev-1",
-    time: "12:00:04",
-    actor: "Paygent Orchestrator",
-    avatar: "PO",
-    type: "EXECUTION",
-    message: "Decomposed project into 4 subtasks with DAG dependency validation.",
-    badgeColor: "bg-[#EBF2FA] text-[#28568A] border-[#BCD1E7]",
-  },
-  {
-    id: "ev-2",
-    time: "12:00:08",
-    actor: "ResearchBot",
-    avatar: "RB",
-    type: "BID",
-    message: "Submitted bid for $25.00 USD (Confidence: 94%, Delivery: 1.5h).",
-    badgeColor: "bg-[#EAE5D7] text-[#292F29] border-[#E4DFD2]",
-  },
-  {
-    id: "ev-3",
-    time: "12:00:11",
-    actor: "MarketMind",
-    avatar: "MM",
-    type: "BID",
-    message: "Submitted primary bid for $22.00 USD (Confidence: 98%, Delivery: 1.2h).",
-    badgeColor: "bg-[#EAE5D7] text-[#292F29] border-[#E4DFD2]",
-  },
-  {
-    id: "ev-4",
-    time: "12:00:15",
-    actor: "Orchestrator ↔ MarketMind",
-    avatar: "OM",
-    type: "NEGOTIATION",
-    message: "Autonomous Counteroffer accepted: MarketMind lowered rate to $18.00 with $5 subcontract authority.",
-    badgeColor: "bg-[#F7F3E8] text-[#8C6D23] border-[#E5DAC2]",
-  },
-  {
-    id: "ev-5",
-    time: "12:00:19",
-    actor: "MarketMind → DataScout",
-    avatar: "MD",
-    type: "SUBCONTRACT",
-    message: "Issued $5.00 subcontract to DataScout for Channel3 e-commerce SKU extraction.",
-    badgeColor: "bg-[#EBF2FA] text-[#28568A] border-[#BCD1E7]",
-  },
-  {
-    id: "ev-6",
-    time: "12:00:25",
-    actor: "DataScout",
-    avatar: "DS",
-    type: "EXECUTION",
-    message: "Channel3 commerce query finished: 50 competitor SKUs compiled into JSON schema.",
-    badgeColor: "bg-[#EAE5D7] text-[#292F29] border-[#E4DFD2]",
-  },
-  {
-    id: "ev-7",
-    time: "12:00:32",
-    actor: "QualityGuard",
-    avatar: "QG",
-    type: "COURT",
-    message: "AI Courtroom completed 5-vector evaluation: 94.6% Composite Score → VERDICT: APPROVED.",
-    badgeColor: "bg-[#EAF3EB] text-[#27532F] border-[#CDE3D0]",
-  },
-  {
-    id: "ev-8",
-    time: "12:00:38",
-    actor: "PayPal Integration",
-    avatar: "PP",
-    type: "PAYMENT",
-    message: "Orders v2 capture verified (ID: 9CP18293DF481920B). $100.00 released to internal double-entry ledger.",
-    badgeColor: "bg-[#EAF3EB] text-[#27532F] border-[#CDE3D0]",
-  },
-  {
-    id: "ev-9",
-    time: "12:00:42",
-    actor: "Agent DNA Registry",
-    avatar: "DNA",
-    type: "DNA",
-    message: "Reputation records updated. MarketMind DNA score increased (+0.4 → 98.7%).",
-    badgeColor: "bg-[#EAE5D7] text-[#292F29] border-[#E4DFD2]",
-  },
-];
-
 export default function CommandCenterPage() {
-  const [events, setEvents] = useState<EventStreamItem[]>(INITIAL_EVENTS);
+  const [events, setEvents] = useState<EventStreamItem[]>([]);
   const [selectedAgentFilter, setSelectedAgentFilter] = useState("ALL");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadRealApplicationEvents() {
       try {
-        const res = await fetch("/api/economy");
+        const res = await fetch("/api/events");
         const json = await res.json();
-        if (json.success && json.ledgerEntries?.length > 0) {
-          const realItems: EventStreamItem[] = json.ledgerEntries.slice(0, 10).map((e: any, idx: number) => ({
-            id: `real-${e.id || idx}`,
-            time: new Date(e.createdAt).toLocaleTimeString(),
-            actor: e.accountName || "Double-Entry Ledger",
-            avatar: e.accountType?.includes("PAYPAL") ? "PP" : e.accountType?.includes("ESCROW") ? "ES" : "DL",
-            type: (e.accountType?.includes("PAYPAL") ? "PAYMENT" : e.accountType?.includes("AGENT") ? "SUBCONTRACT" : "EXECUTION") as any,
-            message: `${e.entryType} ${Number(e.amount).toFixed(2)} USD: ${e.description}`,
-            badgeColor: e.entryType === "CREDIT" ? "bg-[#EAF3EB] text-[#3B6E4C] border-[#3B6E4C]/20" : "bg-[#F8ECEC] text-[#9E4B4B] border-[#9E4B4B]/20",
-          }));
-          setEvents((prev) => {
-            const existingIds = new Set(prev.map(p => p.id));
-            const newOnly = realItems.filter(r => !existingIds.has(r.id));
-            return [...newOnly, ...prev];
-          });
+        if (json.success && json.events?.length > 0) {
+          setEvents(json.events);
         }
       } catch (err) {
         console.warn("Could not load real application events", err);
+      } finally {
+        setLoading(false);
       }
     }
     loadRealApplicationEvents();
-    const interval = setInterval(loadRealApplicationEvents, 8000);
+    const interval = setInterval(loadRealApplicationEvents, 6000);
     return () => clearInterval(interval);
   }, []);
 

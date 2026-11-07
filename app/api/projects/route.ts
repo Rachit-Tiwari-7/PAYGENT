@@ -106,48 +106,44 @@ export async function POST(request: Request) {
       }
     }
 
-    // 3. Solicit Autonomous Bids
-    await generateAutonomousBids(project.id, Number(budget) || 100.0);
+    // 3. Solicit Dynamic Multi-Agent Autonomous Bids
+    await generateAutonomousBids(project.id, Number(budget) || 100.0, category, {
+      autoAccept: Boolean(directAgentId),
+    });
 
-    // 4. Determine Lead Agent: Respect directAgentId if hired directly from marketplace!
-    let targetAgent: any = null;
+    // 4. Handle Direct Hire from Marketplace if specified
     if (directAgentId) {
-      targetAgent = await db.agent.findFirst({
+      const targetAgent = await db.agent.findFirst({
         where: { OR: [{ id: directAgentId }, { slug: directAgentId }] },
       });
-    }
-    if (!targetAgent) {
-      // Default to MarketMind for demo baseline if not a direct hire
-      targetAgent = await db.agent.findFirst({ where: { slug: "marketmind" } });
-    }
 
-    if (targetAgent) {
-      const primaryContract = await db.contract.create({
-        data: {
-          projectId: project.id,
-          leadAgentId: targetAgent.id,
-          contractType: "PRIMARY",
-          title: `Autonomous Contract: ${project.title}`,
-          terms: `Full execution of decomposed tasks with 5-vector AI Courtroom verification by ${targetAgent.name}.`,
-          agreedPrice: Math.round((Number(budget) || 100.0) * 0.9),
-          platformFee: Math.round((Number(budget) || 100.0) * 0.1),
-          status: "ACTIVE",
-        },
-      });
+      if (targetAgent) {
+        const primaryContract = await db.contract.create({
+          data: {
+            projectId: project.id,
+            leadAgentId: targetAgent.id,
+            contractType: "PRIMARY",
+            title: `Autonomous Contract: ${project.title}`,
+            terms: `Full execution of decomposed tasks with 5-vector AI Courtroom verification by ${targetAgent.name}.`,
+            agreedPrice: Math.round((Number(budget) || 100.0) * 0.9),
+            platformFee: Math.round((Number(budget) || 100.0) * 0.1),
+            status: "ACTIVE",
+          },
+        });
 
-      await db.contractEvent.create({
-        data: {
-          contractId: primaryContract.id,
-          eventType: "CONTRACT_SIGNED",
-          description: `Contract executed with ${targetAgent.name} for $${primaryContract.agreedPrice.toFixed(2)} ${detectedCurrency}.`,
-        },
-      });
+        await db.contractEvent.create({
+          data: {
+            contractId: primaryContract.id,
+            eventType: "CONTRACT_SIGNED",
+            description: `Direct hire contract executed with ${targetAgent.name} for $${primaryContract.agreedPrice.toFixed(2)} ${detectedCurrency}.`,
+          },
+        });
 
-      // Update project status to IN_PROGRESS
-      await db.project.update({
-        where: { id: project.id },
-        data: { status: "IN_PROGRESS" },
-      });
+        await db.project.update({
+          where: { id: project.id },
+          data: { status: "IN_PROGRESS" },
+        });
+      }
     }
 
     return NextResponse.json({

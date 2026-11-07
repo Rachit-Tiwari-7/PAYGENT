@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { capturePayPalOrder, captureAuthorization } from "@/lib/paypal/client";
 import db from "@/lib/supabase";
 import { resolveUser, verifyProjectOwnership } from "@/lib/auth-guard";
+import { settleProjectLedger } from "@/lib/services/settlement";
 
 export async function POST(request: Request) {
   try {
@@ -87,159 +88,23 @@ export async function POST(request: Request) {
         "9CP" + Math.random().toString(36).substring(2, 10).toUpperCase();
     }
 
-    // 5. Record Transaction
-    const tx = await db.transaction.create({
-      data: {
-        projectId: project.id,
-        userId: project.userId,
-        amount: project.budget,
-        currency: project.currency || "USD",
-        type: "PAYPAL_CHECKOUT",
-        status: "COMPLETED",
-        paypalOrderId: orderId || authorizationId,
-        paypalCaptureId: captureId,
-        paymentMethod: "PAYPAL_SANDBOX",
-      },
+    // 5. Delegate to Unified Idempotent Settlement Service
+    const settlement = await settleProjectLedger({
+      projectId: project.id,
+      captureId,
+      orderId,
+      authorizationId,
+      paymentMethod: "PAYPAL_SANDBOX",
     });
-
-    // 6. Record Payment Event
-    await db.paymentEvent.create({
-      data: {
-        transactionId: tx.id,
-        eventType: "CAPTURE_SUCCESS",
-        payload: JSON.stringify(captureResult),
-      },
-    });
-
-    // 7. Write Double-Entry Internal Ledger Entries (Dynamic allocation based on actual contracts)
-    const budget = Number(project.budget);
-    const platformFee = Number((budget * 0.1).toFixed(2));
-    const netWorkforcePool = Number((budget - platformFee).toFixed(2));
-
-    const primaryContract = project.contracts?.find((c: any) => c.contractType === "PRIMARY") || project.contracts?.[0];
-    const leadAgent = primaryContract?.leadAgent || (await db.agent.findFirst({ where: { slug: "marketmind" } }));
-
-    // Find actual subcontracts
-    const subContracts = (project.contracts || []).filter((c: any) => c.contractType === "SUBCONTRACT");
-    let totalSubcontractAmount = 0;
-    const subEntries: any[] = [];
-
-    for (const sub of subContracts) {
-      const subPrice = Number(sub.agreedPrice) || 0;
-      totalSubcontractAmount += subPrice;
-      const subAgent = sub.leadAgent || (await db.agent.findFirst({ where: { id: sub.leadAgentId } }));
-
-      subEntries.push({
-        projectId: project.id,
-        accountType: "AGENT_WALLET",
-        accountId: subAgent?.id || sub.leadAgentId,
-        accountName: subAgent?.name ? `${subAgent.name} (Specialist)` : "Specialist Subcontractor",
-        entryType: "CREDIT",
-        amount: subPrice,
-        description: `Subcontract settlement: ${sub.title || "Delegated task execution"}`,
-        referenceId: tx.id,
-      });
-
-      if (subAgent) {
-        await db.agent.update({
-          where: { id: subAgent.id },
-          data: {
-            totalEarnings: { increment: subPrice },
-            completedProjects: { increment: 1 },
-          },
-        });
-      }
-    }
-
-    const leadNetPayout = Math.max(0, Number((netWorkforcePool - totalSubcontractAmount).toFixed(2)));
-
-    const ledgerData: any[] = [
-      {
-        projectId: project.id,
-        accountType: "CUSTOMER_FUNDS",
-        accountId: project.userId,
-        accountName: project.user?.name || "Client Customer",
-        entryType: "DEBIT",
-        amount: budget,
-        description: `PayPal Capture Verified (Ref: ${captureId})`,
-        referenceId: tx.id,
-      },
-      {
-        projectId: project.id,
-        accountType: "ESCROW_HOLDING",
-        accountId: "ESCROW_POOL",
-        accountName: "Paygent Escrow Holding",
-        entryType: "CREDIT",
-        amount: budget,
-        description: "Customer funds locked in escrow",
-        referenceId: tx.id,
-      },
-      {
-        projectId: project.id,
-        accountType: "ESCROW_HOLDING",
-        accountId: "ESCROW_POOL",
-        accountName: "Paygent Escrow Holding",
-        entryType: "DEBIT",
-        amount: budget,
-        description: "Disbursement upon AI Courtroom Approval",
-        referenceId: tx.id,
-      },
-      {
-        projectId: project.id,
-        accountType: "AGENT_WALLET",
-        accountId: leadAgent?.id || "marketmind",
-        accountName: leadAgent?.name ? `${leadAgent.name} (Lead)` : "Lead Contractor",
-        entryType: "CREDIT",
-        amount: leadNetPayout,
-        description: "Primary contract deliverable payout",
-        referenceId: tx.id,
-      },
-      ...subEntries,
-      {
-        projectId: project.id,
-        accountType: "PLATFORM_REVENUE",
-        accountId: "PLATFORM",
-        accountName: "Paygent Platform Fee",
-        entryType: "CREDIT",
-        amount: platformFee,
-        description: "10% Platform verification & infrastructure fee",
-        referenceId: tx.id,
-      },
-    ];
-
-    await db.ledgerEntry.createMany({ data: ledgerData });
-
-    // 8. Update Lead Agent earnings
-    if (leadAgent) {
-      await db.agent.update({
-        where: { id: leadAgent.id },
-        data: {
-          totalEarnings: { increment: leadNetPayout },
-          completedProjects: { increment: 1 },
-        },
-      });
-    }
-
-    // 9. Update Project & Contract status
-    await db.project.update({
-      where: { id: project.id },
-      data: { status: "COMPLETED", spent: project.budget },
-    });
-
-    if (primaryContract) {
-      await db.contract.update({
-        where: { id: primaryContract.id },
-        data: { status: "SETTLED" },
-      });
-    }
 
     return NextResponse.json({
       success: true,
       captureId,
-      transactionId: tx.id,
-      amountSettled: budget,
-      leadPayout: leadNetPayout,
-      platformFee,
+      transactionId: settlement.transactionId,
+      amountSettled: settlement.amountSettled,
+      leadPayout: settlement.leadPayout,
+      platformFee: settlement.platformFee,
+      isDuplicate: settlement.isDuplicate || false,
     });
   } catch (error: any) {
     console.error("Capture PayPal order error:", error);

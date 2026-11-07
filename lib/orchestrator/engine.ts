@@ -105,23 +105,38 @@ export function decomposeProject(title: string, description: string, budget: num
 
 /**
  * Competitive Bidding Engine
- * Queries eligible agents from DB and simulates/executes their autonomous bidding bids
+ * Queries eligible agents from DB and executes dynamic autonomous bidding
+ * Evaluates agent capabilities, category fit, availability, and pricing
  */
-export async function generateAutonomousBids(projectId: string, budget: number) {
+export async function generateAutonomousBids(
+  projectId: string,
+  budget: number,
+  projectCategory?: string,
+  options: { autoAccept?: boolean } = {}
+) {
   const agents = await db.agent.findMany({
     where: { availability: "AVAILABLE" },
     include: { skills: true },
   });
 
   const createdBids: any[] = [];
+  const isHighScaleBudget = budget > 100;
 
   for (const agent of agents) {
     let shouldBid = false;
-    let proposedPrice = agent.basePrice;
-    let confidence = 0.9;
+    let proposedPrice = agent.basePrice || 20.0;
+    let confidence = 0.90;
     let proposal = "";
 
-    const isHighScaleBudget = budget > 100;
+    // Evaluate Agent Fit based on category, skills, and capabilities
+    const agentCategory = agent.category || "General";
+    const categoryMatches =
+      !projectCategory ||
+      projectCategory === "All" ||
+      agentCategory.toLowerCase().includes(projectCategory.toLowerCase()) ||
+      projectCategory.toLowerCase().includes(agentCategory.toLowerCase());
+
+    const isCoreAgent = ["marketmind", "researchbot", "finanalyst", "presentationai"].includes(agent.slug);
 
     if (agent.slug === "marketmind") {
       shouldBid = true;
@@ -130,7 +145,7 @@ export async function generateAutonomousBids(projectId: string, budget: number) 
       proposal = "Apex Intelligence offers end-to-end strategic synthesis with Channel3 commerce validation and autonomous subcontracting.";
     } else if (agent.slug === "researchbot") {
       shouldBid = true;
-      proposedPrice = isHighScaleBudget ? Math.round(budget * 0.9) : Math.min(budget * 0.9, 25.0);
+      proposedPrice = isHighScaleBudget ? Math.round(budget * 0.90) : Math.min(budget * 0.90, 25.0);
       confidence = 0.94;
       proposal = "I will perform comprehensive web research and provide 15 verified citations on agent economics using Kernel browser.";
     } else if (agent.slug === "finanalyst") {
@@ -143,26 +158,36 @@ export async function generateAutonomousBids(projectId: string, budget: number) 
       proposedPrice = isHighScaleBudget ? Math.round(budget * 0.65) : 15.0;
       confidence = 0.91;
       proposal = "Executive presentation deck architecture and slide narratives formatted for investor diligence.";
+    } else if (categoryMatches || !isCoreAgent) {
+      // Newly registered or category-matched seller agent
+      shouldBid = true;
+      const baseRatio = agent.basePrice > 0 ? agent.basePrice / 100 : 0.8;
+      proposedPrice = isHighScaleBudget
+        ? Math.max(10, Math.round(budget * Math.min(0.92, Math.max(0.60, baseRatio))))
+        : Math.max(10, Math.min(budget * 0.90, agent.basePrice || 20.0));
+      confidence = Math.min(0.97, Math.max(0.85, (agent.reputationScore || 90) / 100));
+      proposal = `${agent.name} proposes autonomous fulfillment of ${projectCategory || "project"} milestones. ${agent.headline || agent.description || "Certified autonomous agent with verified SLA delivery guarantee."}`;
     }
 
     if (shouldBid) {
+      const isAutoAccepted = options.autoAccept !== false && agent.slug === "marketmind";
       const bid = await db.bid.create({
         data: {
           projectId,
           agentId: agent.id,
           proposedPrice,
-          estimatedHours: agent.avgDeliveryTimeHours,
+          estimatedHours: agent.avgDeliveryTimeHours || 1.5,
           confidenceScore: confidence,
           proposal,
-          capabilities: agent.capabilities,
+          capabilities: agent.capabilities || "Autonomous commercial execution",
           deliverablesSummary: "Standard milestone deliverables compliant with Paygent quality SLA",
-          status: agent.slug === "marketmind" ? "ACCEPTED" : "SUBMITTED",
+          status: isAutoAccepted ? "ACCEPTED" : "SUBMITTED",
         },
       });
       createdBids.push(bid);
 
-      // If MarketMind, record an autonomous negotiation counteroffer
-      if (agent.slug === "marketmind") {
+      // Autonomous negotiation counteroffer concession
+      if (agent.slug === "marketmind" || (!isCoreAgent && createdBids.length <= 2)) {
         const discountPrice = isHighScaleBudget ? Math.round(proposedPrice * 0.82) : 18.0;
         const subBudget = isHighScaleBudget ? Math.round(budget * 0.22) : 5.0;
 
@@ -173,9 +198,9 @@ export async function generateAutonomousBids(projectId: string, budget: number) 
             round: 1,
             originalPrice: proposedPrice,
             offeredPrice: discountPrice,
-            rationale: `Orchestrator requested counteroffer. MarketMind accepted ${discountPrice} in exchange for prompt settlement.`,
-            agentMessage: `MarketMind accepts ${discountPrice} provided subcontracting authority for DataScout (${subBudget}) is granted.`,
-            status: "ACCEPTED",
+            rationale: `Orchestrator requested counteroffer. ${agent.name} accepted ${discountPrice} in exchange for prompt settlement.`,
+            agentMessage: `${agent.name} accepts ${discountPrice} provided prompt settlement SLA and verified execution is approved.`,
+            status: isAutoAccepted ? "ACCEPTED" : "SUBMITTED",
           },
         });
       }

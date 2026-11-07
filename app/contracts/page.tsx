@@ -162,9 +162,11 @@ export default async function ContractsPage() {
                     <ReAuditDeliverableButton
                       contractTitle={del.title}
                       leadAgentName={del.agent?.name || "MarketMind"}
-                      agreedPrice={85}
+                      agreedPrice={del.project?.budget || 85}
                       initialScore={ev.overallScore}
                       critiqueSummary={ev.critiqueSummary}
+                      deliverableId={ev.deliverableId}
+                      evaluationId={ev.id}
                     />
                   </div>
                 </div>

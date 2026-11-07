@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Scale, RefreshCw, X, Printer, ShieldCheck } from "lucide-react";
+import { Scale, RefreshCw, X, Printer, ShieldCheck, AlertTriangle } from "lucide-react";
 import { sounds } from "@/lib/audio";
 
 interface ReAuditDeliverableButtonProps {
@@ -10,6 +10,8 @@ interface ReAuditDeliverableButtonProps {
   agreedPrice: number;
   initialScore?: number;
   critiqueSummary?: string;
+  deliverableId?: string;
+  evaluationId?: string;
 }
 
 export default function ReAuditDeliverableButton({
@@ -18,22 +20,57 @@ export default function ReAuditDeliverableButton({
   agreedPrice,
   initialScore = 96.5,
   critiqueSummary = "Empirical verification validated against live vendor schema. Deliverable satisfies deterministic completeness and arithmetic invariants.",
+  deliverableId,
+  evaluationId,
 }: ReAuditDeliverableButtonProps) {
   const [isAuditing, setIsAuditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [score, setScore] = useState(initialScore);
+  const [summary, setSummary] = useState(critiqueSummary);
+  const [verdict, setVerdict] = useState<string>("APPROVED");
+  const [vectorScores, setVectorScores] = useState({
+    technical: 96,
+    completeness: 94,
+    quality: 97,
+    compliance: 98,
+    evidence: 95,
+  });
+  const [hardFailures, setHardFailures] = useState<string[]>([]);
+  const [sectionsFound, setSectionsFound] = useState<string[]>([]);
 
-  const handleReAudit = () => {
+  const handleReAudit = async () => {
     setIsAuditing(true);
     sounds.playStepComplete();
 
-    setTimeout(() => {
-      const newScore = Number((96 + Math.random() * 3).toFixed(1));
-      setScore(newScore);
+    try {
+      const res = await fetch("/api/courtroom/re-audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          deliverableId,
+          evaluationId,
+          projectTitle: contractTitle,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setScore(Number(data.overallScore?.toFixed(1) || initialScore));
+        setVerdict(data.verdict || "APPROVED");
+        if (data.vectorScores) setVectorScores(data.vectorScores);
+        if (data.critiqueSummary) setSummary(data.critiqueSummary);
+        if (data.deterministicAudit) {
+          setHardFailures(data.deterministicAudit.hardFailures || []);
+          setSectionsFound(data.deterministicAudit.sectionsFound || []);
+        }
+        sounds.playSuccessChime();
+      }
+    } catch (err) {
+      console.error("Courtroom re-audit call error:", err);
+    } finally {
       setIsAuditing(false);
       setIsModalOpen(true);
-      sounds.playSuccessChime();
-    }, 900);
+    }
   };
 
   return (
@@ -97,10 +134,20 @@ export default function ReAuditDeliverableButton({
                 </div>
                 <div className="flex items-center justify-between border-b border-[#E4DFD2] pb-1.5">
                   <span className="text-[#77796F]">Judicial Verdict:</span>
-                  <span className="text-[#27532F] font-semibold">APPROVED</span>
+                  <span
+                    className={`font-semibold ${
+                      verdict === "APPROVED"
+                        ? "text-[#27532F]"
+                        : verdict === "REVISION_REQUIRED"
+                        ? "text-[#8C6D23]"
+                        : "text-[#9E4B4B]"
+                    }`}
+                  >
+                    {verdict}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#77796F]">Live Composite Score:</span>
+                  <span className="text-[#77796F]">Live Verified Score:</span>
                   <span className="font-semibold text-[#292F29] font-tabular">{score}/100</span>
                 </div>
               </div>
@@ -109,35 +156,53 @@ export default function ReAuditDeliverableButton({
               <div className="grid grid-cols-5 gap-1.5 p-2 rounded-md bg-[#FFFCF5] border border-[#E4DFD2] text-center text-[10px]">
                 <div className="p-1">
                   <span className="text-[#77796F] block">Technical</span>
-                  <span className="text-[#292F29] font-semibold">97%</span>
+                  <span className="text-[#292F29] font-semibold">{vectorScores.technical}%</span>
                 </div>
                 <div className="p-1">
                   <span className="text-[#77796F] block">Complete</span>
-                  <span className="text-[#292F29] font-semibold">96%</span>
+                  <span className="text-[#292F29] font-semibold">{vectorScores.completeness}%</span>
                 </div>
                 <div className="p-1">
                   <span className="text-[#77796F] block">Quality</span>
-                  <span className="text-[#292F29] font-semibold">98%</span>
+                  <span className="text-[#292F29] font-semibold">{vectorScores.quality}%</span>
                 </div>
                 <div className="p-1">
                   <span className="text-[#77796F] block">Compliance</span>
-                  <span className="text-[#292F29] font-semibold">99%</span>
+                  <span className="text-[#292F29] font-semibold">{vectorScores.compliance}%</span>
                 </div>
                 <div className="p-1">
                   <span className="text-[#77796F] block">Evidence</span>
-                  <span className="text-[#292F29] font-semibold">95%</span>
+                  <span className="text-[#292F29] font-semibold">{vectorScores.evidence}%</span>
                 </div>
               </div>
 
+              {hardFailures.length > 0 && (
+                <div className="p-3 rounded-md bg-[#F8ECEC] border border-[#9E4B4B]/20 text-[11px] text-[#9E4B4B] space-y-1">
+                  <div className="flex items-center gap-1 font-semibold">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>Judicial Defect Detected:</span>
+                  </div>
+                  <ul className="list-disc list-inside">
+                    {hardFailures.map((hf, i) => (
+                      <li key={i}>{hf}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <div className="p-3 rounded-md bg-[#FFFCF5] border border-[#E4DFD2] text-[11px] text-[#77796F]">
                 <span className="text-[#292F29] font-semibold block mb-0.5">Judicial Critique Summary:</span>
-                &ldquo;{critiqueSummary}&rdquo;
+                &ldquo;{summary}&rdquo;
               </div>
 
               <div className="flex items-center justify-between pt-1">
                 <span className="text-[11px] text-[#27532F] flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Deterministic Audit Passed (&Delta; = 0.00)</span>
+                  <span>
+                    {hardFailures.length === 0
+                      ? "Deterministic Audit Passed (No Contractual Defects)"
+                      : "Defect Logged to Courtroom Records"}
+                  </span>
                 </span>
                 <button
                   onClick={() => window.print()}

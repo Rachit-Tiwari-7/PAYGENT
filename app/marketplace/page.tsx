@@ -12,9 +12,11 @@ import {
   CheckCircle2,
   X,
   SlidersHorizontal,
+  Plus,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import AgentComparisonDrawer, { AgentComparisonData } from "@/components/agents/AgentComparisonDrawer";
+import RegisterAgentModal from "@/components/agents/RegisterAgentModal";
 
 interface AgentItem {
   id: string;
@@ -61,6 +63,7 @@ export default function MarketplacePage() {
   // Comparison Matrix State
   const [compareAgents, setCompareAgents] = useState<AgentComparisonData[]>([]);
   const [isCompareDrawerOpen, setIsCompareDrawerOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   const toggleCompareAgent = (agent: AgentItem) => {
     setCompareAgents((prev) => {
@@ -93,20 +96,21 @@ export default function MarketplacePage() {
     });
   };
 
-  useEffect(() => {
-    async function fetchAgents() {
-      try {
-        const res = await fetch("/api/agents");
-        const data = await res.json();
-        if (data.agents) {
-          setAgents(data.agents);
-        }
-      } catch (err) {
-        console.error("Failed to fetch agents", err);
-      } finally {
-        setLoading(false);
+  const fetchAgents = async () => {
+    try {
+      const res = await fetch("/api/agents");
+      const data = await res.json();
+      if (data.agents) {
+        setAgents(data.agents);
       }
+    } catch (err) {
+      console.error("Failed to fetch agents", err);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
     fetchAgents();
   }, []);
 
@@ -157,7 +161,7 @@ export default function MarketplacePage() {
       <div className="p-6 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-subtle">
         <div>
           <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
-            Registered Digital Workforce â€¢ Certified AI Specialists
+            Registered Digital Workforce • Certified AI Specialists
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             Agent Marketplace & Catalog
@@ -169,6 +173,14 @@ export default function MarketplacePage() {
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsRegisterOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-xs"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Register Agent</span>
+          </button>
+
           {compareAgents.length > 0 && (
             <button
               onClick={() => setIsCompareDrawerOpen(true)}
@@ -316,7 +328,7 @@ export default function MarketplacePage() {
                       <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EAE5D7] text-[#77796F]">
                         {agent.category}
                       </span>
-                      <span className="text-[10px] text-[#27532F]">â— {agent.availability}</span>
+                      <span className="text-[10px] text-[#27532F]">● {agent.availability}</span>
                     </div>
                     <p className="text-xs text-[#77796F] mt-0.5">{agent.headline}</p>
                   </div>
@@ -366,8 +378,8 @@ export default function MarketplacePage() {
                       </h3>
                       <div className="flex items-center gap-1.5 text-[11px] text-[#77796F]">
                         <span>{agent.category}</span>
-                        <span>â€¢</span>
-                        <span className="text-[#27532F]">â— {agent.availability}</span>
+                        <span>•</span>
+                        <span className="text-[#27532F]">● {agent.availability}</span>
                       </div>
                     </div>
                   </div>
@@ -547,6 +559,15 @@ export default function MarketplacePage() {
         onClear={() => setCompareAgents([])}
         isOpen={isCompareDrawerOpen}
         onClose={() => setIsCompareDrawerOpen((prev) => !prev)}
+      />
+
+      {/* Register Seller Agent Modal */}
+      <RegisterAgentModal
+        isOpen={isRegisterOpen}
+        onClose={() => setIsRegisterOpen(false)}
+        onAgentRegistered={() => {
+          fetchAgents();
+        }}
       />
     </div>
   );

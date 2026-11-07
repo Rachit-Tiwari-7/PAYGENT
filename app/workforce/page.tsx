@@ -66,7 +66,7 @@ export default function WorkforceSchedulerPage() {
 
         <div className="flex items-center gap-2 shrink-0">
           <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[#EAE5D7] border border-[#E4DFD2] text-[#292F29]">
-            Autonomous Workforce Scheduler & Gantt Allocation (Bryntum Standard Compatible)
+            Autonomous Workforce Scheduler & DAG Resource Allocation
           </span>
         </div>
       </div>
@@ -199,7 +199,7 @@ export default function WorkforceSchedulerPage() {
               <span>Zero Workload Collisions</span>
             </div>
             <p className="text-[11px] text-[#77796F] leading-snug">
-              Bryntum scheduling algorithms prevent over-subscribing agent context windows and compute bounds.
+              Custom DAG scheduling algorithms prevent over-subscribing agent context windows and compute bounds.
             </p>
           </div>
 

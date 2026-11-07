@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getServerConfig } from "@/lib/config";
 
 interface ParsedTask {
   title: string;
@@ -23,7 +24,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const cfg = getServerConfig();
+    const apiKey = cfg.geminiApiKey || process.env.GEMINI_API_KEY;
 
     if (apiKey && !apiKey.startsWith("demo_")) {
       try {

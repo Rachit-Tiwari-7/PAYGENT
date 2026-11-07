@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   DollarSign,
@@ -22,21 +22,44 @@ const CATEGORIES = [
   "Executive Strategy",
 ];
 
-export default function NewProjectPage() {
+function NewProjectForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState("Competitive AI Agent Economy Benchmark & Monetization Model");
-  const [description, setDescription] = useState(
-    "Perform a multi-vector competitor intelligence study analyzing transaction economics, agent subcontracting patterns, and PayPal developer integration feasibility."
+  const [title, setTitle] = useState(
+    searchParams.get("title") || "Competitive AI Agent Economy Benchmark & Monetization Model"
   );
-  const [category, setCategory] = useState("Market Research");
-  const [budget, setBudget] = useState(100);
+  const [description, setDescription] = useState(
+    searchParams.get("description") ||
+      searchParams.get("desc") ||
+      "Perform a multi-vector competitor intelligence study analyzing transaction economics, agent subcontracting patterns, and PayPal developer integration feasibility."
+  );
+  const [category, setCategory] = useState(searchParams.get("category") || "Market Research");
+  const [budget, setBudget] = useState<number>(Number(searchParams.get("budget")) || 100);
+  const [directAgentId, setDirectAgentId] = useState(
+    searchParams.get("directAgentId") || searchParams.get("agent") || ""
+  );
   const [deliverables, setDeliverables] = useState([
     "Executive Market Analysis & Competitor Breakdown",
     "Channel3 E-commerce Dataset of Competitor SKUs",
     "Pro Forma Unit Economics & Cash Flow Forecast",
   ]);
   const [newDeliverable, setNewDeliverable] = useState("");
+
+  useEffect(() => {
+    const qTitle = searchParams.get("title");
+    const qDesc = searchParams.get("description") || searchParams.get("desc");
+    const qCat = searchParams.get("category");
+    const qBudget = searchParams.get("budget");
+    const qAgent = searchParams.get("directAgentId") || searchParams.get("agent");
+
+    if (qTitle) setTitle(qTitle);
+    if (qDesc) setDescription(qDesc);
+    if (qCat) setCategory(qCat);
+    if (qBudget) setBudget(Number(qBudget));
+    if (qAgent) setDirectAgentId(qAgent);
+  }, [searchParams]);
 
   const handleAddDeliverable = () => {
     if (newDeliverable.trim()) {
@@ -63,6 +86,7 @@ export default function NewProjectPage() {
           category,
           budget: Number(budget),
           deliverables,
+          directAgentId: directAgentId || undefined,
         }),
       });
 
@@ -98,39 +122,68 @@ export default function NewProjectPage() {
             Outcome Specification & Escrow Allocation
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
-            Commission New AI Project
+            Commission Autonomous Agent RFP
           </h1>
-          <p className="text-xs sm:text-sm text-[#77796F] mt-1 leading-relaxed">
-            Specify scope, deliverables, and escrow allocation. Paygent orchestrator decomposes the requirements, solicits competitive bids from registered agents, and drafts verified commercial contracts.
+          <p className="text-xs sm:text-sm text-[#77796F] mt-1">
+            Define task deliverables, set a verifiable PayPal escrow budget, and invite competing autonomous agents.
           </p>
         </div>
+
+        {directAgentId && (
+          <div className="p-3 rounded-lg bg-[#EAF3EB] border border-[#3B6E4C]/20 text-xs text-[#27532F] flex items-center justify-between">
+            <span className="flex items-center gap-1.5 font-medium">
+              <Bot className="w-4 h-4 text-[#3B6E4C]" />
+              <span>Direct Hire Target Agent: <strong>{directAgentId}</strong></span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setDirectAgentId("")}
+              className="text-[11px] underline text-[#77796F] hover:text-[#292F29]"
+            >
+              Clear Direct Hire (Open Reverse Auction)
+            </button>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Title */}
           <div>
-            <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
-              Project Title
+            <label className="text-xs font-semibold text-[#292F29] block mb-1">
+              Project Title & Commercial Scope
             </label>
             <input
               type="text"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Startup Market Diligence and Financial Modeling"
-              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] placeholder-[#77796F]/60 focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs sm:text-sm text-[#292F29] focus:outline-none focus:border-[#344B3B] transition-colors"
             />
           </div>
 
-          {/* Category & Budget Row */}
+          {/* Description */}
+          <div>
+            <label className="text-xs font-semibold text-[#292F29] block mb-1">
+              Task Specification & Acceptance Criteria
+            </label>
+            <textarea
+              rows={4}
+              required
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs sm:text-sm text-[#292F29] focus:outline-none focus:border-[#344B3B] transition-colors leading-relaxed"
+            />
+          </div>
+
+          {/* Category & Budget */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
+              <label className="text-xs font-semibold text-[#292F29] block mb-1">
                 Primary Category
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] focus:outline-none focus:border-[#344B3B] transition-colors"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
@@ -141,64 +194,46 @@ export default function NewProjectPage() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
-                Escrow Budget (USD)
+              <label className="text-xs font-semibold text-[#292F29] block mb-1">
+                Authorized Escrow Budget ($ USD)
               </label>
               <div className="relative">
-                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#344B3B]" />
+                <DollarSign className="w-4 h-4 text-[#77796F] absolute left-3 top-2.5" />
                 <input
                   type="number"
+                  min="5"
+                  step="5"
                   required
-                  min="10"
-                  max="10000"
                   value={budget}
                   onChange={(e) => setBudget(Number(e.target.value))}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] font-mono font-medium transition-colors"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs sm:text-sm text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] transition-colors"
                 />
               </div>
-              <span className="text-[11px] text-[#77796F] mt-1 block">
-                Held in double-entry escrow; captured via PayPal Orders v2 upon judicial clearance.
-              </span>
             </div>
           </div>
 
-          {/* Description */}
-          <div>
-            <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider mb-1.5">
-              Requirements & Scope of Work
-            </label>
-            <textarea
-              required
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe research objectives, target data sources, required tools, and acceptable constraints..."
-              className="w-full px-3.5 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-sm text-[#292F29] placeholder-[#77796F]/60 focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
-            />
-          </div>
-
-          {/* Expected Deliverables */}
-          <div className="space-y-2">
-            <label className="block text-[11px] font-semibold text-[#77796F] uppercase tracking-wider">
-              Expected Deliverables & Verification Criteria
+          {/* Key Deliverables */}
+          <div className="space-y-2 pt-2">
+            <label className="text-xs font-semibold text-[#292F29] block">
+              Contracted Milestones & Deliverables
             </label>
             <div className="space-y-2">
               {deliverables.map((del, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29]"
+                  className="flex items-center justify-between p-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29]"
                 >
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#344B3B]" />
-                    <span>{del}</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveDeliverable(idx)}
-                    className="text-[#77796F] hover:text-[#9E4B4B] transition-colors"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  <span className="font-mono text-[#77796F] mr-2">0{idx + 1}.</span>
+                  <span className="flex-1">{del}</span>
+                  {deliverables.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveDeliverable(idx)}
+                      className="text-[#77796F] hover:text-[#9E4B4B] p-1 transition-colors"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -206,64 +241,64 @@ export default function NewProjectPage() {
             <div className="flex gap-2 pt-1">
               <input
                 type="text"
-                placeholder="Add another deliverable specification..."
+                placeholder="Add milestone requirement..."
                 value={newDeliverable}
                 onChange={(e) => setNewDeliverable(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleAddDeliverable();
-                  }
-                }}
+                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddDeliverable())}
                 className="flex-1 px-3 py-2 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] focus:outline-none focus:border-[#344B3B]"
               />
               <button
                 type="button"
                 onClick={handleAddDeliverable}
-                className="px-3.5 py-2 rounded-lg text-xs font-medium text-[#292F29] bg-[#EAE5D7] hover:bg-[#E4DFD2] border border-[#E4DFD2] transition-colors"
+                className="px-3 py-2 rounded-lg bg-[#EAE5D7] hover:bg-[#E4DFD2] text-xs font-medium text-[#292F29] border border-[#E4DFD2] flex items-center gap-1 transition-colors"
               >
-                Add
+                <Plus className="w-3.5 h-3.5" />
+                <span>Add</span>
               </button>
             </div>
           </div>
 
-          {/* AI Orchestrator Notice */}
-          <div className="p-4 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#77796F] space-y-1">
-            <div className="flex items-center gap-2 text-[#292F29] font-semibold">
-              <Bot className="w-4 h-4 text-[#344B3B]" />
-              <span>Autonomous Lifecycle Automation</span>
+          {/* Submit */}
+          <div className="pt-4 border-t border-[#E4DFD2] flex items-center justify-between">
+            <div className="text-[11px] text-[#77796F]">
+              <span>PayPal escrow hold authorized upon bidding selection.</span>
             </div>
-            <p className="text-[11px] leading-relaxed">
-              Upon posting, Paygent Orchestrator decomposes this project into discrete tasks, broadcasts to certified agents (MarketMind, ResearchBot, DataScout, FinAnalyst), evaluates competitive reverse auction bids, and establishes escrow-backed contracts.
-            </p>
-          </div>
-
-          {/* Submit CTA */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#E4DFD2]">
-            <Link
-              href="/projects"
-              className="px-4 py-2 rounded-lg text-xs font-medium text-[#77796F] hover:text-[#292F29] transition-colors"
-            >
-              Cancel
-            </Link>
 
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors disabled:opacity-50 shadow-sm"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm disabled:opacity-50"
             >
               {loading ? (
                 <>
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  <span>Decomposing & Soliciting Bids...</span>
+                  <span>Decomposing & Broadcating...</span>
                 </>
               ) : (
-                <span>Post Project to Swarm</span>
+                <>
+                  <Bot className="w-3.5 h-3.5" />
+                  <span>Broadcast RFP to Agent Swarm</span>
+                </>
               )}
             </button>
           </div>
         </form>
       </div>
     </div>
+  );
+}
+
+export default function NewProjectPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="p-16 text-center space-y-2">
+          <RefreshCw className="w-6 h-6 animate-spin text-[#344B3B] mx-auto" />
+          <p className="text-xs text-[#77796F]">Loading Project Studio...</p>
+        </div>
+      }
+    >
+      <NewProjectForm />
+    </Suspense>
   );
 }

@@ -62,9 +62,26 @@ export async function resolveUser(request?: Request): Promise<AuthenticatedUser 
       }
     }
 
-    // 3. Check cookies for Supabase auth token
+    // 3. Check Demo Session Cookie (paygent_session)
     const cookieHeader = request.headers.get("cookie");
     if (cookieHeader) {
+      const demoMatch = cookieHeader.match(/paygent_session=([^;]+)/);
+      if (demoMatch && demoMatch[1]) {
+        const demoId = decodeURIComponent(demoMatch[1]).trim();
+        const profile = await db.user.findFirst({
+          where: { OR: [{ id: demoId }, { email: demoId }] },
+        });
+        if (profile) {
+          return {
+            id: profile.id,
+            email: profile.email || null,
+            name: profile.name || profile.fullName || "User",
+            role: profile.role || "CLIENT",
+          };
+        }
+      }
+
+      // Check cookies for Supabase auth token
       const match = cookieHeader.match(/sb-[a-zA-Z0-9_-]+-auth-token=([^;]+)/);
       if (match) {
         try {

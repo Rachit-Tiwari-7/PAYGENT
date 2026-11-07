@@ -7,39 +7,80 @@ import {
   Database,
   CheckCircle2,
   CreditCard,
+  ShieldCheck,
+  Server,
+  Lock,
+  AlertCircle,
+  RefreshCw,
 } from "lucide-react";
 
 export default function SettingsPage() {
   const [geminiKey, setGeminiKey] = useState("");
-  const [paypalClientId, setPaypalClientId] = useState("sb-client-id-demo");
-  const [paypalSecret, setPaypalSecret] = useState("sb-secret-demo");
-  const [environment, setEnvironment] = useState("sandbox");
+  const [paypalClientId, setPaypalClientId] = useState("");
+  const [paypalSecret, setPaypalSecret] = useState("");
+  const [environment, setEnvironment] = useState<"sandbox" | "live">("sandbox");
+  const [serverStatus, setServerStatus] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [resetting, setResetting] = useState(false);
+  const [notice, setNotice] = useState("");
+
+  const loadSettings = async () => {
+    try {
+      const res = await fetch("/api/settings");
+      const data = await res.json();
+      if (data.success && data.config) {
+        setServerStatus(data.config);
+        setPaypalClientId(data.config.paypalClientId || "");
+        setEnvironment(data.config.paypalEnvironment || "sandbox");
+        if (data.notice) setNotice(data.notice);
+      }
+    } catch (err) {
+      console.error("Failed to load settings from server:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
+    // Clear any obsolete localStorage keys previously stored
     if (typeof window !== "undefined") {
-      const savedGemini = localStorage.getItem("paygent_gemini_key");
-      const savedClientId = localStorage.getItem("paygent_paypal_client_id");
-      const savedSecret = localStorage.getItem("paygent_paypal_secret");
-      const savedEnv = localStorage.getItem("paygent_env");
-      if (savedGemini) setGeminiKey(savedGemini);
-      if (savedClientId) setPaypalClientId(savedClientId);
-      if (savedSecret) setPaypalSecret(savedSecret);
-      if (savedEnv) setEnvironment(savedEnv);
+      localStorage.removeItem("paygent_gemini_key");
+      localStorage.removeItem("paygent_paypal_client_id");
+      localStorage.removeItem("paygent_paypal_secret");
+      localStorage.removeItem("paygent_env");
     }
+    loadSettings();
   }, []);
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (typeof window !== "undefined") {
-      localStorage.setItem("paygent_gemini_key", geminiKey);
-      localStorage.setItem("paygent_paypal_client_id", paypalClientId);
-      localStorage.setItem("paygent_paypal_secret", paypalSecret);
-      localStorage.setItem("paygent_env", environment);
+    setSaving(true);
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paypalClientId,
+          ...(paypalSecret ? { paypalClientSecret: paypalSecret } : {}),
+          paypalEnvironment: environment,
+          ...(geminiKey ? { geminiApiKey: geminiKey } : {}),
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setServerStatus(data.config);
+        setPaypalSecret("");
+        setGeminiKey("");
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2500);
+      }
+    } catch (err) {
+      console.error("Failed to save settings to server:", err);
+    } finally {
+      setSaving(false);
     }
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
   };
 
   const handleResetDatabase = async () => {
@@ -63,13 +104,29 @@ export default function SettingsPage() {
       <div className="p-6 rounded-xl bg-[#FFFCF5] border border-[#E4DFD2] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[11px] font-sans font-medium text-[#344B3B] block mb-1">
-            System Configuration & Sandbox Gateways
+            System Configuration & Secure Server Gateways
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#292F29] tracking-tight">
             System & Gateway Configuration
           </h1>
           <p className="text-xs sm:text-sm text-[#77796F] mt-1 max-w-xl leading-relaxed">
-            Configure PayPal Developer sandbox credentials, AI LLM keys, sponsor adapter flags, and reset test databases.
+            Configure PayPal Developer credentials, Google Gemini orchestration keys, and review active server telemetry.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#EAF3EB] border border-[#3B6E4C]/20 text-[#27532F] text-xs">
+          <ShieldCheck className="w-4 h-4 shrink-0 text-[#3B6E4C]" />
+          <span>Server-Side Isolated (Zero LocalStorage Secrets)</span>
+        </div>
+      </div>
+
+      {/* Security Architecture Notice */}
+      <div className="p-4 rounded-xl bg-[#F4EFE6] border border-[#E4DFD2] text-xs text-[#292F29] flex items-start gap-3">
+        <Lock className="w-4 h-4 text-[#344B3B] shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <p className="font-semibold text-[#292F29]">Secure Credential Management Doctrine</p>
+          <p className="text-[#77796F] leading-relaxed">
+            API secrets are strictly processed server-side. Sensitive keys are never saved to browser localStorage or exposed in client bundles. Production deployments configure credentials via <code className="bg-[#EAE5D7] px-1 py-0.5 rounded text-[11px]">.env.local</code>.
           </p>
         </div>
       </div>
@@ -83,9 +140,17 @@ export default function SettingsPage() {
               <CreditCard className="w-4 h-4 text-[#344B3B]" />
               PayPal Developer Platform Credentials
             </h2>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EAF3EB] text-[#3B6E4C] border border-[#3B6E4C]/20">
-              Orders v2 API
-            </span>
+            <div className="flex items-center gap-2">
+              {serverStatus?.paypalConfigured ? (
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EAF3EB] text-[#3B6E4C] border border-[#3B6E4C]/20">
+                  Orders v2 Ready
+                </span>
+              ) : (
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#F7F3E8] text-[#8C6D23] border border-[#E5DAC2]">
+                  Demo Sandbox Active
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -97,7 +162,8 @@ export default function SettingsPage() {
                 type="text"
                 value={paypalClientId}
                 onChange={(e) => setPaypalClientId(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
+                placeholder="sb-client-id-demo or custom PayPal Client ID"
+                className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] transition-colors"
               />
             </div>
 
@@ -109,7 +175,8 @@ export default function SettingsPage() {
                 type="password"
                 value={paypalSecret}
                 onChange={(e) => setPaypalSecret(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
+                placeholder={serverStatus?.paypalClientSecretMasked ? `Current: ${serverStatus.paypalClientSecretMasked}` : "Enter secret"}
+                className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] transition-colors"
               />
             </div>
           </div>
@@ -151,20 +218,20 @@ export default function SettingsPage() {
               AI Orchestration LLM Key (Google Gemini)
             </h2>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#EAE5D7] text-[#292F29] border border-[#E4DFD2]">
-              Autonomous Intelligence
+              {serverStatus?.geminiConfigured ? "Live Gemini Active" : "Fallback Swarm Active"}
             </span>
           </div>
 
           <div>
             <label className="text-[11px] font-semibold text-[#77796F] uppercase tracking-wider block mb-1">
-              GEMINI_API_KEY (Optional: built-in intelligent engine fallback enabled)
+              GEMINI_API_KEY (Optional: intelligent deterministic worker fallback enabled)
             </label>
             <input
               type="password"
-              placeholder="AIzaSy..."
+              placeholder={serverStatus?.geminiKeyMasked ? `Configured: ${serverStatus.geminiKeyMasked}` : "AIzaSy..."}
               value={geminiKey}
               onChange={(e) => setGeminiKey(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] focus:bg-[#FFFCF5] transition-colors"
+              className="w-full px-3 py-2.5 rounded-lg bg-[#FFFCF5] border border-[#E4DFD2] text-xs text-[#292F29] font-mono focus:outline-none focus:border-[#344B3B] transition-colors"
             />
           </div>
         </div>
@@ -183,12 +250,18 @@ export default function SettingsPage() {
 
           <button
             type="submit"
-            className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm"
+            disabled={saving}
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors shadow-sm disabled:opacity-50"
           >
             {saved ? (
               <>
                 <CheckCircle2 className="w-4 h-4 text-[#FFFCF5]" />
-                <span>Configuration Saved!</span>
+                <span>Server Settings Applied!</span>
+              </>
+            ) : saving ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin text-white" />
+                <span>Applying to Server...</span>
               </>
             ) : (
               <span>Save System Settings</span>

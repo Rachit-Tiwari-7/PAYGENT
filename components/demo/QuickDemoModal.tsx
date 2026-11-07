@@ -11,6 +11,8 @@ import {
   Terminal,
   Table2,
   CalendarDays,
+  ChevronRight,
+  FolderOpen,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Link from "next/link";
@@ -21,114 +23,134 @@ const DEMO_STEPS = [
     title: "Project Submission & Budget Lock",
     actor: "Alex Mercer (Client)",
     details: "Posted project: 'FinTech AI Agent Market Intelligence & Strategy ($100 budget)'",
-    delay: 800,
+    delay: 600,
   },
   {
     step: 2,
     title: "Task Decomposition & Skill Matching",
     actor: "Paygent Orchestrator",
     details: "Decomposed project into 4 subtasks: Market Sizing, Pricing Crawl, Unit Economics, Executive Deck.",
-    delay: 1100,
+    delay: 800,
   },
   {
     step: 3,
     title: "Opportunity Broadcast & Agent Discovery",
     actor: "Agent Marketplace",
     details: "Elastic semantic search matched 5 certified agents: MarketMind, ResearchBot, DataScout, FinAnalyst, PresentationAI.",
-    delay: 1000,
+    delay: 700,
   },
   {
     step: 4,
     title: "Competitive Bidding Engine",
     actor: "Multi-Agent Swarm",
     details: "ResearchBot bids $25.00 | MarketMind bids $22.00 | FinAnalyst bids $20.00 | PresentationAI bids $15.00.",
-    delay: 1300,
+    delay: 900,
   },
   {
     step: 5,
     title: "Autonomous Price Negotiation",
     actor: "MarketMind ↔ Orchestrator",
     details: "Counteroffer round 1: Orchestrator requests 18% discount; MarketMind accepts $18.00 conditioned on $5 subcontracting quota.",
-    delay: 1400,
+    delay: 900,
   },
   {
     step: 6,
     title: "Primary Smart Contract Executed",
     actor: "Paygent Contract Engine",
-    details: "Contract #CTR-2026-081 signed for $90.00 + $10.00 platform escrow hold.",
-    delay: 1000,
+    details: "Contract signed for $90.00 + $10.00 platform escrow hold.",
+    delay: 700,
   },
   {
     step: 7,
     title: "Autonomous Subcontracting Delegation",
     actor: "MarketMind → DataScout",
     details: "MarketMind issues $5.00 subcontract to DataScout for live Channel3 SKU extraction.",
-    delay: 1200,
+    delay: 800,
   },
   {
     step: 8,
     title: "Parallel Execution in Tool Sandboxes",
     actor: "DataScout + FinAnalyst",
-    details: "Channel3 commerce query completed (50 competitor SKUs). Kernel browser verified regulatory filings.",
-    delay: 1500,
+    details: "Channel3 commerce query completed (competitor SKUs). Kernel browser verified filings.",
+    delay: 1000,
   },
   {
     step: 9,
     title: "Deliverable Synthesis & Collation",
     actor: "Apex Intelligence Corp",
     details: "Executive Report & Financial Model combined with empirical source citations.",
-    delay: 1100,
+    delay: 800,
   },
   {
     step: 10,
     title: "AI Courtroom Multi-Perspective Evaluation",
     actor: "QualityGuard (Chief Magistrate)",
-    details: "Scores: Correctness 95% | Completeness 93% | Quality 96% | Compliance 98% | Evidence 91% → Overall 94.6% (APPROVED)",
-    delay: 1600,
+    details: "5-Vector Verification: Rigorous quality, compliance, evidence, completeness and correctness audit.",
+    delay: 1100,
   },
   {
     step: 11,
     title: "PayPal Sandbox Capture & Order Settlement",
     actor: "PayPal Developer Platform",
-    details: "Capture ID #9CP18293DF481920B verified on server. $100.00 moved from escrow to settlement ledger.",
-    delay: 1200,
+    details: "Capture ID verified on server. $100.00 moved from escrow to settlement ledger.",
+    delay: 800,
   },
   {
     step: 12,
     title: "Internal Double-Entry Ledger Distribution",
     actor: "Paygent FinTech Engine",
-    details: "Allocated: MarketMind $55.00, FinAnalyst $20.00, DataScout $5.00, QualityGuard $10.00, Platform $10.00.",
-    delay: 1100,
+    details: "Allocated: MarketMind (Lead), Specialist Subcontractors, and Platform Escrow Fee.",
+    delay: 800,
   },
   {
     step: 13,
     title: "Verified Reputation & Career Progression",
     actor: "Agent DNA Registry",
-    details: "MarketMind reputation updated (+0.4 → 98.7%). Verified completion logged to immutable audit ledger.",
-    delay: 800,
+    details: "MarketMind reputation updated (+0.3). Verified completion logged to immutable audit ledger.",
+    delay: 600,
   },
 ];
+
+interface DemoRunResult {
+  projectId: string;
+  projectTitle: string;
+  tasksCount: number;
+  bidsCount: number;
+  captureId: string;
+  courtroomScore: number;
+  courtroomVerdict: string;
+  settlement: any;
+}
 
 export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [isRunning, setIsRunning] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [runResult, setRunResult] = useState<DemoRunResult | null>(null);
 
   const startDemo = async () => {
     setIsRunning(true);
     setCurrentStepIndex(0);
     setCompletedSteps([]);
+    setRunResult(null);
 
-    try {
-      await fetch("/api/demo/run", { method: "POST" });
-    } catch {
-      // Fallback
-    }
+    // Trigger backend execution to generate live records in DB
+    const runPromise = fetch("/api/demo/run", { method: "POST" })
+      .then((res) => res.json())
+      .catch((err) => {
+        console.error("Demo run error:", err);
+        return null;
+      });
 
     for (let i = 0; i < DEMO_STEPS.length; i++) {
       setCurrentStepIndex(i);
       await new Promise((resolve) => setTimeout(resolve, DEMO_STEPS[i].delay));
       setCompletedSteps((prev) => [...prev, i]);
+    }
+
+    const data = await runPromise;
+    if (data?.success) {
+      setRunResult(data);
     }
 
     setIsRunning(false);
@@ -161,7 +183,7 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
                 </span>
               </h2>
               <p className="text-xs text-[#77796F]">
-                End-to-End Simulation: Project → Bids → Negotiation → Subcontracting → AI Courtroom → PayPal Sandbox → Ledger
+                Live Commercial Execution: Project → Bids → Negotiation → Subcontracting → AI Courtroom → PayPal Sandbox → Double-Entry Ledger
               </p>
             </div>
           </div>
@@ -204,7 +226,7 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             {isRunning && (
               <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#EAE5D7] border border-[#E4DFD2] text-[#292F29] text-xs font-medium">
                 <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#344B3B]" />
-                <span>Simulating Autonomous Swarm...</span>
+                <span>Executing Live Swarm & Database Records...</span>
               </div>
             )}
 
@@ -218,6 +240,56 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
               </button>
             )}
           </div>
+
+          {/* Real Database Execution Result Banner */}
+          {runResult && (
+            <div className="p-4 rounded-xl bg-[#EAF3EB] border border-[#3B6E4C]/40 text-[#292F29] space-y-3 animate-fade-in shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#3B6E4C] shrink-0" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#344B3B]">
+                    Autonomous Cycle Executed & Verified on Database
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono font-bold text-[#27532F] px-2.5 py-0.5 rounded bg-[#D5EAD8] self-start sm:self-auto border border-[#BBDCBD]">
+                  Score: {runResult.courtroomScore.toFixed(1)}/100 ({runResult.courtroomVerdict})
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                <div className="p-2.5 rounded-lg bg-white/80 border border-[#CDE3D0]">
+                  <span className="text-[10px] text-[#77796F] block">Project Created</span>
+                  <span className="font-semibold text-[#292F29] truncate block" title={runResult.projectTitle}>
+                    {runResult.projectTitle}
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-white/80 border border-[#CDE3D0]">
+                  <span className="text-[10px] text-[#77796F] block">PayPal Sandbox Capture</span>
+                  <span className="font-mono font-semibold text-[#292F29] truncate block">
+                    {runResult.captureId}
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-white/80 border border-[#CDE3D0]">
+                  <span className="text-[10px] text-[#77796F] block">Double-Entry Ledger</span>
+                  <span className="font-semibold text-[#27532F] truncate block">
+                    {runResult.settlement?.ledgerEntriesCount || 6} Records Disbursed
+                  </span>
+                </div>
+              </div>
+
+              <div className="pt-1 flex items-center justify-end">
+                <Link
+                  href={`/projects/${runResult.projectId}`}
+                  onClick={onClose}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#344B3B] hover:bg-[#273A2D] shadow-xs transition-colors"
+                >
+                  <FolderOpen className="w-3.5 h-3.5" />
+                  <span>Open Live Project War Room</span>
+                  <ChevronRight className="w-4 h-4 ml-0.5" />
+                </Link>
+              </div>
+            </div>
+          )}
 
           {/* Stepper Timeline */}
           <div className="space-y-2 mt-4">
@@ -274,7 +346,18 @@ export function QuickDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             <span>Audited by QualityGuard & Reconciled via Double-Entry Ledger</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            {runResult && (
+              <Link
+                href={`/projects/${runResult.projectId}`}
+                onClick={onClose}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#344B3B] hover:bg-[#273A2D] transition-colors"
+              >
+                <FolderOpen className="w-3.5 h-3.5" />
+                <span>Project #{runResult.projectId.slice(-5)}</span>
+              </Link>
+            )}
+
             <Link
               href="/command-center"
               onClick={onClose}
