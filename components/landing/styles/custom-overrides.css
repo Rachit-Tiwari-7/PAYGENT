@@ -497,7 +497,48 @@
         }
         /* -------- >Hero Initial State & Visibility Fix -------- */
 
-        /* -------- Section 5 Fullscreen Dashboard Image Presentation -------- */
+        /* Seamless top & bottom transition gradients for dark cosmic WebGL section */
+        #intro::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 380px;
+          background: linear-gradient(
+            to bottom,
+            #022336 0%,
+            rgba(2, 35, 54, 0.95) 20%,
+            rgba(2, 35, 54, 0.75) 45%,
+            rgba(2, 35, 54, 0.4) 70%,
+            rgba(2, 35, 54, 0.1) 88%,
+            rgba(2, 35, 54, 0) 100%
+          );
+          z-index: 25;
+          pointer-events: none;
+        }
+
+        #intro::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 380px;
+          background: linear-gradient(
+            to bottom,
+            rgba(2, 35, 54, 0) 0%,
+            rgba(2, 35, 54, 0.15) 25%,
+            rgba(2, 35, 54, 0.5) 50%,
+            rgba(20, 50, 70, 0.8) 75%,
+            rgba(180, 195, 205, 0.92) 90%,
+            #f4f4f6 100%
+          );
+          z-index: 25;
+          pointer-events: none;
+        }
+
+        /* Section 5 Fullscreen Dashboard Image Presentation */
         ._5s-ipad {
           height: auto !important;
           max-width: 60vw !important;

@@ -1,4 +1,3 @@
-import VideoSection from "./VideoSection";
 import ResponseFooter from "./ResponseFooter";
 
 export default function MainContent() {
@@ -413,7 +412,6 @@ export default function MainContent() {
                       </div>
                     </section>
                     <div data-w-id="70527781-5b61-d591-b822-f39991ce0dac" className="_7s-8s__wrapper">
-                      <VideoSection />
                       <div data-w-id="0cb22d47-44cb-b74d-466b-40ceab2caf2e" className="wrapper-s3">
                         <div className="_8s-wrapper">
                           <div className="anchor-news"></div>

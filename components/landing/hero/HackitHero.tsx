@@ -126,10 +126,18 @@ export default function HackitHero() {
 
       </div>
 
-      <div className="brands-row flex flex-col items-center gap-1 mt-10">
+      <div className="brands-row flex flex-col items-center gap-1 mt-10 relative z-20">
         <span className="text-gray-500 text-base font-medium m-0">Settling Autonomous AI Commerce For</span>
         <span className="text-gray-900 text-2xl font-semibold m-0">Enterprises & Autonomous Fleets Worldwide</span>
       </div>
+
+      {/* Ultra-smooth gradual multi-stop fade into the dark cosmic section */}
+      <div 
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[480px] z-10"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(243, 247, 248, 0) 0%, rgba(243, 247, 248, 0.05) 20%, rgba(200, 218, 226, 0.25) 45%, rgba(90, 125, 148, 0.5) 68%, rgba(25, 60, 85, 0.8) 85%, #022336 100%)'
+        }}
+      />
     </section>
   );
 }
